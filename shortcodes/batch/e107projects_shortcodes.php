@@ -28,4 +28,34 @@ class e107projects_shortcodes extends e_shortcode
 		parent::__construct();
 	}
 
+	/**
+	 * Contents for first column in summary menu.
+	 */
+	public function sc_summary_menu_col_1()
+	{
+		$count = (int) $this->var['col_1'];
+		$formatted = number_format($count);
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_01;
+	}
+
+	/**
+	 * Contents for second column in summary menu.
+	 */
+	public function sc_summary_menu_col_2()
+	{
+		$count = (int) $this->var['col_2'];
+		$formatted = number_format($count);
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_02;
+	}
+
+	/**
+	 * Contents for third column in summary menu.
+	 */
+	public function sc_summary_menu_col_3()
+	{
+		$count = (int) $this->var['col_3'];
+		$formatted = number_format($count);
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_03;
+	}
+
 }

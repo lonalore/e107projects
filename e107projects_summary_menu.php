@@ -49,6 +49,12 @@ class e107projects_summary_menu
 		$sc = e107::getScBatch('e107projects', true);
 		$tp = e107::getParser();
 
+		$sc->setVars(array(
+			'col_1' => 1234567,
+			'col_2' => 1234567,
+			'col_3' => 1234567,
+		));
+		
 		$caption = '';
 		$content = $tp->parseTemplate($tpl['summary_menu'], true, $sc);
 

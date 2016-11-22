@@ -1,0 +1,83 @@
+#commitMap {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#commitMapOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#commitMap .ol-overlaycontainer-stopevent {
+    z-index: 3;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.senary-container {
+    background-color: #064771;
+}
+
+.senary-container h2 {
+    padding: 1.5em 1em 1.5em 0;
+    margin: 0;
+    vertical-align: middle;
+    font-size: 1.75em;
+    font-weight: 300;
+    line-height: 1.1em;
+    color: #f8f8f8;
+    text-transform: lowercase;
+}
+
+.summary-container {
+    /* background: whitesmoke url('../images/bg_dotted.png') center 0; */
+    text-align: center;
+}
+
+.summary-container .container {
+    max-width: 1024px;
+}
+
+.summary-container .col-1,
+.summary-container .col-2,
+.summary-container .col-3 {
+    padding: 0.5em 2em 0.5em 2em;
+}
+
+.summary-container .col-1 .col-inner,
+.summary-container .col-2 .col-inner,
+.summary-container .col-3 .col-inner {
+    color: #4e4e4e;
+    font-size: 1.5em;
+    padding: 1.5em 0 1.5em 25%;
+}
+
+.summary-container .col-1 .col-inner strong,
+.summary-container .col-2 .col-inner strong,
+.summary-container .col-3 .col-inner strong {
+    font-size: 1.5em;
+    font-weight: 200;
+}
+
+.summary-container .col-1 .col-inner {
+    background: url('../images/icon_projects.svg') no-repeat left center/25% 50%;
+}
+
+.summary-container .col-2 .col-inner {
+    background: url('../images/icon_commits.svg') no-repeat left center/25% 50%;
+}
+
+.summary-container .col-3 .col-inner {
+    background: url('../images/icon_comments.svg') no-repeat left center/25% 50%;
+}
+
+@media (min-width: 768px) {
+
+}
