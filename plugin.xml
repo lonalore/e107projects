@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="e107projects" lan="LAN_PLUGIN_E107PROJECTS_NAME" version="1.0" date="2016-11-22" compatibility="2.0" installRequired="true">
+	<author name="Lóna Lore" url="https://github.com/lonalore/e107projects"/>
+	<summary lan="LAN_PLUGIN_E107PROJECTS_SUMM">...</summary>
+	<description lan="LAN_PLUGIN_E107PROJECTS_DESC">...</description>
+	<keywords>
+		<word>projects</word>
+	</keywords>
+	<category>tools</category>
+	<copyright>GNU General Public License v3</copyright>
+	<adminLinks>
+		<link url='admin_config.php' description='LAN_CONFIGURE' icon='images/e107projects_32.png' iconSmall='images/e107projects_16.png' icon128='images/e107projects_128.png' primary='true'>LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='submit_project'>255</pref>
+	</pluginPrefs>
+	<dependencies>
+		<plugin name='nodejs' min_version='1.0' />
+		<plugin name='nodejs_notify' min_version='1.0' />
+	</dependencies>
+</e107Plugin>
