@@ -18,4 +18,7 @@
 		<plugin name='nodejs' min_version='1.0' />
 		<plugin name='nodejs_notify' min_version='1.0' />
 	</dependencies>
+	<extendedFields>
+		<field name="e107projects_location" type='EUF_ADDON' data="str" default="" active="true" system="false" text="Location" table_db="" field_id="" field_value="" field_order="" />
+	</extendedFields>
 </e107Plugin>

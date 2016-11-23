@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    /* background-color: rgba(6, 120, 190, 1); */
 }
 
 #commitMapOverlay {
@@ -11,7 +12,7 @@
     left: 0;
     right: 0;
     z-index: 2;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 #commitMap .ol-overlaycontainer-stopevent {
@@ -37,45 +38,48 @@
 }
 
 .summary-container {
-    /* background: whitesmoke url('../images/bg_dotted.png') center 0; */
+    background: whitesmoke url('../images/bg_dotted.png') center 0;
     text-align: center;
-}
-
-.summary-container .container {
-    max-width: 1024px;
 }
 
 .summary-container .col-1,
 .summary-container .col-2,
-.summary-container .col-3 {
+.summary-container .col-3,
+.summary-container .col-4 {
     padding: 0.5em 2em 0.5em 2em;
 }
 
 .summary-container .col-1 .col-inner,
 .summary-container .col-2 .col-inner,
-.summary-container .col-3 .col-inner {
+.summary-container .col-3 .col-inner,
+.summary-container .col-4 .col-inner {
     color: #4e4e4e;
     font-size: 1.5em;
-    padding: 1.5em 0 1.5em 25%;
+    padding: 1.5em 0 1.5em 75px;
 }
 
 .summary-container .col-1 .col-inner strong,
 .summary-container .col-2 .col-inner strong,
-.summary-container .col-3 .col-inner strong {
+.summary-container .col-3 .col-inner strong,
+.summary-container .col-4 .col-inner strong {
     font-size: 1.5em;
     font-weight: 200;
 }
 
 .summary-container .col-1 .col-inner {
-    background: url('../images/icon_projects.svg') no-repeat left center/25% 50%;
+    background: url('../images/icon_users.png') no-repeat left center;
 }
 
 .summary-container .col-2 .col-inner {
-    background: url('../images/icon_commits.svg') no-repeat left center/25% 50%;
+    background: url('../images/icon_projects.png') no-repeat left center;
 }
 
 .summary-container .col-3 .col-inner {
-    background: url('../images/icon_comments.svg') no-repeat left center/25% 50%;
+    background: url('../images/icon_commits.png') no-repeat left center;
+}
+
+.summary-container .col-4 .col-inner {
+    background: url('../images/icon_comments.png') no-repeat left center;
 }
 
 @media (min-width: 768px) {

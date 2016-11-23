@@ -38,7 +38,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 						color: 'rgba(6, 120, 190, 1)'
 					}),
 					stroke: new ol.style.Stroke({
-						color: '#064771',
+						color: 'rgba(6, 71, 113, 1)',
 						width: 1
 					}),
 					text: new ol.style.Text({
@@ -98,9 +98,11 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 	{
 		var $canvas = $('#header');
 		var $window = $(window);
+		var $prologue = $('.prologue-container');
 
 		var canvasHeight = $window.height() - 50;
 		var canvasWidth = $window.width();
+		var prologueTop = (canvasHeight / 2) - ($prologue.height());
 
 		if(canvasWidth >= 768)
 		{
@@ -109,6 +111,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 
 		$canvas.height(canvasHeight);
 		$canvas.width(canvasWidth);
+		$prologue.css('top', parseInt(prologueTop) + 'px');
 	};
 
 	e107.callbacks.e107projectsWaitForFinalEvent = (function ()

@@ -24,19 +24,24 @@ $E107PROJECTS_TEMPLATE['summary_menu'] = '
 <div class="summary-container">
 	<div class="container">
 		<div class="row">
-   			<div class="col-sm-4 col-1">
+   			<div class="col-sm-6 col-md-3 col-1">
    			    <div class="col-inner">
    			        {SUMMARY_MENU_COL_1}
    			    </div>
 			</div>
-			<div class="col-sm-4 col-2">
+			<div class="col-sm-6 col-md-3 col-2">
 				<div class="col-inner">
    			        {SUMMARY_MENU_COL_2}
    			    </div>
 			</div>
-			<div class="col-sm-4 col-3">
+			<div class="col-sm-6 col-md-3 col-3">
 				<div class="col-inner">
    			        {SUMMARY_MENU_COL_3}
+   			    </div>
+			</div>
+			<div class="col-sm-6 col-md-3 col-4">
+				<div class="col-inner">
+   			        {SUMMARY_MENU_COL_4}
    			    </div>
 			</div>
    		</div>

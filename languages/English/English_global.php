@@ -8,3 +8,5 @@
 define("LAN_PLUGIN_E107PROJECTS_NAME", "e107projects");
 define("LAN_PLUGIN_E107PROJECTS_SUMM", "...");
 define("LAN_PLUGIN_E107PROJECTS_DESC", "...");
+
+define("LAN_PLUGIN_E107PROJECTS_COUNTRY", "Location");

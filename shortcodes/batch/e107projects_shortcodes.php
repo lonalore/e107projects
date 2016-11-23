@@ -45,7 +45,7 @@ class e107projects_shortcodes extends e_shortcode
 	{
 		$count = (int) $this->var['col_2'];
 		$formatted = number_format($count);
-		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_02;
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_03;
 	}
 
 	/**
@@ -55,7 +55,17 @@ class e107projects_shortcodes extends e_shortcode
 	{
 		$count = (int) $this->var['col_3'];
 		$formatted = number_format($count);
-		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_03;
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_02;
+	}
+
+	/**
+	 * Contents for third column in summary menu.
+	 */
+	public function sc_summary_menu_col_4()
+	{
+		$count = (int) $this->var['col_4'];
+		$formatted = number_format($count);
+		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_04;
 	}
 
 }
