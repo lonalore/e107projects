@@ -70,10 +70,15 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 						vectorLayer
 					],
 					controls: ol.control.defaults({
-						zoom: true,
-						attribution: false,
-						rotate: true
-					}),
+						attributionOptions: ({
+							collapsible: false
+						})
+					}).extend([
+						// new ol.control.ZoomSlider(),
+						// new ol.control.OverviewMap(),
+						// new ol.control.ScaleLine(),
+						new ol.control.FullScreen()
+					]),
 					view: new ol.View({
 						center: ol.proj.transform([30, 30], 'EPSG:4326', 'EPSG:3857'),
 						zoom: 2.5
@@ -119,7 +124,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		e107.OpenLayers.addOverlay(new ol.Overlay({
 			position: position,
 			positioning: 'center-center',
-			offset: [-10, -10],
+			offset: [0, 0],
 			element: marker
 		}));
 	};
@@ -142,6 +147,11 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		$canvas.height(canvasHeight);
 		$canvas.width(canvasWidth);
 		$prologue.css('top', parseInt(prologueTop) + 'px');
+
+		if(typeof e107.OpenLayers.updateSize === 'function')
+		{
+			e107.OpenLayers.updateSize();
+		}
 	};
 
 	e107.callbacks.e107projectsWaitForFinalEvent = (function ()

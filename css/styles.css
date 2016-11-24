@@ -17,9 +17,33 @@
 
 #commitMap .ol-overlaycontainer-stopevent {
     z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#commitMap .ol-overlaycontainer-stopevent .ol-zoom {
+    z-index: 3;
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+#commitMap .ol-overlaycontainer-stopevent .ol-full-screen {
+    z-index: 3;
+    position: absolute;
+    top: 10px;
+    left: auto;
+    right: 20px;
+}
+
+#commitMap .ol-overlaycontainer-stopevent .ol-rotate {
+    z-index: 3;
+    position: absolute;
+    top: 50px;
+    left: auto;
+    right: 20px;
 }
 
 .senary-container {
