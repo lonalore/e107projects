@@ -48,3 +48,44 @@ $E107PROJECTS_TEMPLATE['summary_menu'] = '
 	</div>
 </div>
 ';
+
+$E107PROJECTS_TEMPLATE['projects']['list']['pre'] = '
+<table class="table table-hover search-results">
+	<thead>
+		<tr>
+			<th><a>{PROJECT_NAME_LABEL}</a></th>
+			<th width="15%" class="hidden-xs"><a>{PROJECT_OWNER_LABEL}</a></th>
+			<th width="15%" class="hidden-xs"><a>{PROJECT_STARS_LABEL}</a></th>
+		</tr>
+	</thead>
+	<tbody>
+';
+
+$E107PROJECTS_TEMPLATE['projects']['list']['row'] = '
+		<tr>
+			<td class="name">
+				<h4>
+					<a href="{PROJECT_URL}" rel="noopener noreferrer">
+						{PROJECT_NAME}
+					</a>
+				</h4>
+				<small>
+					<a href="{PROJECT_URL}" rel="noopener noreferrer">
+						{PROJECT_URL}
+					</a>
+				</small>
+				<p class="description">{PROJECT_DESCRIPTION}</p>
+				<p class="visible-xs">
+					<span class="label">{PROJECT_OWNER_LABEL}: <span>{PROJECT_OWNER}</span></span>
+					<span class="label">{PROJECT_STARS_LABEL}: <span>{PROJECT_STARS}</span></span>
+				</p>
+			</td>
+			<td class="hidden-xs owner">{PROJECT_OWNER}</td>
+			<td class="hidden-xs stars">{PROJECT_STARS}</td>
+		</tr>
+';
+
+$E107PROJECTS_TEMPLATE['projects']['list']['post'] = '
+	</tbody>
+</table>
+';
