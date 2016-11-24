@@ -48,14 +48,14 @@ class e107projects_event
 		}
 
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.geocode.php');
-		$geo = new geocode();
+		$geo = new e107projectsGeocode();
 
-		if($geo->isGeoCoded($data['ue']['user_plugin_e107projects_location']))
+		if($geo->isGeocoded($data['ue']['user_plugin_e107projects_location']))
 		{
 			return;
 		}
 
-		$details = $geo->geoCodeAddress($data['ue']['user_plugin_e107projects_location']);
+		$details = $geo->geocodeAddress($data['ue']['user_plugin_e107projects_location']);
 
 		if(!$details)
 		{

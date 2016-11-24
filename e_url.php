@@ -42,6 +42,16 @@ class e107projects_url
 			'redirect' => '{e_PLUGIN}e107projects/callback.php',
 		);
 
+		// Projects - search page.
+		$config['projects'] = array(
+			// Matched against url, and if true, redirected to 'redirect' below.
+			'regex'    => '^projects/?(.*)$',
+			// Used by e107::url(); to create a url from the db table.
+			'sef'      => 'projects',
+			// File-path of what to load when the regex returns true.
+			'redirect' => '{e_PLUGIN}e107projects/projects.php',
+		);
+
 		return $config;
 	}
 

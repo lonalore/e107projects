@@ -101,8 +101,8 @@ class e107projects_header
 			// FIXME - Move this to an async Ajax request?
 
 			$db = e107::getDb();
-			$db->gen("SELECT l.location_lat, l.location_lon FROM #e107projects_location AS l 
-			LEFT JOIN #user_extended AS ue ON l.location_name = ue.user_plugin_e107projects_location");
+			$db->gen("SELECT l.location_lat, l.location_lon FROM #user_extended AS ue 
+			LEFT JOIN #e107projects_location AS l ON l.location_name = ue.user_plugin_e107projects_location");
 
 			$locations = array();
 			while($row = $db->fetch())

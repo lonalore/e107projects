@@ -5,11 +5,6 @@
  * Common functions.
  */
 
-if(!defined('e107_INIT'))
-{
-	exit;
-}
-
 
 /**
  * Performs an HTTP request.

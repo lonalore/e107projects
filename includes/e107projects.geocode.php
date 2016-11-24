@@ -10,9 +10,9 @@ e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 
 
 /**
- * Class geocode.
+ * Class e107projectsGeocode.
  */
-class geocode
+class e107projectsGeocode
 {
 
 	/**
@@ -40,7 +40,7 @@ class geocode
 	 *  true - if address is already geo-coded.
 	 *  false - no geo data in database for the address.
 	 */
-	public function isGeoCoded($address)
+	public function isGeocoded($address)
 	{
 		$db = e107::getDb();
 		$tp = e107::getParser();
@@ -60,7 +60,7 @@ class geocode
 	 *  false - if unable to geocode address.
 	 *  array - contains latitude, longitude, etc.
 	 */
-	public function geoCodeAddress($address)
+	public function geocodeAddress($address)
 	{
 		$query = array(
 			'address'  => $address,
