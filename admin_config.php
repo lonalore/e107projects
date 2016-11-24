@@ -364,7 +364,15 @@ class e107projects_admin_ui extends e_admin_ui
 	 *
 	 * @var array
 	 */
-	protected $prefs = array();
+	protected $prefs = array(
+		'google_places_api_key' => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_09,
+			'help'  => LAN_E107PROJECTS_ADMIN_MENU_10,
+			'type'  => 'text',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+	);
 
 	/**
 	 * User defined init.

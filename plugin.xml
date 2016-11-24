@@ -13,12 +13,13 @@
 	</adminLinks>
 	<pluginPrefs>
 		<pref name='submit_project'>255</pref>
+		<pref name='google_places_api_key'></pref>
 	</pluginPrefs>
 	<dependencies>
 		<plugin name='nodejs' min_version='1.0' />
 		<plugin name='nodejs_notify' min_version='1.0' />
 	</dependencies>
 	<extendedFields>
-		<field name="e107projects_location" type='EUF_ADDON' data="str" default="" active="true" system="false" text="Location" table_db="" field_id="" field_value="" field_order="" />
+		<field name="location" type='EUF_TEXT' default="" active="true" system="false" text="LAN_PLUGIN_E107PROJECTS_LOCATION" read="e_UC_MEMBER" write="e_UC_MEMBER" applicable="e_UC_MEMBER" required="1" error="LAN_PLUGIN_E107PROJECTS_LOCATION_ERROR"/>
 	</extendedFields>
 </e107Plugin>

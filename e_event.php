@@ -26,8 +26,54 @@ class e107projects_event
 	{
 		$event = array();
 
-		return $event;
+		// After a user updated his profile.
+		$event[] = array(
+			'name'     => "postuserset", // TODO this may change in core.
+			'function' => "e107projects_user_settings_changed",
+		);
 
+		return $event;
+	}
+
+	/**
+	 * After updating user settings. Try to geocode user's location.
+	 *
+	 * @param $data
+	 */
+	function e107projects_user_settings_changed($data)
+	{
+		if(!varset($data['ue']['user_plugin_e107projects_location'], false))
+		{
+			return;
+		}
+
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.geocode.php');
+		$geo = new geocode();
+
+		if($geo->isGeoCoded($data['ue']['user_plugin_e107projects_location']))
+		{
+			return;
+		}
+
+		$details = $geo->geoCodeAddress($data['ue']['user_plugin_e107projects_location']);
+
+		if(!$details)
+		{
+			return;
+		}
+
+		$db = e107::getDb();
+		$tp = e107::getParser();
+
+		$insert = array(
+			'data' => array(
+				'location_name' => $tp->toDB($data['ue']['user_plugin_e107projects_location']),
+				'location_lat'  => $details['lat'],
+				'location_lon'  => $details['lng'],
+			),
+		);
+
+		$db->insert('e107projects_location', $insert, false);
 	}
 
 }

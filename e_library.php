@@ -34,9 +34,41 @@ class e107projects_library
 						'zone' => 2,
 					),
 				),
-				'js' => array(
+				'js'  => array(
 					'ol.js' => array(
 						'zone' => 2,
+					),
+				),
+			),
+		);
+
+		// GeoComplete v1.6.4.
+		$libraries['geocomplete'] = array(
+			'name'              => 'GeoComplete',
+			'vendor_url'        => 'https://github.com/ubilabs/geocomplete',
+			'download_url'      => 'https://github.com/ubilabs/geocomplete/releases',
+			'version_arguments' => array(
+				'file'    => 'jquery.geocomplete.js',
+				// jQuery Geocoding and Places Autocomplete Plugin - V 1.6.4
+				'pattern' => '/(1\.\d+\.\d+)/',
+				'lines'   => 3,
+			),
+			'files'             => array(
+				'js' => array(
+					'jquery.geocomplete.js' => array(
+						'zone' => 2,
+					),
+				),
+			),
+			'variants'          => array(
+				// All properties defined for 'minified' override top-level properties.
+				'minified' => array(
+					'files' => array(
+						'js' => array(
+							'jquery.geocomplete.min.js' => array(
+								'zone' => 2,
+							),
+						),
 					),
 				),
 			),

@@ -26,6 +26,8 @@ class e107projects_summary_menu
 {
 
 	/**
+	 * Plugin preferences.
+	 * 
 	 * @var array
 	 */
 	private $plugPrefs = array();

@@ -82,6 +82,13 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 						mouseWheelZoom: false
 					})
 				});
+
+				if(e107.settings.e107projects.locations)
+				{
+					$.each(e107.settings.e107projects.locations, function() {
+						e107.callbacks.e107projectsSetMarker(this);
+					});
+				}
 			});
 
 			$(window).resize(function ()
@@ -92,6 +99,29 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 				}, 300, 'e107projectsResizeMapCanvas');
 			});
 		}
+	};
+
+	e107.callbacks.e107projectsSetMarker = function(location)
+	{
+		var marker = document.createElement('img');
+		marker.src = e107.settings.e107projects.marker;
+		marker.width = 5;
+		marker.height = 5;
+		marker.style = 'margin: 0; padding: 0;';
+		
+		var position = ol.proj.transform(
+			[parseFloat(location.lon), parseFloat(location.lat)],
+			'EPSG:4326',
+			'EPSG:3857'
+		);
+
+		// http://openlayers.org/en/v3.5.0/apidoc/ol.Overlay.html
+		e107.OpenLayers.addOverlay(new ol.Overlay({
+			position: position,
+			positioning: 'center-center',
+			offset: [-10, -10],
+			element: marker
+		}));
 	};
 
 	e107.callbacks.e107projectsResizeMapCanvas = function ()

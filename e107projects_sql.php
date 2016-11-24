@@ -7,13 +7,10 @@ PRIMARY KEY (`project_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `e107projects_location` (
-`location_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'Location ID.',
 `location_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Location.',
 `location_lat` decimal(10,8) NOT NULL COMMENT 'Latitude.',
 `location_lon` decimal(10,8) NOT NULL COMMENT 'Longitude.',
-`location_data` longblob COMMENT 'Details of location.',
-PRIMARY KEY (`location_id`),
-KEY `location_name` (`location_name`),
+PRIMARY KEY (`location_name`),
 KEY `location_lat` (`location_lat`),
 KEY `location_lon` (`location_lon`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
