@@ -172,7 +172,7 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	 * @var array UI field data
 	 */
 	protected $fields = array(
-		'checkboxes'     => array(
+		'checkboxes'          => array(
 			'title'   => '',
 			'type'    => null,
 			'width'   => '5%',
@@ -180,7 +180,7 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'thclass' => 'center',
 			'class'   => 'center',
 		),
-		'project_id'     => array(
+		'project_id'          => array(
 			'title'    => LAN_E107PROJECTS_ADMIN_MENU_05,
 			'type'     => 'number',
 			'width'    => '5%',
@@ -190,13 +190,7 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'class'    => 'center',
 			'tab'      => 0,
 		),
-		'project_name'   => array(
-			'title' => LAN_E107PROJECTS_ADMIN_MENU_06,
-			'type'  => 'text',
-			'data'  => 'str',
-			'tab'   => 0,
-		),
-		'project_author' => array(
+		'project_author'      => array(
 			'title'    => LAN_E107PROJECTS_ADMIN_MENU_07,
 			'type'     => 'user',
 			'inline'   => true,
@@ -208,7 +202,49 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'class'    => 'center',
 			'tab'      => 0,
 		),
-		'project_status' => array(
+		'project_user_id'     => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_12,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_user'        => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_13,
+			'type'  => 'text',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+		'project_name'        => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_06,
+			'type'  => 'text',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+		'project_description' => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_14,
+			'type'  => 'textarea',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+		'project_stars'       => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_15,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_commits'     => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_16,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_issues'      => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_17,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_status'      => array(
 			'title'      => LAN_E107PROJECTS_ADMIN_MENU_08,
 			'type'       => 'boolean',
 			'writeParms' => 'label=yesno',
@@ -220,7 +256,29 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'class'      => 'center',
 			'tab'        => 0,
 		),
-		'options'        => array(
+		'project_submitted'   => array(
+			'title'      => LAN_E107PROJECTS_ADMIN_MENU_18,
+			'type'       => 'datestamp',
+			'data'       => 'int',
+			'width'      => 'auto',
+			'writeParms' => 'auto=1&type=datetime',
+			'tab'        => 0,
+		),
+		'project_updated'     => array(
+			'title'      => LAN_E107PROJECTS_ADMIN_MENU_19,
+			'type'       => 'datestamp',
+			'data'       => 'int',
+			'width'      => 'auto',
+			'writeParms' => 'auto=1&type=datetime',
+			'tab'        => 0,
+		),
+		'project_secret'      => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_20,
+			'type'  => 'text',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+		'options'             => array(
 			'type'    => null,
 			'width'   => '10%',
 			'forced'  => true,

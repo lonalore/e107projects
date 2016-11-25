@@ -68,7 +68,7 @@ class e107projectsSubmit
 
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 		$this->client = new e107projectsGithub();
-		$this->username = $this->client->getGithubUsernameByUserID(USERID);
+		$this->username = $this->client->getGithubUsername(USERID);
 		$this->repositories = $this->client->getUserRepositories($this->username);
 
 		if(e_AJAX_REQUEST)
