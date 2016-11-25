@@ -1,0 +1,20 @@
+{
+  "name": "lonalore/e107projects",
+  "type": "e107-plugin",
+  "description": "Manages e107 projects hosted on Github.",
+  "keywords": [
+    "e107projects",
+    "e107",
+    "plugin"
+  ],
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/lonalore/e107projects",
+  "support": {
+    "issues": "https://github.com/lonalore/e107projects/issues",
+    "source": "https://github.com/lonalore/e107projects"
+  },
+  "require": {
+    "knplabs/github-api": "^1.7",
+    "php-http/guzzle6-adapter": "^1.1"
+  }
+}

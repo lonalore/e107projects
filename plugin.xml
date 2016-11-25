@@ -18,9 +18,9 @@
 		<pref name='submit_project'>255</pref>
 		<pref name='google_places_api_key'></pref>
 		<pref name='search_handler'>db</pref>
-		<pref name='github_secret'></pref>
 	</pluginPrefs>
 	<dependencies>
+		<plugin name='social' min_version='1.0' />
 		<plugin name='nodejs' min_version='1.0' />
 		<plugin name='nodejs_notify' min_version='1.0' />
 	</dependencies>

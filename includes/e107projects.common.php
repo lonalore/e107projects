@@ -475,3 +475,47 @@ function e107projects_timer_stop($name)
 
 	return $timers[$name];
 }
+
+/**
+ * Generates unique string for Github secret.
+ */
+function e107projects_generate_unique_secret_key()
+{
+	$random = rand();
+	$unique = uniqid($random, true);
+	return md5($unique);
+}
+
+/**
+ * Get a user's submitted projects.
+ *
+ * @param int $user_id
+ *  User ID.
+ * @param boolean $use_static
+ *  true - Use the statically cached results
+ *  false - force to refresh cached results
+ *
+ * @return array
+ */
+function e107projects_get_user_submitted_projects($user_id, $use_static = true)
+{
+	static $projects = array();
+
+	if((int) $user_id == 0)
+	{
+		return $projects;
+	}
+
+	if(empty($projects) || $use_static == false)
+	{
+		$db = e107::getDb();
+		$db->select('e107projects_project', '*', 'project_author = ' . (int) $user_id);
+
+		while($row = $db->fetch())
+		{
+			$projects[$row['project_name']] = $row;
+		}
+	}
+
+	return $projects;
+}

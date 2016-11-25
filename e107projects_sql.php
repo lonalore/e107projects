@@ -11,6 +11,7 @@ CREATE TABLE `e107projects_project` (
 `project_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Status for the project. Visible or not.',
 `project_submitted` int(11) NOT NULL DEFAULT '0' COMMENT 'Submitted time as timestamp.',
 `project_updated` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated time as timestamp.',
+`project_secret` varchar(32) NOT NULL DEFAULT '' COMMENT 'Generated secret key for Github Webhooks.',
 PRIMARY KEY (`project_id`),
 KEY `project_name` (`project_name`),
 KEY `project_full_name` (`project_full_name`),
@@ -21,7 +22,8 @@ KEY `project_issues` (`project_issues`),
 KEY `project_author` (`project_author`),
 KEY `project_status` (`project_status`),
 KEY `project_submitted` (`project_submitted`),
-KEY `project_updated` (`project_updated`)
+KEY `project_updated` (`project_updated`),
+KEY `project_secret` (`project_secret`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `e107projects_location` (

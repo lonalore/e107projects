@@ -68,4 +68,86 @@ class e107projects_shortcodes extends e_shortcode
 		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_04;
 	}
 
+	/**
+	 * Submit page - empty text.
+	 */
+	public function sc_submit_project_empty_text()
+	{
+		return LAN_E107PROJECTS_FRONT_09;
+	}
+
+	/**
+	 * Submit page - project name label.
+	 */
+	public function sc_submit_project_name_label()
+	{
+		return LAN_E107PROJECTS_FRONT_06;
+	}
+
+	/**
+	 * Submit page - project name.
+	 */
+	public function sc_submit_project_name()
+	{
+		$repository = $this->var['repository'];
+		$submitted = (bool) $this->var['submitted'];
+
+		if($submitted)
+		{
+			$url = e107::getUrl()->create('project', array(
+				'user'       => $repository['owner']['login'],
+				'repository' => $repository['name'],
+			), array('full' => true));
+
+			return '<a href="' . $url . '" target="_self">' . $repository['name'] . '</a>';
+		}
+
+		return varset($repository['name'], '');
+	}
+
+	/**
+	 * Submit page - project description.
+	 */
+	public function sc_submit_project_description()
+	{
+		$repository = $this->var['repository'];
+		return varset($repository['description'], '');
+	}
+
+	/**
+	 * Submit page - project action label.
+	 */
+	public function sc_submit_project_action_label()
+	{
+		return LAN_E107PROJECTS_FRONT_07;
+	}
+
+	/**
+	 * Submit page - project action label.
+	 */
+	public function sc_submit_project_action()
+	{
+		$repository = $this->var['repository'];
+		$submitted = (bool) $this->var['submitted'];
+
+		$html = '';
+
+		if(!$submitted)
+		{
+			$form = e107::getForm();
+			$tp = e107::getParser();
+
+			$html .= $form->open('submit-repository-' . $repository['id']);
+			$html .= $form->hidden('repository', $repository['id']);
+			$html .= $form->submit('submit', LAN_E107PROJECTS_FRONT_08, array(
+				'class'          => 'btn btn-primary e-ajax',
+				'data-event'     => 'click',
+				'data-ajax-type' => 'POST',
+			));
+			$html .= $form->close();
+		}
+
+		return $html;
+	}
+
 }

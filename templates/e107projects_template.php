@@ -89,3 +89,35 @@ $E107PROJECTS_TEMPLATE['projects']['list']['post'] = '
 	</tbody>
 </table>
 ';
+
+$E107PROJECTS_TEMPLATE['submit']['empty'] = '
+<p class="lead text-center">{SUBMIT_PROJECT_EMPTY_TEXT}</p>
+';
+
+$E107PROJECTS_TEMPLATE['submit']['pre'] = '
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>{SUBMIT_PROJECT_NAME_LABEL}</th>
+			<th width="15%" class="text-center">{SUBMIT_PROJECT_ACTION_LABEL}</th>
+		</tr>
+	</thead>
+	<tbody>
+';
+
+$E107PROJECTS_TEMPLATE['submit']['row'] = '
+		<tr>
+			<td>
+				<p class="lead">{SUBMIT_PROJECT_NAME}</p>
+				<small>{SUBMIT_PROJECT_DESCRIPTION}</small>
+			</td>
+			<td class="text-center">
+				{SUBMIT_PROJECT_ACTION}
+			</td>
+		</tr>
+';
+
+$E107PROJECTS_TEMPLATE['submit']['post'] = '
+	</tbody>
+</table>
+';

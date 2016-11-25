@@ -43,6 +43,7 @@ class e107ProjectsCallback
 
 		if(!$this->isValid())
 		{
+			echo 'It works!';
 			exit;
 		}
 

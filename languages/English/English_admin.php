@@ -15,3 +15,4 @@ define("LAN_E107PROJECTS_ADMIN_MENU_07", "Author");
 define("LAN_E107PROJECTS_ADMIN_MENU_08", "Status");
 define("LAN_E107PROJECTS_ADMIN_MENU_09", "API Key for Google Places API Web Service");
 define("LAN_E107PROJECTS_ADMIN_MENU_10", "Before using the Places library in the Google Maps JavaScript API, first ensure that the Google Places API Web Service is enabled in the Google API Console, in the same project you set up for the Google Maps JavaScript API.");
+define("LAN_E107PROJECTS_ADMIN_MENU_11", "Github Webhook Secret Key");
