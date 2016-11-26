@@ -94,6 +94,7 @@ class e107projects_event
 		{
 			e107_require_once(e_PLUGIN . 'nodejs/nodejs.main.php');
 
+			// TODO - more details?
 			$subject = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT;
 			$message = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE;
 
