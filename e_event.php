@@ -32,6 +32,11 @@ class e107projects_event
 			'function' => "e107projects_user_settings_changed",
 		);
 
+		$event[] = array(
+			'name'     => 'e107projects_user_project_submitted',
+			'function' => "e107projects_user_project_submitted",
+		);
+
 		return $event;
 	}
 
@@ -74,6 +79,34 @@ class e107projects_event
 		);
 
 		$db->insert('e107projects_location', $insert, false);
+	}
+
+	/**
+	 * After project submission.
+	 *
+	 * @param $data
+	 */
+	function e107projects_user_project_submitted($data)
+	{
+		$user_id = (int) $data['project_author'];
+
+		if($user_id > 0)
+		{
+			e107_require_once(e_PLUGIN . 'nodejs/nodejs.main.php');
+
+			$subject = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT;
+			$message = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE;
+
+			$package = (object) array(
+				'channel'  => 'nodejs_user_' . $user_id,
+				'callback' => 'e107projectsNotify',
+				'type'     => 'projectSubmitted',
+				'subject'  => $subject,
+				'markup'   => $message,
+			);
+
+			nodejs_enqueue_message($package);
+		}
 	}
 
 }

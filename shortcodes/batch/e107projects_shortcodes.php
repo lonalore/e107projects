@@ -77,6 +77,14 @@ class e107projects_shortcodes extends e_shortcode
 	}
 
 	/**
+	 * Submit page - help text.
+	 */
+	public function sc_submit_project_help_text()
+	{
+		return LAN_E107PROJECTS_FRONT_12;
+	}
+
+	/**
 	 * Submit page - project name label.
 	 */
 	public function sc_submit_project_name_label()
@@ -94,7 +102,7 @@ class e107projects_shortcodes extends e_shortcode
 
 		if($submitted)
 		{
-			$url = e107::getUrl()->create('project', array(
+			$url = e107::url('e107projects', 'project', array(
 				'user'       => $repository['owner']['login'],
 				'repository' => $repository['name'],
 			), array('full' => true));
@@ -129,6 +137,7 @@ class e107projects_shortcodes extends e_shortcode
 	{
 		$repository = $this->var['repository'];
 		$submitted = (bool) $this->var['submitted'];
+		$approved = (bool) $this->var['approved'];
 
 		$html = '';
 
@@ -137,14 +146,28 @@ class e107projects_shortcodes extends e_shortcode
 			$form = e107::getForm();
 			$tp = e107::getParser();
 
-			$html .= $form->open('submit-repository-' . $repository['id']);
-			$html .= $form->hidden('repository', $repository['id']);
-			$html .= $form->submit('submit', LAN_E107PROJECTS_FRONT_08, array(
-				'class'          => 'btn btn-primary e-ajax',
+			$btnType = 'button';
+			$btnName = 'submit';
+			$btnVals = LAN_E107PROJECTS_FRONT_08;
+			$btnAttr = $form->get_attributes(array(
+				'class'          => 'btn btn-primary e-ajax has-spinner project-submission-button',
 				'data-event'     => 'click',
 				'data-ajax-type' => 'POST',
-			));
+			), $btnName, $btnVals);
+
+			$html .= $form->open('submit-repository-' . $repository['id']);
+			$html .= $form->hidden('repository', $repository['id']);
+			$html .= '<button type="' . $btnType . '" name="' . $btnName . '"' . $btnAttr . '>';
+			$html .= '<span class="spinner">' . $tp->toGlyph('fa-refresh', array('spin' => 1)) . '</span>';
+			$html .= $btnVals;
+			$html .= '</button>';
+
 			$html .= $form->close();
+		}
+
+		if($approved)
+		{
+			$html = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_13 . '</p>';
 		}
 
 		return $html;

@@ -66,19 +66,19 @@ class e107projectsSubmit
 			e107::redirect(SITEURL);
 		}
 
+		// Get plugin preferences.
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
+		// Get a Github Client.
 		$this->client = new e107projectsGithub();
+		// Get the Github username for current user.
 		$this->username = $this->client->getGithubUsername(USERID);
+		// Get repositories of the current user.
 		$this->repositories = $this->client->getUserRepositories($this->username);
 
 		if(e_AJAX_REQUEST)
 		{
-			$valid = $this->validateRepository();
-
-			if($valid)
-			{
-				$this->submitRepository();
-			}
+			$this->validateRepository();
+			$this->submitRepository();
 		}
 
 		$this->renderPage();
@@ -89,7 +89,30 @@ class e107projectsSubmit
 	 */
 	public function validateRepository()
 	{
-		return true;
+		$ajax = e107::getAjax();
+		$commands = array();
+
+		$inArray = false;
+		foreach($this->repositories as $repository)
+		{
+			if($_POST['repository'] == $repository['id'])
+			{
+				$inArray = true;
+			}
+		}
+
+		if(!$inArray)
+		{
+			$selector = '#submit-repository-' . $_POST['repository'];
+			$contents = '<p class="text-danger">' . LAN_ERROR . '</p>';
+			$commands[] = $ajax->commandInsert($selector, 'html', $contents);
+		}
+
+		if(!empty($commands))
+		{
+			$ajax->response($commands);
+			exit;
+		}
 	}
 
 	/**
@@ -98,12 +121,20 @@ class e107projectsSubmit
 	public function submitRepository()
 	{
 		$ajax = e107::getAjax();
+		$event = e107::getEvent();
+
+		$data = array(
+			'project_id'     => (int) $_POST['repository'],
+			'project_author' => USERID,
+		);
 
 		$selector = '#submit-repository-' . $_POST['repository'];
 		$contents = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_11 . '</p>';
 
 		$commands = array();
 		$commands[] = $ajax->commandInsert($selector, 'html', $contents);
+
+		$event->trigger('e107projects_user_project_submitted', $data);
 
 		$ajax->response($commands);
 		exit;
@@ -138,6 +169,7 @@ class e107projectsSubmit
 			$sc->setVars(array(
 				'repository' => $repository,
 				'submitted'  => in_array($repository, $submittedRepositories),
+				'approved'   => false,
 			));
 			$content .= $tp->parseTemplate($tpl['submit']['row'], true, $sc);
 		}

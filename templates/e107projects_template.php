@@ -95,6 +95,9 @@ $E107PROJECTS_TEMPLATE['submit']['empty'] = '
 ';
 
 $E107PROJECTS_TEMPLATE['submit']['pre'] = '
+<div class="help-block">
+	{SUBMIT_PROJECT_HELP_TEXT}
+</div>
 <table class="table table-hover">
 	<thead>
 		<tr>
