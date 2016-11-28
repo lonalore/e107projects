@@ -30,6 +30,16 @@ class e107projectsGithub
 	private $plugPrefs;
 
 	/**
+	 * @var mixed
+	 */
+	public $client_id;
+
+	/**
+	 * @var mixed
+	 */
+	public $secret;
+
+	/**
 	 * @var Client
 	 */
 	private $client;
@@ -50,8 +60,8 @@ class e107projectsGithub
 		$social_login = e107::getConfig()->get('social_login');
 
 		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
-		$client_id = varset($social_login['Github']['keys']['id'], '');
-		$secret = varset($social_login['Github']['keys']['secret'], '');
+		$this->client_id = varset($social_login['Github']['keys']['id'], '');
+		$this->secret = varset($social_login['Github']['keys']['secret'], '');
 
 		// Get Cache directory for caching HTTP request in order to decrease number of
 		// requests.
@@ -65,10 +75,232 @@ class e107projectsGithub
 		// Get Github Client with Cached HTTP Client.
 		$this->client = new Client($cache);
 		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
-		$this->client->authenticate($client_id, $secret, Client::AUTH_URL_CLIENT_ID);
+		$this->client->authenticate($this->client_id, $this->secret, Client::AUTH_URL_CLIENT_ID);
 
 		// Use Result Pager.
 		$this->paginator = new ResultPager($this->client);
+	}
+
+	/**
+	 * Get extended information about a user by its username.
+	 *
+	 * @link https://developer.github.com/v3/orgs/
+	 *
+	 * @param string $username
+	 *  The username to show.
+	 *
+	 * @return array
+	 *  Information about organizations that user belongs to.
+	 */
+	public function getUserOrganizations($username)
+	{
+		if(empty($username))
+		{
+			return array();
+		}
+
+		$userAPI = $this->client->api('user');
+		return $this->paginator->fetchAll($userAPI, 'organizations', array($username));
+	}
+
+	/**
+	 * Get the repositories of a user.
+	 *
+	 * @link http://developer.github.com/v3/repos/
+	 *
+	 * @param string $username
+	 *  The username.
+	 * @param string $type
+	 *  Role in the repository. all, owner, member
+	 * @param string $sort
+	 *  Sort by.
+	 * @param string $direction
+	 *  Direction of sort, asc or desc.
+	 *
+	 * @return array|boolean
+	 *  List of the user repositories, or false.
+	 */
+	public function getUserRepositories($username, $type = 'owner', $sort = 'full_name', $direction = 'asc')
+	{
+		if(empty($username))
+		{
+			return false;
+		}
+
+		$userAPI = $this->client->api('user');
+		return $this->paginator->fetchAll($userAPI, 'repositories', array($username, $type, $sort, $direction));
+	}
+
+	/**
+	 * Get the readme URL for a repository by its username and repository name.
+	 *
+	 * @link http://developer.github.com/v3/repos/contents/#get-the-readme
+	 *
+	 * @param string $username
+	 *  The user who owns the repository.
+	 * @param string $repository
+	 *  The name of the repository.
+	 *
+	 * @return string
+	 *  The readme URL.
+	 */
+	public function getReadmeURL($username, $repository)
+	{
+		$readme = '';
+
+		if(empty($username) || empty($repository))
+		{
+			return $readme;
+		}
+
+		$reopAPI = $this->client->api('repo');
+		$data = $this->paginator->fetchAll($reopAPI, 'readme', array($username, $repository));
+
+		return varset($data['download_url'], '');
+	}
+
+	/**
+	 * Count commits by repository.
+	 *
+	 * @param string $username
+	 *  The user who owns the repository.
+	 * @param string $repository
+	 *  The name of the repository.
+	 *
+	 * @return int
+	 */
+	public function countCommits($username, $repository)
+	{
+		$count = 0;
+
+		$contributors = $this->getContributors($username, $repository, true);
+
+		foreach($contributors as $contributor)
+		{
+			$count += (int) varset($contributor['contributions'], 0);
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Get the contributors of a repository.
+	 *
+	 * @link http://developer.github.com/v3/repos/
+	 *
+	 * @param string $username
+	 *  The user who owns the repository.
+	 * @param string $repository
+	 *  The name of the repository.
+	 * @param bool $includingAnonymous
+	 *  By default, the list only shows GitHub users.
+	 *  You can include non-users too by setting this to true
+	 *
+	 * @return array
+	 *  List of the repo contributors.
+	 */
+	public function getContributors($username, $repository, $includingAnonymous = false)
+	{
+		if(empty($username) || empty($repository))
+		{
+			return array();
+		}
+
+		$reopAPI = $this->client->api('repo');
+		return $this->paginator->fetchAll($reopAPI, 'contributors', array($username, $repository, $includingAnonymous));
+	}
+
+	/**
+	 * Get the releases of a repository.
+	 *
+	 * @param string $username
+	 *  The user who owns the repository.
+	 * @param string $repository
+	 *  The name of the repository.
+	 *
+	 * @return array
+	 *  List of the repo contributors.
+	 */
+	public function getReleases($username, $repository)
+	{
+		if(empty($username) || empty($repository))
+		{
+			return array();
+		}
+
+		$releaseAPI = new \Github\Api\Repository\Releases($this->client);
+		return $this->paginator->fetchAll($releaseAPI, 'all', array($username, $repository));
+	}
+
+	/**
+	 * @param $username
+	 * @param $repository
+	 * @return array
+	 */
+	public function createHook($username, $repository)
+	{
+		if(empty($username) || empty($repository))
+		{
+			return array();
+		}
+
+		$log = e107::getLog();
+
+		$endpoint = rtrim(SITEURL, '/') . e107::url('e107projects', 'github/callback');
+
+		$params = array(
+			'name'          => 'web',
+			'active'        => true,
+			'events'        => array(
+				'*', // Any time any event is triggered.
+			),
+			'config'        => array(
+				'url'          => $endpoint,
+				'content_type' => 'json',
+				'secret'       => varset($this->plugPrefs['github_secret'], ''),
+			),
+		);
+
+		$hybridAuth = e107::getHybridAuth();
+		$adapter = $hybridAuth->getAdapter('Github');
+		$conneceted = $hybridAuth->isConnectedWith('Github');
+		$accessToken = $adapter->getAccessToken();
+
+		$log->add('HOOK', (array) array($conneceted), E_LOG_INFORMATIVE, '');
+
+		// Get Github Client with Cached HTTP Client.
+		$client = new Client();
+		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
+		$client->authenticate($accessToken['access_token'], null, Client::AUTH_URL_TOKEN);
+
+		// FIXME - error 500... not found... authentication problem?
+		$hookAPI = new \Github\Api\Repository\Hooks($client);
+		$details = $hookAPI->create($username, $repository, $params);
+
+		$log->add('HOOK', (array) $details, E_LOG_INFORMATIVE, '');
+
+		if(isset($details['id']))
+		{
+			$db = e107::getDb();
+			$tp = e107::getParser();
+			$event = e107::getEvent();
+
+			// Insert contributor details.
+			$insert = array(
+				'data' => array(
+					'hook_id'           => (int) $details['id'],
+					'hook_project_user' => $tp->toDB($username),
+					'hook_project_name' => $tp->toDB($repository),
+					'hook_created_at'   => strtotime($details['created_at']),
+					'hook_updated_at'   => strtotime($details['updated_at']),
+				),
+			);
+
+			if($db->insert('e107projects_hook', $insert, false))
+			{
+				$event->trigger('e107projects_hook_created', $insert['data']);
+			}
+		}
 	}
 
 	/**
@@ -91,10 +323,10 @@ class e107projectsGithub
 		$tp = e107::getParser();
 
 		// First we try to get user name from database.
-		$user = $db->retrieve('e107projects_user', '*', 'user_id = ' . (int) $user_id);
-		if(varset($user['user_name'], false))
+		$user = $db->retrieve('e107projects_contributor', '*', 'contributor_id = ' . (int) $user_id);
+		if(varset($user['contributor_name'], false))
 		{
-			return $user['user_name'];
+			return $user['contributor_name'];
 		}
 
 		// If user name is not found in database, we try to request it from Github
@@ -118,49 +350,45 @@ class e107projectsGithub
 			// Got it! Save user details to database for later use.
 			if(varset($data->login, false))
 			{
-				$insert = array(
-					'data' => array(
-						'user_id'   => (int) $user_id,
-						'user_gid'  => (int) $data->id,
-						'user_name' => $tp->toDB($data->login),
-					),
-				);
+				$count = $db->count('e107projects_contributor', 'contributor_id', 'contributor_name = "' . $tp->toDB($data->login) . '"');
 
-				$db->insert('e107projects_user', $insert, false);
+				// If contributor exists in database, but no e107 user ID associated...
+				if($count > 0)
+				{
+					// Update contributor details.
+					$update = array(
+						'data'  => array(
+							'contributor_id'     => (int) $user_id,
+							'contributor_gid'    => (int) $data->id,
+							'contributor_avatar' => $tp->toDB($data->avatar_url),
+							'contributor_type'   => $tp->toDB($data->type),
+						),
+						'WHERE' => 'contributor_name = "' . $tp->toDB($data->login) . '"'
+					);
+
+					$db->update('e107projects_contributor', $update, false);
+				}
+				else
+				{
+					// Insert contributor details.
+					$insert = array(
+						'data' => array(
+							'contributor_id'     => (int) $user_id,
+							'contributor_gid'    => (int) $data->id,
+							'contributor_name'   => $tp->toDB($data->login),
+							'contributor_avatar' => $tp->toDB($data->avatar_url),
+							'contributor_type'   => $tp->toDB($data->type),
+						),
+					);
+
+					$db->insert('e107projects_contributor', $insert, false);
+				}
 
 				return $data->login;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get the repositories of a user.
-	 *
-	 * @link http://developer.github.com/v3/repos/
-	 *
-	 * @param string $username
-	 *  The username.
-	 * @param string $type
-	 *  Role in the repository.
-	 * @param string $sort
-	 *  Sort by.
-	 * @param string $direction
-	 *  Direction of sort, asc or desc.
-	 *
-	 * @return array|boolean
-	 *  List of the user repositories, or false.
-	 */
-	public function getUserRepositories($username, $type = 'owner', $sort = 'full_name', $direction = 'asc')
-	{
-		if(empty($username))
-		{
-			return false;
-		}
-
-		$userAPI = $this->client->api('user');
-		return $this->paginator->fetchAll($userAPI, 'repositories', array($username, $type, $sort, $direction));
 	}
 
 }

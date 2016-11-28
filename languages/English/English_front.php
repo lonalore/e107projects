@@ -18,7 +18,7 @@ define("LAN_E107PROJECTS_FRONT_10", "Submitted");
 define("LAN_E107PROJECTS_FRONT_11", "Pending");
 define("LAN_E107PROJECTS_FRONT_12", "You can see your Github repositories below. Please submit only your e107 projects!");
 define("LAN_E107PROJECTS_FRONT_13", "Approved");
-define("LAN_E107PROJECTS_FRONT_14", "");
+define("LAN_E107PROJECTS_FRONT_14", "Rejected");
 define("LAN_E107PROJECTS_FRONT_15", "");
 define("LAN_E107PROJECTS_FRONT_16", "");
 define("LAN_E107PROJECTS_FRONT_17", "");

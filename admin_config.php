@@ -202,12 +202,6 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'class'    => 'center',
 			'tab'      => 0,
 		),
-		'project_user_id'     => array(
-			'title' => LAN_E107PROJECTS_ADMIN_MENU_12,
-			'type'  => 'text',
-			'data'  => 'int',
-			'tab'   => 0,
-		),
 		'project_user'        => array(
 			'title' => LAN_E107PROJECTS_ADMIN_MENU_13,
 			'type'  => 'text',
@@ -238,19 +232,17 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'data'  => 'int',
 			'tab'   => 0,
 		),
-		'project_issues'      => array(
-			'title' => LAN_E107PROJECTS_ADMIN_MENU_17,
-			'type'  => 'text',
-			'data'  => 'int',
-			'tab'   => 0,
-		),
 		'project_status'      => array(
 			'title'      => LAN_E107PROJECTS_ADMIN_MENU_08,
-			'type'       => 'boolean',
-			'writeParms' => 'label=yesno',
+			'type'       => 'dropdown',
 			'data'       => 'int',
+			'writeParms' => array(
+				0 => LAN_E107PROJECTS_ADMIN_MENU_22,
+				1 => LAN_E107PROJECTS_ADMIN_MENU_23,
+				2 => LAN_E107PROJECTS_ADMIN_MENU_24,
+			),
 			'inline'     => true,
-			'filter'     => false,
+			'filter'     => true,
 			'validate'   => true,
 			'thclass'    => 'center',
 			'class'      => 'center',
@@ -272,9 +264,9 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'writeParms' => 'auto=1&type=datetime',
 			'tab'        => 0,
 		),
-		'project_secret'      => array(
-			'title' => LAN_E107PROJECTS_ADMIN_MENU_20,
-			'type'  => 'text',
+		'project_readme'      => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_21,
+			'type'  => 'textarea',
 			'data'  => 'str',
 			'tab'   => 0,
 		),
@@ -294,6 +286,7 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	protected $fieldpref = array(
 		'checkboxes',
 		'project_id',
+		'project_user',
 		'project_name',
 		'project_author',
 		'project_status',
@@ -426,6 +419,12 @@ class e107projects_admin_ui extends e_admin_ui
 		'google_places_api_key' => array(
 			'title' => LAN_E107PROJECTS_ADMIN_MENU_09,
 			'help'  => LAN_E107PROJECTS_ADMIN_MENU_10,
+			'type'  => 'text',
+			'data'  => 'str',
+			'tab'   => 0,
+		),
+		'github_secret'         => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_20,
 			'type'  => 'text',
 			'data'  => 'str',
 			'tab'   => 0,

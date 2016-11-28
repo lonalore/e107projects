@@ -1,36 +1,91 @@
 CREATE TABLE `e107projects_project` (
-`project_id` int(11) unsigned NOT NULL COMMENT 'Project ID from Github.',
+`project_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Project ID from Github.',
 `project_author` int(11) NOT NULL DEFAULT '0' COMMENT 'User, who submitted the project. e107 user ID.',
-`project_user` varchar(255) NOT NULL DEFAULT '' COMMENT 'Project owner. Github username.',
-`project_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Project name.',
+`project_user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project owner. Github username.',
+`project_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project name.',
 `project_description` text COMMENT 'Project description.',
 `project_stars` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of stars for project.',
 `project_commits` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of commits.',
-`project_issues` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of issues.',
 `project_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Status for the project. Visible or not.',
 `project_submitted` int(11) NOT NULL DEFAULT '0' COMMENT 'Submitted time as timestamp.',
 `project_updated` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated time as timestamp.',
-`project_secret` varchar(32) NOT NULL DEFAULT '' COMMENT 'Generated secret key for Github Webhooks.',
+`project_readme` text COMMENT 'Readme file contents.',
 PRIMARY KEY (`project_id`),
 KEY `project_author` (`project_author`),
 KEY `project_user` (`project_user`),
 KEY `project_name` (`project_name`),
 KEY `project_stars` (`project_stars`),
 KEY `project_commits` (`project_commits`),
-KEY `project_issues` (`project_issues`),
 KEY `project_status` (`project_status`),
 KEY `project_submitted` (`project_submitted`),
-KEY `project_updated` (`project_updated`),
-KEY `project_secret` (`project_secret`)
+KEY `project_updated` (`project_updated`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `e107projects_user` (
-`user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'e107 user ID.',
-`user_gid` int(11) unsigned NOT NULL COMMENT 'Github user ID.',
-`user_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username.',
-PRIMARY KEY (`user_id`),
-KEY `user_gid` (`user_gid`),
-KEY `user_name` (`user_name`)
+CREATE TABLE `e107projects_release` (
+`release_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Release ID from Github.',
+`release_project_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Project ID from Github.',
+`release_project_user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project owner. Github username.',
+`release_project_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project name.',
+`release_tag_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Release tag name.',
+`release_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Release name.',
+`release_draft` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Release is a draft.',
+`release_author_id` int(11) NOT NULL DEFAULT '0' COMMENT 'User ID from Github.',
+`release_author_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Release author name.',
+`release_prerelease` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Release is a prerelease.',
+`release_created_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Created at.',
+`release_published_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Published at.',
+PRIMARY KEY (`release_id`),
+KEY `release_project_id` (`release_project_id`),
+KEY `release_project_user` (`release_project_user`),
+KEY `release_project_name` (`release_project_name`),
+KEY `release_tag_name` (`release_tag_name`),
+KEY `release_name` (`release_name`),
+KEY `release_draft` (`release_draft`),
+KEY `release_author_id` (`release_author_id`),
+KEY `release_author_name` (`release_author_name`),
+KEY `release_prerelease` (`release_prerelease`),
+KEY `release_created_at` (`release_created_at`),
+KEY `release_published_at` (`release_published_at`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `e107projects_contribution` (
+`project_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Project ID from Github.',
+`project_user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project owner. Github username.',
+`project_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project name.',
+`contributor_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Github user ID of contributor.',
+`contributor_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username of contributor.',
+`contributions` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of contributions.',
+PRIMARY KEY (`project_id`),
+KEY `project_user` (`project_user`),
+KEY `project_name` (`project_name`),
+KEY `contributor_id` (`contributor_id`),
+KEY `contributor_name` (`contributor_name`),
+KEY `contributions` (`contributions`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `e107projects_contributor` (
+`contributor_id` int(11) NOT NULL DEFAULT '0' COMMENT 'e107 user ID.',
+`contributor_gid` int(11) NOT NULL DEFAULT '0' COMMENT 'Github user ID.',
+`contributor_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username.',
+`contributor_avatar` varchar(255) NOT NULL DEFAULT '' COMMENT 'Avatar URL.',
+`contributor_type` varchar(50) NOT NULL DEFAULT '' COMMENT 'Type.',
+PRIMARY KEY (`contributor_id`),
+KEY `contributor_gid` (`contributor_gid`),
+KEY `contributor_name` (`contributor_name`),
+KEY `contributor_type` (`contributor_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `e107projects_hook` (
+`hook_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Hook ID.',
+`hook_project_user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username.',
+`hook_project_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github repository name.',
+`hook_created_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Created at.',
+`hook_updated_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated at.',
+PRIMARY KEY (`hook_id`),
+KEY `hook_project_user` (`hook_project_user`),
+KEY `hook_project_name` (`hook_project_name`),
+KEY `hook_created_at` (`hook_created_at`),
+KEY `hook_updated_at` (`hook_updated_at`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `e107projects_location` (

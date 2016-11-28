@@ -519,3 +519,358 @@ function e107projects_get_user_submitted_projects($user_id, $use_static = true)
 
 	return $projects;
 }
+
+/**
+ * Helper function to retrieve project information from Github, and create
+ * a new project.
+ *
+ * @see submit.php
+ *
+ * @param int $repository_id
+ *  Github Repository ID.
+ * @param int|mixed $user_id
+ *  User (e107) ID. This user will be the author of the project.
+ *
+ * @return bool
+ */
+function e107projects_insert_project($repository_id, $user_id = USERID)
+{
+	if(empty($repository_id))
+	{
+		return false;
+	}
+
+	// Load required class.
+	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+	$event = e107::getEvent();
+	$tp = e107::getParser();
+	$db = e107::getDb();
+
+	// Get plugin preferences.
+	$plugPrefs = e107::getPlugConfig('e107projects')->getPref();
+	// Get a Github Client.
+	$client = new e107projectsGithub();
+	// Get the Github username for current user.
+	$username = $client->getGithubUsername($user_id);
+	// Get user organizations.
+	$organizations = $client->getUserOrganizations($username);
+	// Get repositories of the current user.
+	$repositories = $client->getUserRepositories($username);
+
+	// Get repositories from organizations.
+	foreach($organizations as $organization)
+	{
+		// Get repositories of the organization.
+		$repositories = array_merge($repositories, $client->getUserRepositories($organization['login']));
+	}
+
+	// Remove forked repositories from the list.
+	foreach($repositories as $key => $repo)
+	{
+		if($repo['fork'] == true)
+		{
+			unset($repositories[$key]);
+		}
+	}
+
+	$repository = false;
+
+	foreach($repositories as $repo)
+	{
+		if($repository_id == $repo['id'])
+		{
+			$repository = $repo;
+		}
+	}
+
+	if(!$repository)
+	{
+		return false;
+	}
+
+	// Get the number of commits.
+	$commits = $client->countCommits($repository['owner']['login'], $repository['name']);
+	// Get the README URL.
+	$readmeURL = $client->getReadmeURL($repository['owner']['login'], $repository['name']);
+	// Try to get README file contents.
+	$readme = file_get_contents($readmeURL);
+
+	// Prepare arguments for SQL query.
+	$project = array(
+		'project_id'          => (int) $repository['id'],
+		'project_author'      => $user_id,
+		'project_user'        => $tp->toDB($repository['owner']['login']),
+		'project_name'        => $tp->toDB($repository['name']),
+		'project_description' => $tp->toDB($repository['description']),
+		'project_stars'       => (int) $repository['stargazers_count'],
+		'project_commits'     => (int) $commits,
+		'project_status'      => 0,
+		'project_submitted'   => time(),
+		'project_updated'     => time(),
+		'project_readme'      => $readme ? $tp->toDB($readme) : '',
+	);
+
+	// Try to save project into database.
+	if(!$db->insert('e107projects_project', array('data' => $project), false))
+	{
+		return false;
+	}
+
+	// TODO
+	$client->createHook($repository['owner']['login'], $repository['name']);
+
+	// Triggering event.
+	$event->trigger('e107projects_user_project_submitted', $project);
+
+	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id);
+
+	return true;
+}
+
+/**
+ * Helper function to retrieve project information from Github, and update
+ * an existing project.
+ *
+ * @see cron.php
+ *
+ * @param int $repository_id
+ *  Github Repository ID.
+ *
+ * @return bool
+ */
+function e107projects_update_project($repository_id)
+{
+	if(empty($repository_id))
+	{
+		return false;
+	}
+
+	$event = e107::getEvent();
+	$tp = e107::getParser();
+	$db = e107::getDb();
+
+	$user_id = $db->retrieve('e107projects_project', 'project_author', 'project_id = ' . (int) $repository_id);
+
+	if(empty($user_id))
+	{
+		return false;
+	}
+
+	// Load required class.
+	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+	// Get plugin preferences.
+	$plugPrefs = e107::getPlugConfig('e107projects')->getPref();
+	// Get a Github Client.
+	$client = new e107projectsGithub();
+	// Get the Github username for current user.
+	$username = $client->getGithubUsername($user_id);
+	// Get user organizations.
+	$organizations = $client->getUserOrganizations($username);
+	// Get repositories of the current user.
+	$repositories = $client->getUserRepositories($username);
+
+	// Get repositories from organizations.
+	foreach($organizations as $organization)
+	{
+		// Get repositories of the organization.
+		$repositories = array_merge($repositories, $client->getUserRepositories($organization['login']));
+	}
+
+	// Remove forked repositories from the list.
+	foreach($repositories as $key => $repo)
+	{
+		if($repo['fork'] == true)
+		{
+			unset($repositories[$key]);
+		}
+	}
+
+	$repository = false;
+
+	foreach($repositories as $repo)
+	{
+		if($repository_id == $repo['id'])
+		{
+			$repository = $repo;
+		}
+	}
+
+	if(!$repository)
+	{
+		return false;
+	}
+
+	// Get the number of commits.
+	$commits = $client->countCommits($repository['owner']['login'], $repository['name']);
+	// Get the README URL.
+	$readmeURL = $client->getReadmeURL($repository['owner']['login'], $repository['name']);
+	// Try to get README file contents.
+	$readme = file_get_contents($readmeURL);
+
+	// Prepare arguments for SQL query.
+	$project = array(
+		// 'project_id'          => (int) $repository['id'],
+		'project_author'      => $user_id,
+		'project_user'        => $tp->toDB($repository['owner']['login']),
+		'project_name'        => $tp->toDB($repository['name']),
+		'project_description' => $tp->toDB($repository['description']),
+		'project_stars'       => (int) $repository['stargazers_count'],
+		'project_commits'     => (int) $commits,
+		// 'project_status'      => 0,
+		// 'project_submitted'   => time(),
+		'project_updated'     => time(),
+		'project_readme'      => $readme ? $tp->toDB($readme) : '',
+	);
+
+	// Try to update project details in database.
+	if(!$db->update('e107projects_project', array('data' => $project, 'WHERE' => 'project_id = ' . (int) $repository_id)))
+	{
+		return false;
+	}
+
+	// Triggering event.
+	$event->trigger('e107projects_user_project_updated', $project);
+
+	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id);
+
+	return true;
+}
+
+/**
+ * Manage contributions and contributors.
+ *
+ * @param string $owner
+ *  The user who owns the repository.
+ * @param string $repository
+ *  The name of the repository.
+ * @param int $repository_id
+ *  The ID of the repository.
+ */
+function e107projects_manage_contributions($owner, $repository, $repository_id)
+{
+	if(empty($owner) || empty($repository || empty($repository_id)))
+	{
+		return;
+	}
+
+	// Load required class.
+	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+	// Get a Github Client.
+	$client = new e107projectsGithub();
+	// Get contributions.
+	$contributions = $client->getContributors($owner, $repository);
+
+	if(empty($contributions))
+	{
+		return;
+	}
+
+	$db = e107::getDb();
+	$tp = e107::getParser();
+
+	// Get existing contributors.
+	$db->select('e107projects_contributor', 'contributor_gid');
+
+	$contributors = array();
+	while($row = $db->fetch())
+	{
+		$contributors[] = $row['contributor_gid'];
+	}
+
+	// Delete contributions by the selected repository.
+	$db->delete('e107projects_contribution', 'project_user = "' . $tp->toDB($owner) . '" AND project_name = "' . $tp->toDB($repository) . '" ');
+
+	foreach($contributions as $contribution)
+	{
+		// Insert contribution.
+		$insert = array(
+			'project_id'       => (int) $repository_id,
+			'project_user'     => $tp->toDB($owner),
+			'project_name'     => $tp->toDB($repository),
+			'contributor_id'   => (int) $contribution['id'],
+			'contributor_name' => $tp->toDB($contribution['login']),
+			'contributions'    => (int) $contribution['contributions'],
+		);
+
+		$db->insert('e107projects_contribution', array('data' => $insert), false);
+
+		if(!in_array($contribution['id'], $contributors))
+		{
+			// Insert contributor.
+			$insert = array(
+				'contributor_id'     => 0, // e107 ID not associated yet...
+				'contributor_gid'    => (int) $contribution['id'],
+				'contributor_name'   => $tp->toDB($contribution['login']),
+				'contributor_avatar' => $tp->toDB($contribution['avatar_url']),
+				'contributor_type'   => $tp->toDB($contribution['type']),
+			);
+
+			$db->insert('e107projects_contributor', array('data' => $insert), false);
+		}
+	}
+
+}
+
+/**
+ * Manage releases.
+ *
+ * @param string $owner
+ *  The user who owns the repository.
+ * @param string $repository
+ *  The name of the repository.
+ * @param int $repository_id
+ *  The ID of the repository.
+ */
+function e107projects_manage_releases($owner, $repository, $repository_id)
+{
+	if(empty($owner) || empty($repository || empty($repository_id)))
+	{
+		return;
+	}
+
+	// Load required class.
+	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+	// Get a Github Client.
+	$client = new e107projectsGithub();
+	// Get releases.
+	$releases = $client->getReleases($owner, $repository);
+
+	if(empty($releases))
+	{
+		return;
+	}
+
+	$db = e107::getDb();
+	$tp = e107::getParser();
+
+	// Delete releases by the selected repository.
+	$db->delete('e107projects_release', 'release_project_user = "' . $tp->toDB($owner) . '" AND release_project_name = "' . $tp->toDB($repository) . '" ');
+
+	foreach($releases as $release)
+	{
+		// Insert release.
+		$insert = array(
+			'release_id'           => (int) $release['id'],
+			'release_project_id'   => (int) $repository_id,
+			'release_project_user' => $tp->toDB($owner),
+			'release_project_name' => $tp->toDB($repository),
+			'release_tag_name'     => $tp->toDB($release['tag_name']),
+			'release_name'         => $tp->toDB($release['name']),
+			'release_draft'        => (int) $release['draft'],
+			'release_author_id'    => (int) $release['author']['id'],
+			'release_author_name'  => $tp->toDB($release['author']['login']),
+			'release_prerelease'   => (int) $release['prerelease'],
+			'release_created_at'   => strtotime($release['created_at']),
+			'release_published_at' => strtotime($release['published_at']),
+		);
+
+		$db->insert('e107projects_release', array('data' => $insert), false);
+	}
+
+}

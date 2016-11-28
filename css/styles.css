@@ -66,6 +66,10 @@
     text-align: center;
 }
 
+.summary-container .container {
+    max-width: 1000px;
+}
+
 .summary-container .col-1,
 .summary-container .col-2,
 .summary-container .col-3,
@@ -79,7 +83,7 @@
 .summary-container .col-4 .col-inner {
     color: #4e4e4e;
     font-size: 1.5em;
-    padding: 1.5em 0 1.5em 75px;
+    padding: 10px 0 10px 75px;
 }
 
 .summary-container .col-1 .col-inner strong,
@@ -91,19 +95,19 @@
 }
 
 .summary-container .col-1 .col-inner {
-    background: url('../images/icon_users.png') no-repeat left center;
+    background: url('../images/icon_users.png') no-repeat 15px center;
 }
 
 .summary-container .col-2 .col-inner {
-    background: url('../images/icon_projects.png') no-repeat left center;
+    background: url('../images/icon_projects.png') no-repeat 15px center;
 }
 
 .summary-container .col-3 .col-inner {
-    background: url('../images/icon_commits.png') no-repeat left center;
+    background: url('../images/icon_commits.png') no-repeat 15px center;
 }
 
 .summary-container .col-4 .col-inner {
-    background: url('../images/icon_comments.png') no-repeat left center;
+    background: url('../images/icon_comments.png') no-repeat 15px center;
 }
 
 .project-submission-button.has-spinner .spinner {

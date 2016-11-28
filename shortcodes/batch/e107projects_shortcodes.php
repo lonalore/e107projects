@@ -99,18 +99,19 @@ class e107projects_shortcodes extends e_shortcode
 	{
 		$repository = $this->var['repository'];
 		$submitted = (bool) $this->var['submitted'];
+		$status = (int) $this->var['status'];
 
-		if($submitted)
+		if($submitted && $status == 1)
 		{
 			$url = e107::url('e107projects', 'project', array(
 				'user'       => $repository['owner']['login'],
 				'repository' => $repository['name'],
 			), array('full' => true));
 
-			return '<a href="' . $url . '" target="_self">' . $repository['name'] . '</a>';
+			return '<a href="' . $url . '" target="_self">' . $repository['full_name'] . '</a>';
 		}
 
-		return varset($repository['name'], '');
+		return varset($repository['full_name'], '');
 	}
 
 	/**
@@ -137,7 +138,7 @@ class e107projects_shortcodes extends e_shortcode
 	{
 		$repository = $this->var['repository'];
 		$submitted = (bool) $this->var['submitted'];
-		$approved = (bool) $this->var['approved'];
+		$status = (int) $this->var['status'];
 
 		$html = '';
 
@@ -163,13 +164,25 @@ class e107projects_shortcodes extends e_shortcode
 			$html .= '</button>';
 
 			$html .= $form->close();
+			return $html;
 		}
 
-		if($approved)
+		// Pending.
+		if($status == 0)
 		{
-			$html = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_13 . '</p>';
+			$html = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_11 . '</p>';
+			return $html;
 		}
 
+		// Rejected.
+		if($status == 2)
+		{
+			$html = '<p class="text-danger">' . LAN_E107PROJECTS_FRONT_14 . '</p>';
+			return $html;
+		}
+
+		// Approved.
+		$html = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_13 . '</p>';
 		return $html;
 	}
 

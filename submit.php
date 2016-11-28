@@ -50,11 +50,18 @@ class e107projectsSubmit
 	private $username;
 
 	/**
+	 * @var
+	 */
+	private $organizations;
+
+	/**
 	 * Github repositories of the current e107 user.
 	 *
 	 * @var
 	 */
-	private $repositories;
+	private $repositories = array();
+
+	private $repository;
 
 	/**
 	 * Constructor.
@@ -72,8 +79,27 @@ class e107projectsSubmit
 		$this->client = new e107projectsGithub();
 		// Get the Github username for current user.
 		$this->username = $this->client->getGithubUsername(USERID);
+		// Get user organizations.
+		$this->organizations = $this->client->getUserOrganizations($this->username);
+
 		// Get repositories of the current user.
-		$this->repositories = $this->client->getUserRepositories($this->username);
+		$this->repositories = array_merge($this->repositories, $this->client->getUserRepositories($this->username));
+
+		// Get repositories from organizations.
+		foreach($this->organizations as $organization)
+		{
+			// Get repositories of the organization.
+			$this->repositories = array_merge($this->repositories, $this->client->getUserRepositories($organization['login']));
+		}
+
+		// Remove forked repositories from the list.
+		foreach($this->repositories as $key => $repo)
+		{
+			if($repo['fork'] == true)
+			{
+				unset($this->repositories[$key]);
+			}
+		}
 
 		if(e_AJAX_REQUEST)
 		{
@@ -98,6 +124,7 @@ class e107projectsSubmit
 			if($_POST['repository'] == $repository['id'])
 			{
 				$inArray = true;
+				$this->repository = $repository;
 			}
 		}
 
@@ -121,20 +148,19 @@ class e107projectsSubmit
 	public function submitRepository()
 	{
 		$ajax = e107::getAjax();
-		$event = e107::getEvent();
-
-		$data = array(
-			'project_id'     => (int) $_POST['repository'],
-			'project_author' => USERID,
-		);
-
-		$selector = '#submit-repository-' . $_POST['repository'];
-		$contents = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_11 . '</p>';
 
 		$commands = array();
-		$commands[] = $ajax->commandInsert($selector, 'html', $contents);
 
-		$event->trigger('e107projects_user_project_submitted', $data);
+		$selector = '#submit-repository-' . $_POST['repository'];
+		$contents = '<p class="text-danger">' . LAN_ERROR . '</p>';
+
+		$saved = e107projects_insert_project($_POST['repository'], USERID);
+		if($saved)
+		{
+			$contents = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_11 . '</p>';
+		}
+
+		$commands[] = $ajax->commandInsert($selector, 'html', $contents);
 
 		$ajax->response($commands);
 		exit;
@@ -161,15 +187,15 @@ class e107projectsSubmit
 		}
 
 		$submittedRepositories = e107projects_get_user_submitted_projects(USERID);
-		$submittedRepositories = array_keys($submittedRepositories);
+		$submittedKeys = array_keys($submittedRepositories);
 
 		$content .= $tp->parseTemplate($tpl['submit']['pre'], true, $sc);
 		foreach($this->repositories as $repository)
 		{
 			$sc->setVars(array(
 				'repository' => $repository,
-				'submitted'  => in_array($repository, $submittedRepositories),
-				'approved'   => false,
+				'submitted'  => in_array($repository['name'], $submittedKeys),
+				'status'     => (int) varset($submittedRepositories[$repository['name']]['project_status'], 0),
 			));
 			$content .= $tp->parseTemplate($tpl['submit']['row'], true, $sc);
 		}
