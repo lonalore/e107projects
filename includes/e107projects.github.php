@@ -57,7 +57,7 @@ class e107projectsGithub
 	/**
 	 * Constructor.
 	 */
-	public function __construct($access_token = null, $cache = true)
+	public function __construct($access_token = null, $use_cache = true)
 	{
 		// Get plugin preferences.
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
@@ -71,7 +71,7 @@ class e107projectsGithub
 		// Github Access Token for the User.
 		$this->accessToken = $access_token;
 
-		if($cache === true)
+		if($use_cache === true)
 		{
 			// Get Cache directory for caching HTTP request in order to decrease number of
 			// requests.
@@ -92,7 +92,7 @@ class e107projectsGithub
 
 		if(!empty($this->accessToken))
 		{
-			// Use Client ID + Secret for higher (5000 request/hour) rate limit.
+			// Use Access Token for higher (5000 request/hour) rate limit.
 			$this->client->authenticate($this->accessToken, null, Client::AUTH_URL_TOKEN);
 		}
 		else
