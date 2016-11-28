@@ -5,6 +5,10 @@
  * Common functions.
  */
 
+if(!defined('e107_INIT'))
+{
+	require_once('../../../class2.php');
+}
 
 /**
  * Performs an HTTP request.
@@ -521,6 +525,27 @@ function e107projects_get_user_submitted_projects($user_id, $use_static = true)
 }
 
 /**
+ * Try to get Github Access Token for the current User.
+ *
+ * @return bool|string
+ */
+function e107projects_get_access_token()
+{
+	$hybridAuth = e107::getHybridAuth();
+	$adapter = $hybridAuth->getAdapter('Github');
+	$conneceted = $hybridAuth->isConnectedWith('Github');
+	
+	if(!$conneceted)
+	{
+		return false;
+	}
+
+	$accessToken = $adapter->getAccessToken();
+
+	return varset($accessToken['access_token'], false);
+}
+
+/**
  * Helper function to retrieve project information from Github, and create
  * a new project.
  *
@@ -530,10 +555,12 @@ function e107projects_get_user_submitted_projects($user_id, $use_static = true)
  *  Github Repository ID.
  * @param int|mixed $user_id
  *  User (e107) ID. This user will be the author of the project.
+ * @param string $access_token
+ *  If Access Token is set, try to create Webhook.
  *
  * @return bool
  */
-function e107projects_insert_project($repository_id, $user_id = USERID)
+function e107projects_insert_project($repository_id, $user_id = USERID, $access_token = null)
 {
 	if(empty($repository_id))
 	{
@@ -550,7 +577,7 @@ function e107projects_insert_project($repository_id, $user_id = USERID)
 	// Get plugin preferences.
 	$plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 	// Get a Github Client.
-	$client = new e107projectsGithub();
+	$client = new e107projectsGithub($access_token);
 	// Get the Github username for current user.
 	$username = $client->getGithubUsername($user_id);
 	// Get user organizations.
@@ -617,8 +644,10 @@ function e107projects_insert_project($repository_id, $user_id = USERID)
 		return false;
 	}
 
-	// TODO
-	$client->createHook($repository['owner']['login'], $repository['name']);
+	if($access_token)
+	{
+		$client->createHook($repository['owner']['login'], $repository['name']);
+	}
 
 	// Triggering event.
 	$event->trigger('e107projects_user_project_submitted', $project);
@@ -637,10 +666,11 @@ function e107projects_insert_project($repository_id, $user_id = USERID)
  *
  * @param int $repository_id
  *  Github Repository ID.
+ * @param string $access_token
  *
  * @return bool
  */
-function e107projects_update_project($repository_id)
+function e107projects_update_project($repository_id, $access_token = null)
 {
 	if(empty($repository_id))
 	{
@@ -664,7 +694,7 @@ function e107projects_update_project($repository_id)
 	// Get plugin preferences.
 	$plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 	// Get a Github Client.
-	$client = new e107projectsGithub();
+	$client = new e107projectsGithub($access_token);
 	// Get the Github username for current user.
 	$username = $client->getGithubUsername($user_id);
 	// Get user organizations.

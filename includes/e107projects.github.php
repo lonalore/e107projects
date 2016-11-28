@@ -32,12 +32,17 @@ class e107projectsGithub
 	/**
 	 * @var mixed
 	 */
-	public $client_id;
+	private $client_id;
 
 	/**
 	 * @var mixed
 	 */
-	public $secret;
+	private $secret;
+
+	/**
+	 * @var
+	 */
+	private $accessToken;
 
 	/**
 	 * @var Client
@@ -52,7 +57,7 @@ class e107projectsGithub
 	/**
 	 * Constructor.
 	 */
-	public function __construct()
+	public function __construct($access_token = null)
 	{
 		// Get plugin preferences.
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
@@ -62,6 +67,9 @@ class e107projectsGithub
 		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
 		$this->client_id = varset($social_login['Github']['keys']['id'], '');
 		$this->secret = varset($social_login['Github']['keys']['secret'], '');
+
+		// Github Access Token for the User.
+		$this->accessToken = $access_token;
 
 		// Get Cache directory for caching HTTP request in order to decrease number of
 		// requests.
@@ -74,8 +82,17 @@ class e107projectsGithub
 
 		// Get Github Client with Cached HTTP Client.
 		$this->client = new Client($cache);
-		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
-		$this->client->authenticate($this->client_id, $this->secret, Client::AUTH_URL_CLIENT_ID);
+
+		if(!empty($this->accessToken))
+		{
+			// Use Client ID + Secret for higher (5000 request/hour) rate limit.
+			$this->client->authenticate($this->accessToken, null, Client::AUTH_URL_TOKEN);
+		}
+		else
+		{
+			// Use Client ID + Secret for higher (5000 request/hour) rate limit.
+			$this->client->authenticate($this->client_id, $this->secret, Client::AUTH_URL_CLIENT_ID);
+		}
 
 		// Use Result Pager.
 		$this->paginator = new ResultPager($this->client);
@@ -244,40 +261,51 @@ class e107projectsGithub
 			return array();
 		}
 
-		$log = e107::getLog();
+		if(empty($this->accessToken))
+		{
+			return array();
+		}
 
+		// Assemble endpoint URL for webhook.
 		$endpoint = rtrim(SITEURL, '/') . e107::url('e107projects', 'github/callback');
 
+		// Prepare webhook details.
 		$params = array(
-			'name'          => 'web',
-			'active'        => true,
-			'events'        => array(
+			'name'   => 'web',
+			'active' => true,
+			'events' => array(
 				'*', // Any time any event is triggered.
 			),
-			'config'        => array(
+			'config' => array(
 				'url'          => $endpoint,
 				'content_type' => 'json',
 				'secret'       => varset($this->plugPrefs['github_secret'], ''),
 			),
 		);
 
-		$hybridAuth = e107::getHybridAuth();
-		$adapter = $hybridAuth->getAdapter('Github');
-		$conneceted = $hybridAuth->isConnectedWith('Github');
-		$accessToken = $adapter->getAccessToken();
+		// Get the Webhook API.
+		$hookAPI = new \Github\Api\Repository\Hooks($this->client);
 
-		$log->add('HOOK', (array) array($conneceted), E_LOG_INFORMATIVE, '');
+		// Get all webhooks.
+		$hooks = $hookAPI->all($username, $repository);
 
-		// Get Github Client with Cached HTTP Client.
-		$client = new Client();
-		// Use Client ID + Secret for higher (5000 request/hour) rate limit.
-		$client->authenticate($accessToken['access_token'], null, Client::AUTH_URL_TOKEN);
+		// This will contain details about we our hook.
+		$details = false;
 
-		// FIXME - error 500... not found... authentication problem?
-		$hookAPI = new \Github\Api\Repository\Hooks($client);
-		$details = $hookAPI->create($username, $repository, $params);
+		// Check if hook already exists.
+		foreach($hooks as $hook)
+		{
+			if($hook['config']['url'] == $endpoint)
+			{
+				$details = $hook;
+			}
+		}
 
-		$log->add('HOOK', (array) $details, E_LOG_INFORMATIVE, '');
+		// If hook does not exist.
+		if(!$details)
+		{
+			$details = $hookAPI->create($username, $repository, $params);
+		}
 
 		if(isset($details['id']))
 		{
@@ -285,12 +313,19 @@ class e107projectsGithub
 			$tp = e107::getParser();
 			$event = e107::getEvent();
 
+			$events = implode(',', $details['events']);
+
 			// Insert contributor details.
 			$insert = array(
 				'data' => array(
 					'hook_id'           => (int) $details['id'],
 					'hook_project_user' => $tp->toDB($username),
 					'hook_project_name' => $tp->toDB($repository),
+					'hook_name'         => $tp->toDB($details['name']),
+					'hook_active'       => (int) $details['active'],
+					'hook_events'       => $tp->toDB($events),
+					'hook_config_url'   => $tp->toDB($details['config']['url']),
+					'hook_config_type'  => $tp->toDB($details['config']['content_type']),
 					'hook_created_at'   => strtotime($details['created_at']),
 					'hook_updated_at'   => strtotime($details['updated_at']),
 				),

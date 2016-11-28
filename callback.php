@@ -48,7 +48,7 @@ class e107ProjectsCallback
 		}
 
 		$log = e107::getLog();
-		$log->add('Webhook', $this->payload, E_LOG_INFORMATIVE, 'GITHUB');
+		$log->add('WEBHOOK', (array) $this->payload, E_LOG_INFORMATIVE, 'GITHUB');
 
 		switch(strtolower($_SERVER['HTTP_X_GITHUB_EVENT']))
 		{

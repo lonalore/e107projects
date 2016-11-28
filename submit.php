@@ -52,6 +52,11 @@ class e107projectsSubmit
 	/**
 	 * @var
 	 */
+	private $accessToken;
+
+	/**
+	 * @var
+	 */
 	private $organizations;
 
 	/**
@@ -61,6 +66,9 @@ class e107projectsSubmit
 	 */
 	private $repositories = array();
 
+	/**
+	 * @var
+	 */
 	private $repository;
 
 	/**
@@ -73,15 +81,26 @@ class e107projectsSubmit
 			e107::redirect(SITEURL);
 		}
 
+		// Try to get Access Token for current user.
+		$accessToken = e107projects_get_access_token();
+
+		// If no access token, we redirect user to Github authentication page.
+		if(!$accessToken)
+		{
+			$hybridAuth = e107::getHybridAuth();
+			$hybridAuth->getAdapter('Github')->login();
+		}
+
+		// Store Access Token.
+		$this->accessToken = $accessToken;
 		// Get plugin preferences.
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 		// Get a Github Client.
-		$this->client = new e107projectsGithub();
+		$this->client = new e107projectsGithub($this->accessToken);
 		// Get the Github username for current user.
 		$this->username = $this->client->getGithubUsername(USERID);
 		// Get user organizations.
 		$this->organizations = $this->client->getUserOrganizations($this->username);
-
 		// Get repositories of the current user.
 		$this->repositories = array_merge($this->repositories, $this->client->getUserRepositories($this->username));
 
@@ -154,7 +173,7 @@ class e107projectsSubmit
 		$selector = '#submit-repository-' . $_POST['repository'];
 		$contents = '<p class="text-danger">' . LAN_ERROR . '</p>';
 
-		$saved = e107projects_insert_project($_POST['repository'], USERID);
+		$saved = e107projects_insert_project($_POST['repository'], USERID, $this->accessToken);
 		if($saved)
 		{
 			$contents = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_11 . '</p>';

@@ -45,7 +45,7 @@ class e107projects_header
 		{
 			// TODO - alert.
 			// e107::getMessage()->add(LAN_E107PROJECTS_FRONT_05, E_WARNING, true);
-			e107::redirect('usersettings.php');
+			e107::redirect('/usersettings.php');
 		}
 
 		if(USER_AREA && e107::getMenu()->isLoaded('e107projects_openlayers'))
