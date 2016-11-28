@@ -39,8 +39,6 @@ class e107projects_header
 	{
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 
-		e107::js('footer', '{e_PLUGIN}e107projects/js/e107projects.nodejs.js', 'jquery', 5);
-
 		if(USER_AREA && defset('e_PAGE') != 'usersettings.php' && $this->incompleteUserAccount())
 		{
 			// TODO - alert.
@@ -68,6 +66,9 @@ class e107projects_header
 			e107::js('e107projects', 'js/e107projects.submit.js');
 			$this->needCSS = true;
 		}
+
+		$this->needCSS = true;
+		e107::js('footer', '{e_PLUGIN}e107projects/js/e107projects.nodejs.js', 'jquery', 5);
 
 		if($this->needCSS === true)
 		{

@@ -285,10 +285,12 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	 */
 	protected $fieldpref = array(
 		'checkboxes',
-		'project_id',
+		// 'project_id',
 		'project_user',
 		'project_name',
 		'project_author',
+		'project_submitted',
+		'project_updated',
 		'project_status',
 		'options',
 	);

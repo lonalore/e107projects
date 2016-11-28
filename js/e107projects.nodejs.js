@@ -28,6 +28,10 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 				case "projectSubmitted":
 					e107.Nodejs.callbacks.nodejsNotify.callback(msgData);
 					break;
+
+				case "webhookPush":
+					e107.Nodejs.callbacks.nodejsNotify.callback(msgData);
+					break;
 			}
 		}
 	};

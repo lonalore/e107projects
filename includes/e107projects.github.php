@@ -99,6 +99,18 @@ class e107projectsGithub
 	}
 
 	/**
+	 * Get rate limits
+	 *
+	 * @return array
+	 */
+	public function getRateLimits()
+	{
+		$rateLimitAPI = new \Github\Api\RateLimit($this->client);
+		$rateLimits = $rateLimitAPI->getRateLimits();
+		return $rateLimits;
+	}
+	
+	/**
 	 * Get extended information about a user by its username.
 	 *
 	 * @link https://developer.github.com/v3/orgs/

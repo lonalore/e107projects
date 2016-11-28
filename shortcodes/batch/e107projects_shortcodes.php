@@ -59,13 +59,45 @@ class e107projects_shortcodes extends e_shortcode
 	}
 
 	/**
-	 * Contents for third column in summary menu.
+	 * Notification - avatar.
 	 */
-	public function sc_summary_menu_col_4()
+	public function sc_notification_avatar()
 	{
-		$count = (int) $this->var['col_4'];
-		$formatted = number_format($count);
-		return '<strong>' . $formatted . '</strong><br/>' . LAN_E107PROJECTS_FRONT_04;
+		$url = varset($this->var['avatar_url'], '');
+
+		if(!empty($url))
+		{
+			$width = varset($this->var['avatar_width'], 50);
+			$height = varset($this->var['avatar_height'], 50);
+
+			return '<img src="' . $url . '" width="' . $width . '" height="' . $height . '" alt=""/>';
+		}
+	}
+
+	/**
+	 * Notification - message.
+	 */
+	public function sc_notification_message()
+	{
+		$message = varset($this->var['message'], '');
+
+		if(!empty($message))
+		{
+			return '<p>' . $message . '</p>';
+		}
+	}
+
+	/**
+	 * Notification - link.
+	 */
+	public function sc_notification_link()
+	{
+		$link = varset($this->var['link'], '');
+
+		if(!empty($link))
+		{
+			return $link;
+		}
 	}
 
 	/**

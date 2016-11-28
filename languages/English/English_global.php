@@ -17,3 +17,6 @@ define("LAN_PLUGIN_E107PROJECTS_SUBMIT", "My Projects");
 
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT", "Info");
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE", "Your project has been submitted successfully! Thank you!");
+
+define("LAN_PLUGIN_WEBHOOK_PUSH_SUBJECT", "Pushing to repository");
+define("LAN_PLUGIN_WEBHOOK_PUSH_MESSAGE", "[x] pushed [y] commits to: [z]");

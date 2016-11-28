@@ -135,3 +135,68 @@
     margin-top: -5px;
     margin-right: 5px;
 }
+
+/* Notification */
+
+.jGrowl-notification {
+    max-width: 300px !important;
+    width: 100% !important;
+    word-break: normal !important;
+    background-color: rgba(6, 71, 113, 0.95) !important;
+    opacity: 1 !important;
+}
+
+.jGrowl-closer {
+    max-width: 300px !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    background-color: rgba(6, 71, 113, 0.95) !important;
+}
+
+.jGrowl-notification .jGrowl-header {
+    font-size: 14px !important;
+}
+
+.notification-container {
+    margin-top: 5px;
+}
+
+.notification-container .left-container {
+    float: left;
+}
+
+.notification-container .left-container img {
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    margin: 3px 6px 0 0;
+}
+
+.notification-container .right-container {
+    overflow: hidden;
+}
+
+.notification-container .right-container .message,
+.notification-container .right-container .message p {
+    word-break: initial;
+    font-size: 13px;
+    margin: 0;
+    overflow: hidden;
+}
+
+.notification-container .right-container .message a,
+.notification-container .right-container .message a:hover,
+.notification-container .right-container .message a:visited,
+.notification-container .right-container .message a:focus {
+    display: block;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.notification-container .right-container .link {
+    margin: 10px 0;
+    overflow: hidden;
+    padding: 0;
+}

@@ -55,7 +55,6 @@ class e107projects_summary_menu
 			'col_1' => 1234567,
 			'col_2' => 1234567,
 			'col_3' => 1234567,
-			'col_4' => 1234567,
 		));
 		
 		$caption = '';

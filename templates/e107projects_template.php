@@ -119,3 +119,20 @@ $E107PROJECTS_TEMPLATE['submit']['post'] = '
 	</tbody>
 </table>
 ';
+
+$E107PROJECTS_TEMPLATE['notification'] = '
+<div class="notification-container">
+  <div class="left-container">
+    {NOTIFICATION_AVATAR}
+  </div>
+  <div class="right-container">
+    <div class="message">
+        {NOTIFICATION_MESSAGE}
+    </div>
+    <div class="link">
+      {NOTIFICATION_LINK}
+    </div>
+  </div>
+  <div class="clear clearfix"></div>
+</div>
+';
