@@ -50,11 +50,16 @@ class e107projects_summary_menu
 		$tpl = e107::getTemplate('e107projects');
 		$sc = e107::getScBatch('e107projects', true);
 		$tp = e107::getParser();
+		$db = e107::getDb();
+
+		$contributors = $db->count('e107projects_contributor', '(contributor_gid)', '', false);
+		$projects = $db->count('e107projects_project', '(project_id)', '', false);
+		$commits = $db->retrieve('e107projects_project', 'SUM(project_commits) AS commits', null, false, null, false);
 
 		$sc->setVars(array(
-			'col_1' => 1234567,
-			'col_2' => 1234567,
-			'col_3' => 1234567,
+			'col_1' => $contributors,
+			'col_2' => $projects,
+			'col_3' => $commits['commits'],
 		));
 		
 		$caption = '';

@@ -120,6 +120,8 @@ class e107projectsSubmit
 			}
 		}
 
+		// Ajax handlers will exit with JSON response, so no need to exit
+		// before renderPage().
 		if(e_AJAX_REQUEST)
 		{
 			$this->validateRepository();
