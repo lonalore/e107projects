@@ -534,7 +534,7 @@ function e107projects_get_access_token()
 	$hybridAuth = e107::getHybridAuth();
 	$adapter = $hybridAuth->getAdapter('Github');
 	$conneceted = $hybridAuth->isConnectedWith('Github');
-	
+
 	if(!$conneceted)
 	{
 		return false;
@@ -681,11 +681,21 @@ function e107projects_update_project($repository_id, $access_token = null)
 	$tp = e107::getParser();
 	$db = e107::getDb();
 
-	$user_id = $db->retrieve('e107projects_project', 'project_author', 'project_id = ' . (int) $repository_id);
+	$localRepo = $db->retrieve('e107projects_project', '*', 'project_id = ' . (int) $repository_id);
 
-	if(empty($user_id))
+	if(!varset($localRepo['project_author'])) // e107 user ID.
 	{
 		return false;
+	}
+
+	$user_id = (int) $localRepo['project_author'];
+
+	// Try to get Access Token.
+	$accessToken = $db->retrieve('e107projects_hook', '*', 'hook_project_user = "' . $localRepo['project_user'] . '" AND hook_project_name = "' . $localRepo['project_name'] . '" ');
+
+	if(varset($accessToken['hook_access_token'], false))
+	{
+		$access_token = $accessToken['hook_access_token'];
 	}
 
 	// Load required class.

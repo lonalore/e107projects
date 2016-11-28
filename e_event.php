@@ -129,9 +129,6 @@ class e107projects_event
 		// Helper functions for event callbacks.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
 
-		// Send broadcast notification.
-		e107projects_webhook_push_notification($data);
-
 		// Repository pushed to.
 		$repository = varset($data['repository'], false);
 
@@ -140,6 +137,9 @@ class e107projects_event
 		{
 			e107projects_update_project($repository['id']);
 		}
+
+		// Send broadcast notification.
+		e107projects_webhook_push_notification($data);
 	}
 
 }
