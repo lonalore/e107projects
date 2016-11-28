@@ -57,7 +57,7 @@ class e107projectsGithub
 	/**
 	 * Constructor.
 	 */
-	public function __construct($access_token = null)
+	public function __construct($access_token = null, $cache = true)
 	{
 		// Get plugin preferences.
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
@@ -71,17 +71,24 @@ class e107projectsGithub
 		// Github Access Token for the User.
 		$this->accessToken = $access_token;
 
-		// Get Cache directory for caching HTTP request in order to decrease number of
-		// requests.
-		$cache_dir = e107::getInstance()->e107_dirs['CACHE_DIRECTORY'] . 'e107projects';
+		if($cache === true)
+		{
+			// Get Cache directory for caching HTTP request in order to decrease number of
+			// requests.
+			$cache_dir = e107::getInstance()->e107_dirs['CACHE_DIRECTORY'] . 'e107projects';
 
-		// Get Cached HTTP Client.
-		$cache = new CachedHttpClient(array(
-			'cache_dir' => $cache_dir,
-		));
+			// Get Cached HTTP Client.
+			$cache = new CachedHttpClient(array(
+				'cache_dir' => $cache_dir,
+			));
 
-		// Get Github Client with Cached HTTP Client.
-		$this->client = new Client($cache);
+			// Get Github Client with Cached HTTP Client.
+			$this->client = new Client($cache);
+		}
+		else
+		{
+			$this->client = new Client();
+		}
 
 		if(!empty($this->accessToken))
 		{

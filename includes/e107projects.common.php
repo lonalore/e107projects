@@ -697,6 +697,8 @@ function e107projects_update_project($repository_id, $access_token = null)
 	{
 		$access_token = $accessToken['hook_access_token'];
 	}
+	
+	e107::getLog()->add('ACCESS_TOKEN', array('at' => $access_token));
 
 	// Load required class.
 	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
@@ -704,7 +706,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Get plugin preferences.
 	$plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 	// Get a Github Client.
-	$client = new e107projectsGithub($access_token);
+	$client = new e107projectsGithub($access_token, false);
 	// Get the Github username for current user.
 	$username = $client->getGithubUsername($user_id);
 	// Get user organizations.
