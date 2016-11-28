@@ -135,7 +135,7 @@ class e107projects_event
 		// Try to update project details in database.
 		if(varset($repository['id'], false))
 		{
-			e107projects_update_project($repository['id']);
+			// e107projects_update_project($repository['id']);
 		}
 
 		// Send broadcast notification.

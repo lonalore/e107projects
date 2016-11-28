@@ -31,7 +31,7 @@ class e107projects_cron
 			// Displayed in admin area.
 			'description' => 'Update project details, releases, contributions, contributors... etc.',
 			// Every hour.
-			'tab'         => '0 * * * *',
+			'tab'         => '*/5 * * * *',
 			// Activate it.
 			'active'      => 1,
 		);
@@ -44,15 +44,15 @@ class e107projects_cron
 	 *
 	 * @param int $limit
 	 */
-	public function e107projects_update_projects($limit = 10)
+	public function e107projects_update_projects($limit = 5)
 	{
 		// Common functions.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 
-		$db = e107::getDb();
+		$db = e107::getDb('cron_projects');
 
 		// Get the 10 oldest project.
-		$db->select('e107projects_project', 'project_id', 'ORDER BY project_updated ASC LIMIT 0, ' . $limit, true);
+		$db->select('e107projects_project', 'project_id', 'project_id > 0 ORDER BY project_updated ASC LIMIT 0,' . $limit);
 
 		while($project = $db->fetch())
 		{
