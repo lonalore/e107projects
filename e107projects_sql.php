@@ -86,6 +86,7 @@ CREATE TABLE `e107projects_hook` (
 `hook_config_type` varchar(50) NOT NULL DEFAULT '' COMMENT 'Hook Content Type.',
 `hook_created_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Created at.',
 `hook_updated_at` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated at.',
+`hook_access_token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Access token for managing hook.',
 PRIMARY KEY (`hook_id`),
 KEY `hook_project_user` (`hook_project_user`),
 KEY `hook_project_name` (`hook_project_name`),

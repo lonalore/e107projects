@@ -366,7 +366,33 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	 */
 	public function afterDelete($deleted_data, $id, $deleted_check)
 	{
-		// If this doesn't return with TRUE, "admin_reservation_reservation_deleted" event won't be fired.
+		// Common functions.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
+		// Load required class.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+		$db = e107::getDb();
+		$tp = e107::getParser();
+
+		$user = $deleted_data['project_user'];
+		$name = $deleted_data['project_name'];
+
+		$db->delete('e107projects_release', 'release_project_id = ' . (int) $id);
+		$db->delete('e107projects_contribution', 'project_id = ' . (int) $id);
+
+		$db->select('e107projects_hook', '*', 'hook_project_user = "' . $tp->toDB($user) . '" AND hook_project_name = "' . $tp->toDB($name) . '" ');
+
+		while($hook = $db->fetch())
+		{
+			// Get a Github Client.
+			$client = new e107projectsGithub($hook['hook_access_token']);
+			// Try to delete hook.
+			$client->deleteHook($hook['hook_project_user'], $hook['hook_project_name'], $hook['hook_id']);
+		}
+
+		$db->delete('e107projects_hook', 'hook_project_user = "' . $tp->toDB($user) . '" AND hook_project_name = "' . $tp->toDB($name) . '" ');
+
+		// If this doesn't return with TRUE, "admin_e107projects_project" event won't be fired.
 		return true;
 	}
 

@@ -340,6 +340,7 @@ class e107projectsGithub
 					'hook_config_type'  => $tp->toDB($details['config']['content_type']),
 					'hook_created_at'   => strtotime($details['created_at']),
 					'hook_updated_at'   => strtotime($details['updated_at']),
+					'hook_access_token' => $tp->toDB($this->accessToken),
 				),
 			);
 
@@ -348,6 +349,35 @@ class e107projectsGithub
 				$event->trigger('e107projects_hook_created', $insert['data']);
 			}
 		}
+	}
+
+	/**
+	 * Try to delete hook.
+	 *
+	 * @param string $username
+	 * @param string $repository
+	 * @param int $hook_id
+	 *  Hook ID.
+	 *
+	 * @return bool
+	 */
+	public function deleteHook($username, $repository, $hook_id)
+	{
+		if(empty($username) || empty($repository) || empty($hook_id))
+		{
+			return false;
+		}
+
+		if(empty($this->accessToken))
+		{
+			return false;
+		}
+
+		// Get the Webhook API.
+		$hookAPI = new \Github\Api\Repository\Hooks($this->client);
+		$hookAPI->remove($username, $repository, $hook_id);
+		// Response: Status: 204 No Content
+		return true;
 	}
 
 	/**

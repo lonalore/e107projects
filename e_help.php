@@ -42,16 +42,20 @@ class e107projects_help
 		$caption = LAN_E107PROJECTS_ADMIN_MENU_25;
 		$content = '';
 
+		$tp = e107::getParser();
+
 		// Load Github Client class.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
 
 		$client = new e107projectsGithub();
 		$limits = $client->getRateLimits();
 
+		$reset = $tp->toDate($limits['rate']['reset'], '%H:%M:%S');
+
 		$content .=  '<p><strong>' . LAN_E107PROJECTS_ADMIN_MENU_30 . '</strong></p>';
 		$content .=  '<div>' . LAN_E107PROJECTS_ADMIN_MENU_26 . ' ' . $limits['rate']['limit'] . '</div>';
 		$content .=  '<div>' . LAN_E107PROJECTS_ADMIN_MENU_27 . ' ' . $limits['rate']['remaining'] . '</div>';
-		$content .=  '<div>' . LAN_E107PROJECTS_ADMIN_MENU_28 . ' ' . date('H:i:s', $limits['rate']['reset']) . '</div>';
+		$content .=  '<div>' . LAN_E107PROJECTS_ADMIN_MENU_28 . ' ' . $reset . '</div>';
 		
 		e107::getRender()->tablerender($caption, $content);
 	}
