@@ -104,7 +104,7 @@ class e107ProjectsProjects
 		}
 
 		$commands = array();
-		$commands[] = $ajax->commandInvoke('h2.caption', 'html', array($caption));
+		$commands[] = $ajax->commandInvoke('section h2.caption', 'html', array($caption));
 		$commands[] = $ajax->commandInvoke('#project-search-form button.e-ajax', 'removeClass', array('active'));
 		$commands[] = $ajax->commandInvoke('#project-search-form button.e-ajax', 'removeAttr', array('disabled'));
 		$commands[] = $ajax->commandInvoke('#project-search-result', 'html', array($content));
