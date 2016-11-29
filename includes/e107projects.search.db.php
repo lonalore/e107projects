@@ -128,4 +128,25 @@ class e107ProjectsSearchDatabaseAdapter implements e107ProjectsSearchInterface
 		return array();
 	}
 
+	/**
+	 * Count results.
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		$args = '';
+
+		if(!empty($this->conditions))
+		{
+			$args .= implode(' AND ', $this->conditions);
+		}
+
+		$args .= $this->orderBy;
+		$args .= $this->limit;
+
+		$db = e107::getDb('e107projects_serach');
+		return $db->count('e107projects_project', '(*)', $args);
+	}
+
 }

@@ -52,6 +52,13 @@ interface e107ProjectsSearchInterface
 	 * @return array
 	 */
 	public function run();
+
+	/**
+	 * Count results.
+	 *
+	 * @return int
+	 */
+	public function count();
 }
 
 
@@ -150,6 +157,16 @@ class e107ProjectsSearchManager
 	public function run()
 	{
 		return $this->handler->run();
+	}
+
+	/**
+	 * Count results.
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return $this->handler->count();
 	}
 
 }

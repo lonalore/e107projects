@@ -80,4 +80,14 @@ class e107ProjectsSearchApacheSolrAdapter implements e107ProjectsSearchInterface
 
 	}
 
+	/**
+	 * Count results.
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+
+	}
+
 }

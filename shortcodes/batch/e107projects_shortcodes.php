@@ -275,6 +275,21 @@ class e107projects_shortcodes extends e_shortcode
 
 		$html .= '<ul class="dropdown-menu">';
 
+		// Search by
+		$html .= '<li><strong>' . LAN_E107PROJECTS_FRONT_25 . '</strong></li>';
+
+		$html .= '<li class="radio-content">';
+		$html .= '<label class="radio">';
+		$html .= $form->radio('search_by', 1, true) . ' ' . LAN_E107PROJECTS_FRONT_26;
+		$html .= '</label>';
+		$html .= '</li>';
+
+		$html .= '<li class="radio-content">';
+		$html .= '<label class="radio">';
+		$html .= $form->radio('search_by', 2, false) . ' ' . LAN_E107PROJECTS_FRONT_27;
+		$html .= '</label>';
+		$html .= '</li>';
+
 		// Order by
 		$html .= '<li><strong>' . LAN_E107PROJECTS_FRONT_20 . '</strong></li>';
 
@@ -295,10 +310,11 @@ class e107projects_shortcodes extends e_shortcode
 
 		$html .= '<li>';
 		$html .= $form->select('limit', array(
+			10 => 10,
 			25 => 25,
 			50 => 50,
 			100 => 100,
-		), 25);
+		), 10);
 		$html .= '</li>';
 
 		$html .= '</ul>';
