@@ -44,13 +44,17 @@ $E107PROJECTS_TEMPLATE['summary_menu'] = '
 </div>
 ';
 
+$E107PROJECTS_TEMPLATE['projects']['list']['search'] = '
+{PROJECT_LIST_SEARCH}
+';
+
 $E107PROJECTS_TEMPLATE['projects']['list']['pre'] = '
 <table class="table table-hover search-results">
 	<thead>
 		<tr>
-			<th><a>{PROJECT_NAME_LABEL}</a></th>
-			<th width="15%" class="hidden-xs"><a>{PROJECT_OWNER_LABEL}</a></th>
-			<th width="15%" class="hidden-xs"><a>{PROJECT_STARS_LABEL}</a></th>
+			<th>{PROJECT_LIST_PROJECT_NAME_LABEL}</th>
+			<th width="15%" class="hidden-xs text-center">{PROJECT_LIST_PROJECT_OWNER_LABEL}</th>
+			<th width="15%" class="hidden-xs text-center">{PROJECT_LIST_PROJECT_STARS_LABEL}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -59,24 +63,19 @@ $E107PROJECTS_TEMPLATE['projects']['list']['pre'] = '
 $E107PROJECTS_TEMPLATE['projects']['list']['row'] = '
 		<tr>
 			<td class="name">
-				<h4>
-					<a href="{PROJECT_URL}" rel="noopener noreferrer">
-						{PROJECT_NAME}
+				<p class="lead">
+					<a href="{PROJECT_LIST_PROJECT_URL}" rel="noopener noreferrer">
+						{PROJECT_LIST_PROJECT_NAME}
 					</a>
-				</h4>
-				<small>
-					<a href="{PROJECT_URL}" rel="noopener noreferrer">
-						{PROJECT_URL}
-					</a>
-				</small>
-				<p class="description">{PROJECT_DESCRIPTION}</p>
+				</p>
+				<small>{PROJECT_LIST_PROJECT_DESCRIPTION}</small>
 				<p class="visible-xs">
-					<span class="label">{PROJECT_OWNER_LABEL}: <span>{PROJECT_OWNER}</span></span>
-					<span class="label">{PROJECT_STARS_LABEL}: <span>{PROJECT_STARS}</span></span>
+					<span class="label">{PROJECT_LIST_PROJECT_OWNER_LABEL}: <span>{PROJECT_LIST_PROJECT_OWNER}</span></span>
+					<span class="label">{PROJECT_LIST_PROJECT_STARS_LABEL}: <span>{PROJECT_LIST_PROJECT_STARS}</span></span>
 				</p>
 			</td>
-			<td class="hidden-xs owner">{PROJECT_OWNER}</td>
-			<td class="hidden-xs stars">{PROJECT_STARS}</td>
+			<td class="hidden-xs owner text-center">{PROJECT_LIST_PROJECT_OWNER}</td>
+			<td class="hidden-xs stars text-center">{PROJECT_LIST_PROJECT_STARS}</td>
 		</tr>
 ';
 

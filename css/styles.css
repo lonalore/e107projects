@@ -110,7 +110,7 @@
     background: url('../images/icon_comments.png') no-repeat 15px center;
 }
 
-.project-submission-button.has-spinner .spinner {
+.ajax-action-button.has-spinner .spinner {
     display: inline-block;
     opacity: 0;
     width: 0;
@@ -121,16 +121,16 @@
     transition: opacity 0.25s, width 0.25s;
 }
 
-.project-submission-button.has-spinner.active {
+.ajax-action-button.has-spinner.active {
     cursor:progress;
 }
 
-.project-submission-button.has-spinner.active .spinner {
+.ajax-action-button.has-spinner.active .spinner {
     opacity: 1;
     width: auto; /* This doesn't work, just fix for unkown width elements */
 }
 
-.project-submission-button.has-spinner.btn.active .spinner {
+.ajax-action-button.has-spinner.btn.active .spinner {
     width: 16px;
     margin-top: -5px;
     margin-right: 5px;

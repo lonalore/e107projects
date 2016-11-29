@@ -61,7 +61,8 @@ class e107projects_header
 			$this->loadGeoComplete();
 		}
 
-		if(defset('e_URL_LEGACY') == 'e107_plugins/e107projects/submit.php')
+		if(defset('e_URL_LEGACY') == 'e107_plugins/e107projects/submit.php' || defset('e_URL_LEGACY') == 'e107_plugins/e107projects/projects.php'
+		)
 		{
 			e107::js('e107projects', 'js/e107projects.submit.js');
 			$this->needCSS = true;

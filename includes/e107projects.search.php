@@ -24,20 +24,32 @@ interface e107ProjectsSearchInterface
 	 * @param string $operator
 	 *  '=', '<>', '>', '>=', '<', '<=', 'STARTS_WITH', 'CONTAINS'
 	 */
-	public function setCondition($field, $value, $operator);
+	public function setCondition($field, $value, $operator = '=');
+
+	/**
+	 * Set ordering.
+	 *
+	 * @param string $field
+	 *  Field name.
+	 * @param string $direction
+	 *  ASC or DESC
+	 */
+	public function orderBy($field, $direction = 'ASC');
 
 	/**
 	 * Set limit.
 	 *
 	 * @param int $limit
 	 *  Limit for search query.
+	 * @param int $offset
+	 *  Offset for limit.
 	 */
-	public function setLimit($limit);
+	public function limit($limit, $offset = 0);
 
 	/**
 	 * Run search query.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function run();
 }
@@ -99,9 +111,22 @@ class e107ProjectsSearchManager
 	 * @param string $operator
 	 *  '=', '<>', '>', '>=', '<', '<=', 'STARTS_WITH', 'CONTAINS'
 	 */
-	public function setCondition($field, $value, $operator)
+	public function setCondition($field, $value, $operator = '=')
 	{
 		$this->handler->setCondition($field, $value, $operator);
+	}
+
+	/**
+	 * Set ordering.
+	 *
+	 * @param string $field
+	 *  Field name.
+	 * @param string $direction
+	 *  ASC or DESC
+	 */
+	public function orderBy($field, $direction = 'ASC')
+	{
+		$this->handler->orderBy($field, $direction);
 	}
 
 	/**
@@ -109,16 +134,18 @@ class e107ProjectsSearchManager
 	 *
 	 * @param int $limit
 	 *  Limit for search query.
+	 * @param int $offset
+	 *  Offset for limit.
 	 */
-	public function setLimit($limit)
+	public function limit($limit, $offset = 0)
 	{
-		$this->handler->setLimit($limit);
+		$this->handler->limit($limit, $offset);
 	}
 
 	/**
 	 * Run search query.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function run()
 	{

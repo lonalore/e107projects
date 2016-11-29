@@ -183,7 +183,7 @@ class e107projects_shortcodes extends e_shortcode
 			$btnName = 'submit';
 			$btnVals = LAN_E107PROJECTS_FRONT_08;
 			$btnAttr = $form->get_attributes(array(
-				'class'          => 'btn btn-primary e-ajax has-spinner project-submission-button',
+				'class'          => 'btn btn-primary e-ajax has-spinner ajax-action-button',
 				'data-event'     => 'click',
 				'data-ajax-type' => 'POST',
 			), $btnName, $btnVals);
@@ -216,6 +216,147 @@ class e107projects_shortcodes extends e_shortcode
 		// Approved.
 		$html = '<p class="text-success">' . LAN_E107PROJECTS_FRONT_13 . '</p>';
 		return $html;
+	}
+
+	/**
+	 * Project list - name label.
+	 */
+	public function sc_project_list_project_name_label()
+	{
+		return LAN_E107PROJECTS_FRONT_16;
+	}
+
+	/**
+	 * Project list - owner label.
+	 */
+	public function sc_project_list_project_owner_label()
+	{
+		return LAN_E107PROJECTS_FRONT_17;
+	}
+
+	/**
+	 * Project list - stars label.
+	 */
+	public function sc_project_list_project_stars_label()
+	{
+		return LAN_E107PROJECTS_FRONT_18;
+	}
+
+	/**
+	 * Project list - search.
+	 */
+	public function sc_project_list_search()
+	{
+		$form = e107::getForm();
+		$tp = e107::getParser();
+
+		$html = $form->open('project_search_form', 'POST');
+		$html .= $form->token();
+
+		$html .= '<div class="input-group">';
+
+		$html .= $form->text('project_name', '', 80, array(
+			'placeholder'    => LAN_E107PROJECTS_FRONT_19 . '...',
+			'class'          => 'form-control e-ajax has-ajax-button',
+			'data-event'     => 'keyup',
+			'data-ajax-type' => 'POST',
+		));
+		
+		$html .= '<div class="input-group-btn">';
+
+		$html .= '<button type="button" class="btn btn-danger e-ajax ajax-action-button has-spinner">';
+		$html .= '<span class="spinner">' . $tp->toGlyph('fa-refresh', array('spin' => 1)) . '</span>';
+		$html .= LAN_E107PROJECTS_FRONT_19;
+		$html .= '</button>';
+
+		$html .= '<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+		$html .= '<span class="caret"></span><span class="sr-only"></span>';
+		$html .= '</button>';
+
+		$html .= '<ul class="dropdown-menu">';
+
+		// Order by
+		$html .= '<li><strong>' . LAN_E107PROJECTS_FRONT_20 . '</strong></li>';
+
+		$html .= '<li class="radio-content">';
+		$html .= '<label class="radio">';
+		$html .= $form->radio('order_by', 1, false) . ' ' . LAN_E107PROJECTS_FRONT_21;
+		$html .= '</label>';
+		$html .= '</li>';
+
+		$html .= '<li class="radio-content">';
+		$html .= '<label class="radio">';
+		$html .= $form->radio('order_by', 2, true) . ' ' . LAN_E107PROJECTS_FRONT_22;
+		$html .= '</label>';
+		$html .= '</li>';
+
+		// Number of results
+		$html .= '<li><strong>' . LAN_E107PROJECTS_FRONT_24 . '</strong></li>';
+
+		$html .= '<li>';
+		$html .= $form->select('limit', array(
+			25 => 25,
+			50 => 50,
+			100 => 100,
+		), 25);
+		$html .= '</li>';
+
+		$html .= '</ul>';
+
+		$html .= '</div>';
+		$html .= '</div>';
+
+		$html .= $form->close();
+
+		return $html;
+	}
+
+	/**
+	 * Project list - project url.
+	 */
+	public function sc_project_list_project_url()
+	{
+		$repository = varset($this->var['repository'], array());
+		return e107::url('e107projects', 'project', array(
+			'user'       => varset($repository['project_user'], ''),
+			'repository' => varset($repository['project_name'], ''),
+		));
+	}
+
+	/**
+	 * Project list - project name.
+	 */
+	public function sc_project_list_project_name()
+	{
+		$repository = varset($this->var['repository'], array());
+		return varset($repository['project_name'], '');
+	}
+
+	/**
+	 * Project list - project description.
+	 */
+	public function sc_project_list_project_description()
+	{
+		$repository = varset($this->var['repository'], array());
+		return varset($repository['project_description'], '');
+	}
+
+	/**
+	 * Project list - project owner.
+	 */
+	public function sc_project_list_project_owner()
+	{
+		$repository = varset($this->var['repository'], array());
+		return varset($repository['project_user'], '');
+	}
+
+	/**
+	 * Project list - project stars.
+	 */
+	public function sc_project_list_project_stars()
+	{
+		$repository = varset($this->var['repository'], array());
+		return varset($repository['project_stars'], 0);
 	}
 
 }
