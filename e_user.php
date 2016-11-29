@@ -10,6 +10,12 @@ if(!defined('e107_INIT'))
 	exit;
 }
 
+// [PLUGINS]/e107projects/languages/[LANGUAGE]/[LANGUAGE]_front.php
+e107::lan('e107projects', false, true);
+
+// Load required functions.
+e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
+
 
 /**
  * Class e107projects_user.
@@ -29,13 +35,10 @@ class e107projects_user
 	{
 		$rows = array();
 
-		/*
 		$rows[] = array(
-			'label' => 'Submitted projects',
-			'text'  => '[x]',
-			'url'   => e_PLUGIN_ABS . 'e107projects/projects.php',
+			'label' => LAN_E107PROJECTS_FRONT_28,
+			'text'  => e107projects_get_user_contributions($user['user_id']),
 		);
-		*/
 
 		return $rows;
 	}

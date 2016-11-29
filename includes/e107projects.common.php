@@ -697,7 +697,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 	{
 		$access_token = $accessToken['hook_access_token'];
 	}
-	
+
 	// Load required class.
 	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
 
@@ -913,4 +913,66 @@ function e107projects_manage_releases($owner, $repository, $repository_id)
 		$db->insert('e107projects_release', array('data' => $insert), false);
 	}
 
+}
+
+/**
+ * Get user contributions for profile page.
+ *
+ * @param int $user_id
+ *  e107 user ID.
+ *
+ * @return string
+ */
+function e107projects_get_user_contributions($user_id)
+{
+	// [PLUGINS]/e107projects/languages/[LANGUAGE]/[LANGUAGE]_front.php
+	e107::lan('e107projects', false, true);
+
+	$db = e107::getDb();
+	$db->gen('SELECT c.* FROM #e107projects_contribution AS c
+	LEFT JOIN #e107projects_contributor AS cr ON c.contributor_id = cr.contributor_gid
+	WHERE cr.contributor_id = ' . (int) $user_id . ' 
+	ORDER BY c.contributions DESC ');
+
+	$html = '';
+
+	$total = 0;
+	while($row = $db->fetch())
+	{
+		$user = $row['project_user'];
+		$repo = $row['project_name'];
+		$cont = $row['contributions'];
+
+		$total += $cont;
+
+		if($cont > 1)
+		{
+			$cont .= ' ' . LAN_E107PROJECTS_FRONT_02;
+		}
+		else
+		{
+			$cont .= ' ' . LAN_E107PROJECTS_FRONT_29;
+		}
+
+		$url = e107::url('e107projects', 'project', array(
+			'user'       => $user,
+			'repository' => $repo,
+		));
+
+		$html .= '<a href="' . $url . '" target="_self">' . $user . '/' . $repo . '</a> (' . $cont . ')';
+		$html .= '<br/>';
+	}
+
+	if($total > 1)
+	{
+		$total .= ' ' . LAN_E107PROJECTS_FRONT_02;
+	}
+	else
+	{
+		$total .= ' ' . LAN_E107PROJECTS_FRONT_29;
+	}
+
+	$html .= LAN_E107PROJECTS_FRONT_30 . ': ' . $total;
+
+	return $html;
 }
