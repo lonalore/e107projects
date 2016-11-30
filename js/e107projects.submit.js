@@ -24,8 +24,11 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 				{
 					var $this = $(this);
 
-					$this.attr('disabled', 'disabled');
-					$this.toggleClass('active');
+					if(!$this.hasClass('active'))
+					{
+						$this.attr('disabled', 'disabled');
+						$this.toggleClass('active');
+					}
 				});
 			});
 		}

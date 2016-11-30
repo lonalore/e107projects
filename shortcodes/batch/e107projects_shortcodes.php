@@ -256,10 +256,11 @@ class e107projects_shortcodes extends e_shortcode
 		$html .= '<div class="input-group">';
 
 		$html .= $form->text('project_name', '', 80, array(
-			'placeholder'    => LAN_E107PROJECTS_FRONT_19 . '...',
-			'class'          => 'form-control e-ajax has-ajax-button',
-			'data-event'     => 'keyup',
-			'data-ajax-type' => 'POST',
+			'placeholder'     => LAN_E107PROJECTS_FRONT_19 . '...',
+			'class'           => 'form-control e-ajax has-ajax-button',
+			'data-event'      => 'keyup',
+			'data-event-wait' => '500',
+			'data-ajax-type'  => 'POST',
 		));
 
 		$html .= '<div class="input-group-btn">';
