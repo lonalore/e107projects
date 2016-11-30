@@ -137,5 +137,7 @@ $E107PROJECTS_TEMPLATE['notification'] = '
 ';
 
 $E107PROJECTS_TEMPLATE['project'] = '
-{PROJECT_README}
+<div class="project-readme-container">
+	{PROJECT_README}
+</div>
 ';

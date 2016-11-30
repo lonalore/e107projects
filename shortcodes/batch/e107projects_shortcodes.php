@@ -385,7 +385,12 @@ class e107projects_shortcodes extends e_shortcode
 
 		if(!empty($readme))
 		{
-			return e107::getParser()->toHTML($readme, false, 'BODY', '');
+			// FIXME... e_parse does not format text properly.
+			// return e107::getParser()->toHTML($readme, false, 'BODY', '');
+			
+			e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.parsedown.php');
+			$Parsedown = new e107projectsParsedown();
+			return $Parsedown->text($readme);
 		}
 	}
 
