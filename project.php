@@ -76,6 +76,12 @@ class e107ProjectsProject
 		$caption = $this->repository['project_name'];
 		$content = '';
 
+		$sc->setVars(array(
+			'repository' => $this->repository,
+		));
+
+		$content .= $tp->parseTemplate($tpl['project'], true, $sc);
+
 		$ns->tablerender($caption, $content);
 	}
 

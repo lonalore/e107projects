@@ -375,4 +375,18 @@ class e107projects_shortcodes extends e_shortcode
 		return varset($repository['project_stars'], 0);
 	}
 
+	/**
+	 * Project - readme.
+	 */
+	public function sc_project_readme()
+	{
+		$repository = varset($this->var['repository'], array());
+		$readme = varset($repository['project_readme'], '');
+
+		if(!empty($readme))
+		{
+			return e107::getParser()->toHTML($readme, false, 'BODY', '');
+		}
+	}
+
 }

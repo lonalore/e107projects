@@ -135,3 +135,7 @@ $E107PROJECTS_TEMPLATE['notification'] = '
   <div class="clear clearfix"></div>
 </div>
 ';
+
+$E107PROJECTS_TEMPLATE['project'] = '
+{PROJECT_README}
+';
