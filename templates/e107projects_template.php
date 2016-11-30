@@ -137,6 +137,14 @@ $E107PROJECTS_TEMPLATE['notification'] = '
 ';
 
 $E107PROJECTS_TEMPLATE['project'] = '
+<div class="panel panel-default github-buttons-container">
+	<div class="panel-body">
+		{PROJECT_BUTTON_STAR} {PROJECT_BUTTON_ISSUE} {PROJECT_BUTTON_FORK} {PROJECT_BUTTON_WATCH} {PROJECT_BUTTON_FOLLOW}
+	</div>
+</div>
+
+{PROJECT_UPDATED}
+
 <div class="project-readme-container">
 	{PROJECT_README}
 </div>

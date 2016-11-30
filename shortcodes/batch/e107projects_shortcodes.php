@@ -261,7 +261,7 @@ class e107projects_shortcodes extends e_shortcode
 			'data-event'     => 'keyup',
 			'data-ajax-type' => 'POST',
 		));
-		
+
 		$html .= '<div class="input-group-btn">';
 
 		$html .= '<button type="button" class="btn btn-danger e-ajax ajax-action-button has-spinner">';
@@ -310,9 +310,9 @@ class e107projects_shortcodes extends e_shortcode
 
 		$html .= '<li>';
 		$html .= $form->select('limit', array(
-			10 => 10,
-			25 => 25,
-			50 => 50,
+			10  => 10,
+			25  => 25,
+			50  => 50,
 			100 => 100,
 		), 10);
 		$html .= '</li>';
@@ -392,6 +392,143 @@ class e107projects_shortcodes extends e_shortcode
 			$Parsedown = new e107projectsParsedown();
 			return $Parsedown->text($readme);
 		}
+
+		return '';
+	}
+
+	/**
+	 * Project - button issue.
+	 */
+	public function sc_project_button_issue()
+	{
+		$repository = varset($this->var['repository'], array());
+		$fullName = varset($repository['project_user'], '') . '/' . varset($repository['project_name'], '');
+
+		$tp = e107::getParser();
+
+		$attr = array(
+			'class="github-button"',
+			'href="https://github.com/' . $fullName . '/issues"',
+			'data-icon="octicon-issue-opened"',
+			'data-style="mega"',
+			// 'data-count-api="/repos/' . $fullName . '#open_issues_count"',
+			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_39 . '"',
+			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_37, array('x' => $fullName)) . '"',
+		);
+
+		return '<a ' . implode(' ', $attr) . '>' . LAN_E107PROJECTS_FRONT_38 . '</a>';
+	}
+
+	/**
+	 * Project - button star.
+	 */
+	public function sc_project_button_star()
+	{
+		$repository = varset($this->var['repository'], array());
+		$fullName = varset($repository['project_user'], '') . '/' . varset($repository['project_name'], '');
+
+		$tp = e107::getParser();
+
+		$attr = array(
+			'class="github-button"',
+			'href="https://github.com/' . $fullName . '"',
+			'data-icon="octicon-star"',
+			'data-style="mega"',
+			// 'data-count-href="/' . $fullName . '/stargazers"',
+			// 'data-count-api="/repos/' . $fullName . '#stargazers_count"',
+			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_40 . '"',
+			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_41, array('x' => $fullName)) . '"',
+		);
+
+		return '<a ' . implode(' ', $attr) . '>' . LAN_E107PROJECTS_FRONT_42 . '</a>';
+	}
+
+	/**
+	 * Project - button fork.
+	 */
+	public function sc_project_button_fork()
+	{
+		$repository = varset($this->var['repository'], array());
+		$fullName = varset($repository['project_user'], '') . '/' . varset($repository['project_name'], '');
+
+		$tp = e107::getParser();
+
+		$attr = array(
+			'class="github-button"',
+			'href="https://github.com/' . $fullName . '/fork"',
+			'data-icon="octicon-repo-forked"',
+			'data-style="mega"',
+			// 'data-count-href="/' . $fullName . '/network"',
+			// 'data-count-api="/repos/' . $fullName . '#forks_count"',
+			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_43 . '"',
+			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_44, array('x' => $fullName)) . '"',
+		);
+
+		return '<a ' . implode(' ', $attr) . '>' . LAN_E107PROJECTS_FRONT_45 . '</a>';
+	}
+
+	/**
+	 * Project - button watch.
+	 */
+	public function sc_project_button_watch()
+	{
+		$repository = varset($this->var['repository'], array());
+		$fullName = varset($repository['project_user'], '') . '/' . varset($repository['project_name'], '');
+
+		$tp = e107::getParser();
+
+		$attr = array(
+			'class="github-button"',
+			'href="https://github.com/' . $fullName . '"',
+			'data-icon="octicon-eye"',
+			'data-style="mega"',
+			// 'data-count-href="/' . $fullName . '/watchers"',
+			// 'data-count-api="/repos/' . $fullName . '#subscribers_count"',
+			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_46 . '"',
+			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_47, array('x' => $fullName)) . '"',
+		);
+
+		return '<a ' . implode(' ', $attr) . '>' . LAN_E107PROJECTS_FRONT_48 . '</a>';
+	}
+
+	/**
+	 * Project - button follow.
+	 */
+	public function sc_project_button_follow()
+	{
+		$repository = varset($this->var['repository'], array());
+		$owner = varset($repository['project_user'], '');
+
+		$tp = e107::getParser();
+
+		$attr = array(
+			'class="github-button"',
+			'href="https://github.com/' . $owner . '"',
+			'data-style="mega"',
+			// 'data-count-href="/' . $owner . '/followers"',
+			// 'data-count-api="/repos/' . $owner . '#followers"',
+			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_49 . '"',
+			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_50, array('x' => '@' . $owner)) . '"',
+		);
+
+		return '<a ' . implode(' ', $attr) . '>' . $tp->lanVars(LAN_E107PROJECTS_FRONT_51, array('x' => '@' . $owner)) . '</a>';
+	}
+
+	/**
+	 * Project - updated.
+	 */
+	public function sc_project_updated()
+	{
+		$repository = varset($this->var['repository'], array());
+		$updated = varset($repository['project_updated'], 0);
+
+		if(!empty($updated))
+		{
+			$tp = e107::getParser();
+			return LAN_E107PROJECTS_FRONT_52 . ' ' . $tp->toDate($updated, 'short');
+		}
+
+		return '';
 	}
 
 }

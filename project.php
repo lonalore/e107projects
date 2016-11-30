@@ -60,7 +60,18 @@ class e107ProjectsProject
 			e107::redirect('/');
 		}
 
+		$this->loadAssets();
 		$this->renderPage();
+	}
+
+	/**
+	 * Load required JS/CSS files.
+	 */
+	public function loadAssets()
+	{
+		// "Place this tag in your head or just before your close body tag."
+		// Header is already sent, so we can add this to the footer.
+		e107::js('footer', 'https://buttons.github.io/buttons.js');
 	}
 
 	/**
