@@ -15,7 +15,7 @@ if(!e107::isInstalled('e107projects'))
 	exit;
 }
 
-define('E107PROJECTS_CALLBACK_DEBUG', false);
+define('E107PROJECTS_CALLBACK_DEBUG', true);
 
 
 /**
