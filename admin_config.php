@@ -79,6 +79,13 @@ class e107projects_admin extends e_admin_dispatcher
 		'opt1'          => array(
 			'divider' => true,
 		),
+		'main/limits'    => array(
+			'caption' => LAN_E107PROJECTS_ADMIN_MENU_33,
+			'perm'    => 'P',
+		),
+		'opt2'          => array(
+			'divider' => true,
+		),
 		'main/prefs'    => array(
 			'caption' => LAN_E107PROJECTS_ADMIN_MENU_01,
 			'perm'    => 'P',
@@ -465,6 +472,72 @@ class e107projects_admin_ui extends e_admin_ui
 	public function init()
 	{
 
+	}
+
+	public function limitsPage()
+	{
+		// Common functions.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
+		// Load required class.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
+
+		$ns = e107::getRender();
+		$tp = e107::getParser();
+		$db = e107::getDb('get_access_tokens');
+
+		$db->gen('SELECT DISTINCT(h.hook_access_token), c.contributor_name FROM #e107projects_hook AS h
+		LEFT JOIN #e107projects_project AS p ON h.hook_project_user = p.project_user AND h.hook_project_name = p.project_name
+		LEFT JOIN #e107projects_contributor AS c ON p.project_author = c.contributor_id', false);
+
+		$caption = '';
+		$content = '';
+
+		$content .= '<div class="responsive-table">';
+		$content .= '<table class="table table-striped">';
+		
+		$content .= '<thead>';
+		$content .= '<tr>';
+		$content .= '<th>' . LAN_E107PROJECTS_FRONT_32 . '</th>';
+		$content .= '<th>' . LAN_E107PROJECTS_FRONT_33 . '</th>';
+		$content .= '<th>' . LAN_E107PROJECTS_FRONT_34 . '</th>';
+		$content .= '<th>' . LAN_E107PROJECTS_FRONT_35 . '</th>';
+		$content .= '<th>' . LAN_E107PROJECTS_FRONT_36 . '</th>';
+		$content .= '</tr>';
+		$content .= '</thead>';
+		
+		$content .= '<tbody>';
+		while($row = $db->fetch())
+		{
+			$valid = e107projects_access_token_is_valid($row['hook_access_token']);
+
+			$limit = 0;
+			$rmnng = 0;
+			$reset = '-';
+
+			if($valid)
+			{
+				$client = new e107projectsGithub($row['hook_access_token']);
+				$limits = $client->getRateLimits();
+
+				$limit = $limits['rate']['limit'];
+				$rmnng = $limits['rate']['remaining'];
+				$reset = $tp->toDate($limits['rate']['reset'], '%H:%M:%S');
+			}
+
+			$content .= '<tr>';
+			$content .= '<td>' . $row['contributor_name'] . '</td>';
+			$content .= '<td>' . $row['hook_access_token'] . '</td>';
+			$content .= '<td>' . $limit . '</td>';
+			$content .= '<td>' . $rmnng . '</td>';
+			$content .= '<td>' . $reset . '</td>';
+			$content .= '</tr>';
+		}
+		$content .= '</tbody>';
+		
+		$content .= '</table>';
+		$content .= '</div>';
+
+		$ns->tablerender($caption, $content);
 	}
 
 }

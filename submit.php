@@ -91,6 +91,9 @@ class e107projectsSubmit
 			$hybridAuth->getAdapter('Github')->login();
 		}
 
+		// Update Access Token on hooks are already existed in database.
+		e107projects_update_access_token($accessToken);
+
 		// Store Access Token.
 		$this->accessToken = $accessToken;
 		// Get plugin preferences.
@@ -107,8 +110,19 @@ class e107projectsSubmit
 		// Get repositories from organizations.
 		foreach($this->organizations as $organization)
 		{
+			$orgRepos = $this->client->getUserRepositories($organization['login']);
+
+			// Remove organization repository where no admin permission.
+			foreach($orgRepos as $key => $orgRepo)
+			{
+				if(!varset($orgRepo['permissions']['admin'], false))
+				{
+					unset($orgRepos[$key]);
+				}
+			}
+
 			// Get repositories of the organization.
-			$this->repositories = array_merge($this->repositories, $this->client->getUserRepositories($organization['login']));
+			$this->repositories = array_merge($this->repositories, $orgRepos);
 		}
 
 		// Remove forked repositories from the list.

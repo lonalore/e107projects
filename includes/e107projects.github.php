@@ -55,6 +55,11 @@ class e107projectsGithub
 	private $paginator;
 
 	/**
+	 * @var bool
+	 */
+	private $authenticated = false;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct($access_token = null, $use_cache = true)
@@ -87,15 +92,24 @@ class e107projectsGithub
 		}
 		else
 		{
+			// Client without caching.
 			$this->client = new Client();
 		}
 
+		// If Access Token is provided, we try to authenticate with it.
 		if(!empty($this->accessToken))
 		{
-			// Use Access Token for higher (5000 request/hour) rate limit.
-			$this->client->authenticate($this->accessToken, null, Client::AUTH_URL_TOKEN);
+			// If user token is valid, we authenticates with it.
+			if(e107projects_access_token_is_valid($this->accessToken))
+			{
+				// Use Access Token for higher (5000 request/hour) rate limit.
+				$this->client->authenticate($this->accessToken, null, Client::AUTH_URL_TOKEN);
+				$this->authenticated = true;
+			}
 		}
-		else
+
+		// If authentication with Access Token failed, we use our Client ID + Secret.
+		if(!$this->authenticated)
 		{
 			// Use Client ID + Secret for higher (5000 request/hour) rate limit.
 			$this->client->authenticate($this->client_id, $this->secret, Client::AUTH_URL_CLIENT_ID);

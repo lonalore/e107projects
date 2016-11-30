@@ -26,23 +26,51 @@ class e107projects_event
 	{
 		$event = array();
 
+		// After login.
+		$event[] = array(
+			'name'     => 'user_login',
+			'function' => 'e107projects_user_login_callback',
+		);
+
+		// After XUP login.
+		$event[] = array(
+			'name'     => 'user_xup_login',
+			'function' => 'e107projects_user_login_callback',
+		);
+
 		// After a user updated his profile.
 		$event[] = array(
-			'name'     => "postuserset", // TODO this may change in core.
-			'function' => "e107projects_user_settings_changed_callback",
+			'name'     => 'postuserset', // TODO this may change in core.
+			'function' => 'e107projects_user_settings_changed_callback',
 		);
 
+		// After a project has been submitted.
 		$event[] = array(
 			'name'     => 'e107projects_user_project_submitted',
-			'function' => "e107projects_user_project_submitted_callback",
+			'function' => 'e107projects_user_project_submitted_callback',
 		);
 
+		// After a Github Push Webhook IPN has arrived.
 		$event[] = array(
 			'name'     => 'e107projects_webhook_push',
 			'function' => 'e107projects_webhook_push_callback',
 		);
 
 		return $event;
+	}
+
+	/**
+	 * After login / xup login.
+	 * 
+	 * @param $data
+	 */
+	function e107projects_user_login_callback($data)
+	{
+		// Common functions.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
+		// Try to update Access Token on hooks (are saved in database)
+		// belong to the logged in user.
+		e107projects_update_access_token();
 	}
 
 	/**

@@ -113,7 +113,7 @@ class e107projects_shortcodes extends e_shortcode
 	 */
 	public function sc_submit_project_help_text()
 	{
-		return LAN_E107PROJECTS_FRONT_12;
+		return LAN_E107PROJECTS_FRONT_12 . '<br />' . LAN_E107PROJECTS_FRONT_31;
 	}
 
 	/**
@@ -387,7 +387,7 @@ class e107projects_shortcodes extends e_shortcode
 		{
 			// FIXME... e_parse does not format text properly.
 			// return e107::getParser()->toHTML($readme, false, 'BODY', '');
-			
+
 			e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.parsedown.php');
 			$Parsedown = new e107projectsParsedown();
 			return $Parsedown->text($readme);

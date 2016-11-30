@@ -546,6 +546,79 @@ function e107projects_get_access_token()
 }
 
 /**
+ * Try to update Access Token on hooks (are saved in database)
+ * belong to the logged in user.
+ *
+ * @param null $accessToken
+ *  If Access Token is given, just update hooks with it.
+ */
+function e107projects_update_access_token($accessToken = null)
+{
+	if(empty(USERID))
+	{
+		return;
+	}
+
+	if(empty($accessToken))
+	{
+		$accessToken = e107projects_get_access_token();
+	}
+	
+	if($accessToken)
+	{
+		$db = e107::getDb('update_access_token');
+		$db->select('e107projects_project', '*', 'project_author = ' . USERID);
+
+		$projects = array();
+		while($row = $db->fetch())
+		{
+			$user = $row['project_user'];
+			$repo = $row['project_name'];
+
+			$projects[] = array(
+				'user' => $user,
+				'repo' => $repo,
+			);
+		}
+
+		if(!empty($projects))
+		{
+			$where = array();
+
+			foreach($projects as $project)
+			{
+				$where[] = '(hook_project_user = "' . $project['user'] . '" AND hook_project_name = "' . $project['repo'] . '")';
+			}
+
+			$db->update('e107projects_hook', array('data' => array(
+				'hook_access_token' => $accessToken,
+			), 'WHERE'                                    => implode(' OR ', $where)));
+		}
+	}
+}
+
+/**
+ * Make a request to Github for checking Access Token.
+ *
+ * @param $accessToken
+ *  Access Token to be checked.
+ *
+ * @return bool
+ */
+function e107projects_access_token_is_valid($accessToken)
+{
+	$url = 'https://api.github.com/rate_limit?access_token=' . $accessToken;
+	$response = e107projects_http_request($url);
+
+	if(!empty($response->code) && $response->code == 200)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Helper function to retrieve project information from Github, and create
  * a new project.
  *
@@ -588,8 +661,19 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 	// Get repositories from organizations.
 	foreach($organizations as $organization)
 	{
+		$orgRepos = $client->getUserRepositories($organization['login']);
+
+		// Remove organization repository where no admin permission.
+		foreach($orgRepos as $key => $orgRepo)
+		{
+			if(!varset($orgRepo['permissions']['admin'], false))
+			{
+				unset($orgRepos[$key]);
+			}
+		}
+
 		// Get repositories of the organization.
-		$repositories = array_merge($repositories, $client->getUserRepositories($organization['login']));
+		$repositories = array_merge($repositories, $orgRepos);
 	}
 
 	// Remove forked repositories from the list.
@@ -715,8 +799,19 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Get repositories from organizations.
 	foreach($organizations as $organization)
 	{
+		$orgRepos = $client->getUserRepositories($organization['login']);
+
+		// Remove organization repository where no admin permission.
+		foreach($orgRepos as $key => $orgRepo)
+		{
+			if(!varset($orgRepo['permissions']['admin'], false))
+			{
+				unset($orgRepos[$key]);
+			}
+		}
+
 		// Get repositories of the organization.
-		$repositories = array_merge($repositories, $client->getUserRepositories($organization['login']));
+		$repositories = array_merge($repositories, $orgRepos);
 	}
 
 	// Remove forked repositories from the list.
