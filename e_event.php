@@ -28,8 +28,8 @@ class e107projects_event
 
 		// After XUP login.
 		$event[] = array(
-			'name'     => 'user_xup_profile_updated',
-			'function' => 'e107projects_user_xup_profile_updated_callback',
+			'name'     => 'user_xup_updated',
+			'function' => 'e107projects_user_xup_updated_callback',
 		);
 
 		// After a user updated his profile.
@@ -60,11 +60,11 @@ class e107projects_event
 	}
 
 	/**
-	 * After login / xup login.
+	 * External User Profile updated.
 	 *
 	 * @param $data
 	 */
-	function e107projects_user_xup_profile_updated_callback($data)
+	function e107projects_user_xup_updated_callback($data)
 	{
 		// Common functions.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
