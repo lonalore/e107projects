@@ -69,7 +69,7 @@ function e107projects_webhook_push_notification($data)
 		'broadcast' => true,
 		'channel'   => 'nodejs_notify',
 		'callback'  => 'e107projectsNotify',
-		'type'      => 'webhookPush',
+		'type'      => 'notification_push',
 		'subject'   => $subject,
 		'markup'    => $markup,
 	);

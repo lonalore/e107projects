@@ -17,22 +17,14 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		{
 			var msgData = {
 				playsound: true,
+				type: message.type,
 				data: {
 					subject: message.subject || '',
 					body: message.markup
 				}
 			};
 
-			switch(message.type)
-			{
-				case "projectSubmitted":
-					e107.Nodejs.callbacks.nodejsNotify.callback(msgData);
-					break;
-
-				case "webhookPush":
-					e107.Nodejs.callbacks.nodejsNotify.callback(msgData);
-					break;
-			}
+			e107.Nodejs.callbacks.nodejsNotify.callback(msgData);
 		}
 	};
 
