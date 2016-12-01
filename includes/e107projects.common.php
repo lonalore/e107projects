@@ -534,7 +534,7 @@ function e107projects_get_access_token()
 	$hybridAuth = e107::getHybridAuth();
 	$adapter = $hybridAuth->getAdapter('Github');
 	$conneceted = $hybridAuth->isConnectedWith('Github');
-	
+
 	if(!$conneceted)
 	{
 		return false;
@@ -563,12 +563,12 @@ function e107projects_update_access_token($accessToken = null, $user_id = null)
 	{
 		return;
 	}
-	
+
 	if(empty($accessToken))
 	{
 		$accessToken = e107projects_get_access_token();
 	}
-	
+
 	if($accessToken)
 	{
 		$db = e107::getDb('update_access_token');
@@ -741,8 +741,8 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 	// Triggering event.
 	$event->trigger('e107projects_user_project_submitted', $project);
 
-	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id);
-	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
+	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 
 	return true;
 }
@@ -874,8 +874,8 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Triggering event.
 	$event->trigger('e107projects_user_project_updated', $project);
 
-	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id);
-	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
+	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 
 	return true;
 }
@@ -890,7 +890,7 @@ function e107projects_update_project($repository_id, $access_token = null)
  * @param int $repository_id
  *  The ID of the repository.
  */
-function e107projects_manage_contributions($owner, $repository, $repository_id)
+function e107projects_manage_contributions($owner, $repository, $repository_id, $access_token = null)
 {
 	if(empty($owner) || empty($repository || empty($repository_id)))
 	{
@@ -901,7 +901,7 @@ function e107projects_manage_contributions($owner, $repository, $repository_id)
 	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
 
 	// Get a Github Client.
-	$client = new e107projectsGithub();
+	$client = new e107projectsGithub($access_token);
 	// Get contributions.
 	$contributions = $client->getContributors($owner, $repository);
 
@@ -957,6 +957,44 @@ function e107projects_manage_contributions($owner, $repository, $repository_id)
 }
 
 /**
+ * Get contributions for repository.
+ *
+ * @param string $user
+ *  Github username.
+ * @param string $repository
+ *  Repository name.
+ *
+ * @return array
+ *  Array contains contributions. Or empty array.
+ */
+function e107projects_get_contributions($user, $repository)
+{
+	$db = e107::getDb();
+	$tp = e107::getParser();
+
+	$query = 'SELECT 
+		c.contributor_name,
+		c.contributions,
+		cr.contributor_id,
+		cr.contributor_avatar
+	FROM #e107projects_contribution AS c
+	LEFT JOIN #e107projects_contributor AS cr ON c.contributor_id = cr.contributor_gid
+	WHERE c.project_user = "' . $tp->toDB($user) . '" AND c.project_name = "' . $tp->toDB($repository) . '" 
+	ORDER BY c.contributions DESC ';
+
+	$db->gen($query, false);
+
+	$contributions = array();
+
+	while($row = $db->fetch())
+	{
+		$contributions[] = $row;
+	}
+
+	return $contributions;
+}
+
+/**
  * Manage releases.
  *
  * @param string $owner
@@ -966,7 +1004,7 @@ function e107projects_manage_contributions($owner, $repository, $repository_id)
  * @param int $repository_id
  *  The ID of the repository.
  */
-function e107projects_manage_releases($owner, $repository, $repository_id)
+function e107projects_manage_releases($owner, $repository, $repository_id, $access_token = null)
 {
 	if(empty($owner) || empty($repository || empty($repository_id)))
 	{
@@ -977,7 +1015,7 @@ function e107projects_manage_releases($owner, $repository, $repository_id)
 	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.github.php');
 
 	// Get a Github Client.
-	$client = new e107projectsGithub();
+	$client = new e107projectsGithub($access_token);
 	// Get releases.
 	$releases = $client->getReleases($owner, $repository);
 
@@ -1074,5 +1112,5 @@ function e107projects_get_user_contributions($user_id)
 
 	$html .= LAN_E107PROJECTS_FRONT_30 . ': ' . $total;
 
-	return $html;
+	return '<div class="user-profile-contributions">' . $html . '<div class="clear clearfix"></div></div>';
 }

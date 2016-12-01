@@ -55,7 +55,7 @@ CREATE TABLE `e107projects_contribution` (
 `contributor_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Github user ID of contributor.',
 `contributor_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username of contributor.',
 `contributions` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of contributions.',
-PRIMARY KEY (`project_id`),
+KEY `project_id` (`project_id`),
 KEY `project_user` (`project_user`),
 KEY `project_name` (`project_name`),
 KEY `contributor_id` (`contributor_id`),
@@ -69,7 +69,7 @@ CREATE TABLE `e107projects_contributor` (
 `contributor_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Github username.',
 `contributor_avatar` varchar(255) NOT NULL DEFAULT '' COMMENT 'Avatar URL.',
 `contributor_type` varchar(50) NOT NULL DEFAULT '' COMMENT 'Type.',
-PRIMARY KEY (`contributor_id`),
+KEY `contributor_id` (`contributor_id`),
 KEY `contributor_gid` (`contributor_gid`),
 KEY `contributor_name` (`contributor_name`),
 KEY `contributor_type` (`contributor_type`)

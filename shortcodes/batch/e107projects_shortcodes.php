@@ -412,8 +412,8 @@ class e107projects_shortcodes extends e_shortcode
 			'href="https://github.com/' . $fullName . '/issues"',
 			'data-icon="octicon-issue-opened"',
 			'data-style="mega"',
-			// 'data-count-api="/repos/' . $fullName . '#open_issues_count"',
-			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_39 . '"',
+			'data-count-api="/repos/' . $fullName . '#open_issues_count"',
+			'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_39 . '"',
 			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_37, array('x' => $fullName)) . '"',
 		);
 
@@ -435,9 +435,9 @@ class e107projects_shortcodes extends e_shortcode
 			'href="https://github.com/' . $fullName . '"',
 			'data-icon="octicon-star"',
 			'data-style="mega"',
-			// 'data-count-href="/' . $fullName . '/stargazers"',
-			// 'data-count-api="/repos/' . $fullName . '#stargazers_count"',
-			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_40 . '"',
+			'data-count-href="/' . $fullName . '/stargazers"',
+			'data-count-api="/repos/' . $fullName . '#stargazers_count"',
+			'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_40 . '"',
 			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_41, array('x' => $fullName)) . '"',
 		);
 
@@ -459,9 +459,9 @@ class e107projects_shortcodes extends e_shortcode
 			'href="https://github.com/' . $fullName . '/fork"',
 			'data-icon="octicon-repo-forked"',
 			'data-style="mega"',
-			// 'data-count-href="/' . $fullName . '/network"',
-			// 'data-count-api="/repos/' . $fullName . '#forks_count"',
-			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_43 . '"',
+			'data-count-href="/' . $fullName . '/network"',
+			'data-count-api="/repos/' . $fullName . '#forks_count"',
+			'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_43 . '"',
 			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_44, array('x' => $fullName)) . '"',
 		);
 
@@ -483,9 +483,9 @@ class e107projects_shortcodes extends e_shortcode
 			'href="https://github.com/' . $fullName . '"',
 			'data-icon="octicon-eye"',
 			'data-style="mega"',
-			// 'data-count-href="/' . $fullName . '/watchers"',
-			// 'data-count-api="/repos/' . $fullName . '#subscribers_count"',
-			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_46 . '"',
+			'data-count-href="/' . $fullName . '/watchers"',
+			'data-count-api="/repos/' . $fullName . '#subscribers_count"',
+			'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_46 . '"',
 			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_47, array('x' => $fullName)) . '"',
 		);
 
@@ -506,9 +506,9 @@ class e107projects_shortcodes extends e_shortcode
 			'class="github-button"',
 			'href="https://github.com/' . $owner . '"',
 			'data-style="mega"',
-			// 'data-count-href="/' . $owner . '/followers"',
-			// 'data-count-api="/repos/' . $owner . '#followers"',
-			// 'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_49 . '"',
+			'data-count-href="/' . $owner . '/followers"',
+			'data-count-api="/repos/' . $owner . '#followers"',
+			'data-count-aria-label="# ' . LAN_E107PROJECTS_FRONT_49 . '"',
 			'aria-label="' . $tp->lanVars(LAN_E107PROJECTS_FRONT_50, array('x' => '@' . $owner)) . '"',
 		);
 
