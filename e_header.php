@@ -41,8 +41,7 @@ class e107projects_header
 
 		if(USER_AREA && defset('e_PAGE') != 'usersettings.php' && $this->incompleteUserAccount())
 		{
-			// TODO - alert.
-			// e107::getMessage()->add(LAN_E107PROJECTS_FRONT_05, E_WARNING, true);
+			e107::getMessage()->add(LAN_E107PROJECTS_FRONT_05, E_MESSAGE_ERROR, true);
 			e107::redirect('/usersettings.php');
 		}
 
