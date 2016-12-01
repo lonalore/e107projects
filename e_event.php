@@ -25,17 +25,11 @@ class e107projects_event
 	function config()
 	{
 		$event = array();
-
-		// After login.
-		$event[] = array(
-			'name'     => 'user_login',
-			'function' => 'e107projects_user_login_callback',
-		);
-
+		
 		// After XUP login.
 		$event[] = array(
-			'name'     => 'user_xup_login',
-			'function' => 'e107projects_user_login_callback',
+			'name'     => 'user_xup_profile_updated',
+			'function' => 'e107projects_user_xup_profile_updated_callback',
 		);
 
 		// After a user updated his profile.
@@ -64,13 +58,13 @@ class e107projects_event
 	 * 
 	 * @param $data
 	 */
-	function e107projects_user_login_callback($data)
+	function e107projects_user_xup_profile_updated_callback($data)
 	{
 		// Common functions.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 		// Try to update Access Token on hooks (are saved in database)
 		// belong to the logged in user.
-		e107projects_update_access_token();
+		e107projects_update_access_token(null, $data['user_id']);
 	}
 
 	/**

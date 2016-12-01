@@ -534,7 +534,7 @@ function e107projects_get_access_token()
 	$hybridAuth = e107::getHybridAuth();
 	$adapter = $hybridAuth->getAdapter('Github');
 	$conneceted = $hybridAuth->isConnectedWith('Github');
-
+	
 	if(!$conneceted)
 	{
 		return false;
@@ -552,13 +552,18 @@ function e107projects_get_access_token()
  * @param null $accessToken
  *  If Access Token is given, just update hooks with it.
  */
-function e107projects_update_access_token($accessToken = null)
+function e107projects_update_access_token($accessToken = null, $user_id = null)
 {
-	if(empty(USERID))
+	if(empty($user_id))
+	{
+		$user_id = defset('USERID', 0);
+	}
+
+	if(empty($user_id))
 	{
 		return;
 	}
-
+	
 	if(empty($accessToken))
 	{
 		$accessToken = e107projects_get_access_token();
@@ -567,7 +572,7 @@ function e107projects_update_access_token($accessToken = null)
 	if($accessToken)
 	{
 		$db = e107::getDb('update_access_token');
-		$db->select('e107projects_project', '*', 'project_author = ' . USERID);
+		$db->select('e107projects_project', '*', 'project_author = ' . $user_id);
 
 		$projects = array();
 		while($row = $db->fetch())
