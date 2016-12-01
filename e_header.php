@@ -68,8 +68,8 @@ class e107projects_header
 			$this->needCSS = true;
 		}
 
+		// Need CSS globally, because it contains styles for NodeJS notifications.
 		$this->needCSS = true;
-		e107::js('footer', '{e_PLUGIN}e107projects/js/e107projects.nodejs.js', 'jquery', 5);
 
 		if($this->needCSS === true)
 		{
