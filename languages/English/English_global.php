@@ -28,6 +28,11 @@ define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_07", "Any time a Milestone is crea
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_08", "Any time a Pull Request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized");
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_09", "Any time a Release is published in a Repository");
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_10", "Any time a User stars a Repository");
+define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_11", "Any time a new Project is submitted");
 
-define("LAN_PLUGIN_WEBHOOK_PUSH_SUBJECT", "Pushing to repository");
-define("LAN_PLUGIN_WEBHOOK_PUSH_MESSAGE", "[x] pushed [y] to: [z]");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_SUBJECT", "Pushing to repository");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_MESSAGE", "[x] pushed [y] to: [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_SUBJECT", "New project");
+define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_MESSAGE", "[x] submitted a new project: [y]");
+

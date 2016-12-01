@@ -23,6 +23,18 @@ class e107projects_nodejs_notify
 	{
 		$items = array();
 
+		// "Any time a new Project is submitted".
+		$items[] = array(
+			// Use global language file.
+			'label'       => LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_11,
+			// Extended User Field name from plugin.xml to store configuration by user.
+			// plugin_e107projects_notification_project
+			'field_alert' => 'notification_project',
+			// Extended User Field name from plugin.xml to store configuration by user.
+			// plugin_e107projects_notification_project_sound
+			'field_sound' => 'notification_project_sound',
+		);
+
 		// "Any Git push to a Repository".
 		$items[] = array(
 			// Use global language file.
@@ -59,18 +71,6 @@ class e107projects_nodejs_notify
 			'field_sound' => 'notification_fork_sound',
 		);
 
-		// "Any time a comment on an issue is created, edited, or deleted".
-		$items[] = array(
-			// Use global language file.
-			'label'       => LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_05,
-			// Extended User Field name from plugin.xml to store configuration by user.
-			// plugin_e107projects_notification_issue_comment
-			'field_alert' => 'notification_issue_comment',
-			// Extended User Field name from plugin.xml to store configuration by user.
-			// plugin_e107projects_notification_issue_comment_sound
-			'field_sound' => 'notification_issue_comment_sound',
-		);
-
 		// "Any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited,
 		// milestoned, demilestoned, closed, or reopened".
 		$items[] = array(
@@ -82,6 +82,18 @@ class e107projects_nodejs_notify
 			// Extended User Field name from plugin.xml to store configuration by user.
 			// plugin_e107projects_notification_issues_sound
 			'field_sound' => 'notification_issues_sound',
+		);
+
+		// "Any time a comment on an issue is created, edited, or deleted".
+		$items[] = array(
+			// Use global language file.
+			'label'       => LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_05,
+			// Extended User Field name from plugin.xml to store configuration by user.
+			// plugin_e107projects_notification_issue_comment
+			'field_alert' => 'notification_issue_comment',
+			// Extended User Field name from plugin.xml to store configuration by user.
+			// plugin_e107projects_notification_issue_comment_sound
+			'field_sound' => 'notification_issue_comment_sound',
 		);
 
 		// "Any time a Milestone is created, closed, opened, edited, or deleted".

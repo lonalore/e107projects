@@ -8,6 +8,21 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 
 	e107.OpenLayers = e107.OpenLayers || {};
 
+	e107.Nodejs = e107.Nodejs || {
+			'contentChannelNotificationCallbacks': {},
+			'presenceCallbacks': {},
+			'callbacks': {},
+			'socket': false,
+			'connectionSetupHandlers': {}
+		};
+
+	e107.Nodejs.callbacks.e107projectsMapPopup = {
+		callback: function (message)
+		{
+
+		}
+	};
+
 	/**
 	 * Resize Map's canvas.
 	 *

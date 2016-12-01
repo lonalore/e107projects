@@ -25,7 +25,7 @@ class e107projects_event
 	function config()
 	{
 		$event = array();
-		
+
 		// After XUP login.
 		$event[] = array(
 			'name'     => 'user_xup_profile_updated',
@@ -44,6 +44,12 @@ class e107projects_event
 			'function' => 'e107projects_user_project_submitted_callback',
 		);
 
+		// After a project has been approved.
+		$event[] = array(
+			'name'     => 'e107projects_user_project_approved',
+			'function' => 'e107projects_user_project_approved_callback',
+		);
+
 		// After a Github Push Webhook IPN has arrived.
 		$event[] = array(
 			'name'     => 'e107projects_webhook_push',
@@ -55,7 +61,7 @@ class e107projects_event
 
 	/**
 	 * After login / xup login.
-	 * 
+	 *
 	 * @param $data
 	 */
 	function e107projects_user_xup_profile_updated_callback($data)
@@ -115,26 +121,23 @@ class e107projects_event
 	 */
 	function e107projects_user_project_submitted_callback($data)
 	{
-		$user_id = (int) $data['project_author'];
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send notification.
+		e107projects_user_project_submitted_notification($data);
+	}
 
-		if($user_id > 0)
-		{
-			e107_require_once(e_PLUGIN . 'nodejs/nodejs.main.php');
-
-			// TODO - more details?
-			$subject = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT;
-			$message = LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE;
-
-			$package = (object) array(
-				'channel'  => 'nodejs_user_' . $user_id,
-				'callback' => 'e107projectsNotify',
-				'type'     => 'projectSubmitted',
-				'subject'  => $subject,
-				'markup'   => $message,
-			);
-
-			nodejs_enqueue_message($package);
-		}
+	/**
+	 * After a project has been approved.
+	 *
+	 * @param $data
+	 */
+	function e107projects_user_project_approved_callback($data)
+	{
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send broadcast notification.
+		e107projects_user_project_approved_notification($data);
 	}
 
 	/**
@@ -146,25 +149,8 @@ class e107projects_event
 	 */
 	function e107projects_webhook_push_callback($data)
 	{
-		// Common functions.
-		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 		// Helper functions for event callbacks.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
-
-		// Repository pushed to.
-		$repository = varset($data['repository'], false);
-
-		// Try to update project details in database.
-		if(varset($repository['id'], false))
-		{
-			// Github API data is cached, and will be updated later...
-			// So it makes no sense to update project here...
-			// e107projects_update_project($repository['id']);
-			// TODO
-			// update project and contribution details with data from
-			// webhook payload.
-		}
-
 		// Send broadcast notification.
 		e107projects_webhook_push_notification($data);
 	}

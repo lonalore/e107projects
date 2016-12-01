@@ -358,6 +358,10 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	 */
 	public function afterUpdate($new_data, $old_data, $id)
 	{
+		if($old_data['project_status'] == 0 && $new_data['project_status'] == 1)
+		{
+			e107::getEvent()->trigger('e107projects_user_project_approved', $new_data);
+		}
 	}
 
 	/**
