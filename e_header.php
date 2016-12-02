@@ -39,6 +39,8 @@ class e107projects_header
 	{
 		$this->plugPrefs = e107::getPlugConfig('e107projects')->getPref();
 
+		e107::library('load', 'octicons', 'minified');
+
 		if(USER_AREA && defset('e_PAGE') != 'usersettings.php' && $this->incompleteUserAccount())
 		{
 			e107::getMessage()->add(LAN_E107PROJECTS_FRONT_05, E_MESSAGE_ERROR, true);

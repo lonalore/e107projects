@@ -74,7 +74,39 @@ class e107projects_library
 			),
 		);
 
+		// OctIcons.
+		$libraries['octicons'] = array(
+			'name'             => 'OctIcons',
+			'vendor_url'       => 'https://octicons.github.com/',
+			'download_url'     => 'https://github.com/primer/octicons/archive/v5.0.1.zip',
+			'version_callback' => 'octicons_version_callback',
+			'files'            => array(
+				'css' => array(
+					'octicons.css' => array(
+						'zone' => 2,
+					),
+				),
+			),
+			'variants'         => array(
+				// All properties defined for 'minified' override top-level properties.
+				'minified' => array(
+					'files' => array(
+						'css' => array(
+							'octicons.min.css' => array(
+								'zone' => 2,
+							),
+						),
+					),
+				),
+			),
+		);
+
 		return $libraries;
+	}
+
+	function octicons_version_callback()
+	{
+		return '5.0.1';
 	}
 
 }

@@ -239,6 +239,24 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'data'  => 'int',
 			'tab'   => 0,
 		),
+		'project_open_issues'     => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_34,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_watchers'     => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_35,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
+		'project_forks'     => array(
+			'title' => LAN_E107PROJECTS_ADMIN_MENU_36,
+			'type'  => 'text',
+			'data'  => 'int',
+			'tab'   => 0,
+		),
 		'project_status'      => array(
 			'title'      => LAN_E107PROJECTS_ADMIN_MENU_08,
 			'type'       => 'dropdown',
