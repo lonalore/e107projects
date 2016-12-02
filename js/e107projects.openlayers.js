@@ -46,7 +46,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			);
 
 			e107.mapPopupOverlay.setPosition(position);
-			e107.mapPopupContent.innerHTML = data.message;
+			e107.mapPopupContent.innerHTML = data.msg;
 			e107.mapPopupContainer.style.display = 'block';
 
 			if(e107.prologueContainer.css('opacity') == 1)
