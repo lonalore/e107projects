@@ -148,14 +148,14 @@ class e107projects_event
 
 		// "[x] submitted a new project: [y]"
 		$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_MESSAGE, array(
-			'x' => $data['project_user'],
-			'y' => $data['project_user'] . '/' . $data['project_name'],
+			'x' => '<strong>' . $data['project_user'] . '</strong>',
+			'y' => '<strong>' . $data['project_user'] . '/' . $data['project_name'] . '</strong>',
 		));
 
 		$popup = array(
 			'lat' => (int) varset($location['lat']),
 			'lon' => (int) varset($location['lon']),
-			'msg' => $message,
+			'msg' => '<p>' . varset($location['name']) . '</p><small>' . $message . '</small>',
 		);
 
 		// OpenLayers Popup.
@@ -206,15 +206,15 @@ class e107projects_event
 
 		// "[x] pushed [y] to: [z]"
 		$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_MESSAGE, array(
-			'x' => varset($sender['login'], ''),
-			'y' => $count,
-			'z' => $repository['full_name'],
+			'x' => '<strong>' . varset($sender['login'], '') . '</strong>',
+			'y' => '<strong>' . $count . '</strong>',
+			'z' => '<strong>' . $repository['full_name'] . '</strong>',
 		));
 
 		$popup = array(
 			'lat' => (int) varset($location['lat']),
 			'lon' => (int) varset($location['lon']),
-			'msg' => $message,
+			'msg' => '<p>' . varset($location['name']) . '</p><small>' . $message . '</small>',
 		);
 
 		// OpenLayers Popup.
