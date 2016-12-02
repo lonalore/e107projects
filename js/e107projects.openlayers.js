@@ -63,7 +63,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			{
 				e107.mapPopupContainer.style.display = 'none';
 				e107.prologueContainer.fadeTo(500, 1);
-			}, 5000);
+			}, 10000);
 		}
 	};
 
