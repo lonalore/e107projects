@@ -714,20 +714,21 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 
 	// Prepare arguments for SQL query.
 	$project = array(
-		'project_id'          => (int) $repository['id'],
-		'project_author'      => $user_id,
-		'project_user'        => $tp->toDB($repository['owner']['login']),
-		'project_name'        => $tp->toDB($repository['name']),
-		'project_description' => $tp->toDB($repository['description']),
-		'project_stars'       => (int) $repository['stargazers_count'],
-		'project_watchers'    => (int) $repository['watchers'],
-		'project_forks'       => (int) $repository['forks'],
-		'project_open_issues' => (int) $repository['open_issues'],
-		'project_commits'     => (int) $commits,
-		'project_status'      => 0,
-		'project_submitted'   => time(),
-		'project_updated'     => time(),
-		'project_readme'      => $readme ? $tp->toDB($readme) : '',
+		'project_id'             => (int) $repository['id'],
+		'project_author'         => $user_id,
+		'project_user'           => $tp->toDB($repository['owner']['login']),
+		'project_name'           => $tp->toDB($repository['name']),
+		'project_description'    => $tp->toDB($repository['description']),
+		'project_stars'          => (int) $repository['stargazers_count'],
+		'project_watchers'       => (int) $repository['watchers'],
+		'project_forks'          => (int) $repository['forks'],
+		'project_open_issues'    => (int) $repository['open_issues'],
+		'project_commits'        => (int) $commits,
+		'project_default_branch' => $tp->toDB($repository['default_branch']),
+		'project_status'         => 0,
+		'project_submitted'      => time(),
+		'project_updated'        => time(),
+		'project_readme'         => $readme ? $readme : '',
 	);
 
 	// Try to save project into database.
@@ -856,19 +857,20 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Prepare arguments for SQL query.
 	$project = array(
 		// 'project_id'          => (int) $repository['id'],
-		'project_author'      => $user_id,
-		'project_user'        => $tp->toDB($repository['owner']['login']),
-		'project_name'        => $tp->toDB($repository['name']),
-		'project_description' => $tp->toDB($repository['description']),
-		'project_stars'       => (int) $repository['stargazers_count'],
-		'project_watchers'    => (int) $repository['watchers'],
-		'project_forks'       => (int) $repository['forks'],
-		'project_open_issues' => (int) $repository['open_issues'],
-		'project_commits'     => (int) $commits,
+		'project_author'         => $user_id,
+		'project_user'           => $tp->toDB($repository['owner']['login']),
+		'project_name'           => $tp->toDB($repository['name']),
+		'project_description'    => $tp->toDB($repository['description']),
+		'project_stars'          => (int) $repository['stargazers_count'],
+		'project_watchers'       => (int) $repository['watchers'],
+		'project_forks'          => (int) $repository['forks'],
+		'project_open_issues'    => (int) $repository['open_issues'],
+		'project_commits'        => (int) $commits,
+		'project_default_branch' => $tp->toDB($repository['default_branch']),
 		// 'project_status'      => 0,
 		// 'project_submitted'   => time(),
-		'project_updated'     => time(),
-		'project_readme'      => $readme ? $tp->toDB($readme) : '',
+		'project_updated'        => time(),
+		'project_readme'         => $readme ? $readme : '',
 	);
 
 	// Try to update project details in database.
@@ -1119,4 +1121,34 @@ function e107projects_get_user_contributions($user_id)
 	$html .= LAN_E107PROJECTS_FRONT_30 . ': ' . $total;
 
 	return '<div class="user-profile-contributions">' . $html . '<div class="clear clearfix"></div></div>';
+}
+
+/**
+ * Get the location details for a user.
+ *
+ * @param int $user_id
+ *  e107 user ID.
+ *
+ * @return array
+ *  Location details.
+ */
+function e107projects_get_user_location($user_id)
+{
+	$db = e107::getDb();
+	$db->gen("SELECT l.location_name, l.location_lat, l.location_lon FROM #user_extended AS ue 
+			LEFT JOIN #e107projects_location AS l ON l.location_name = ue.user_plugin_e107projects_location
+			WHERE ue.user_extended_id = " . (int) $user_id);
+
+	$location = array();
+
+	while($row = $db->fetch())
+	{
+		$location = array(
+			'name' => $row['location_name'],
+			'lat'  => $row['location_lat'],
+			'lon'  => $row['location_lon'],
+		);
+	}
+
+	return $location;
 }

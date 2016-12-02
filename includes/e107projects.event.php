@@ -25,9 +25,9 @@ function e107projects_user_project_submitted_notification($data)
 
 		$package = (object) array(
 			'channel'  => 'nodejs_user_' . $user_id,
-			'callback'  => 'nodejsNotify',
-			'type'      => 'notification_project',
-			'data'      => array(
+			'callback' => 'nodejsNotify',
+			'type'     => 'notification_project',
+			'data'     => array(
 				'subject' => $subject,
 				'body'    => $message,
 			),
@@ -161,6 +161,32 @@ function e107projects_webhook_push_notification($data)
 			'subject' => $subject,
 			'body'    => $markup,
 		),
+	);
+
+	nodejs_enqueue_message($package);
+}
+
+/**
+ * @param $data
+ */
+function e107projects_new_openlayers_popup($data)
+{
+	$lat = varset($data['lat'], 0);
+	$lon = varset($data['lon'], 0);
+	$msg = varset($data['msg'], '');
+
+	if(empty($lat) || empty($lon) || empty($msg))
+	{
+		return;
+	}
+
+	$package = (object) array(
+		'broadcast' => true,
+		'channel'   => 'nodejs_notify',
+		'callback'  => 'e107projectsMapPopup',
+		'lat'       => $lat,
+		'lon'       => $lon,
+		'msg'       => $msg,
 	);
 
 	nodejs_enqueue_message($package);

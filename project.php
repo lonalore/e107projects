@@ -71,7 +71,7 @@ class e107ProjectsProject
 	{
 		// "Place this tag in your head or just before your close body tag."
 		// Header is already sent, so we can add this to the footer.
-		e107::js('footer', 'https://buttons.github.io/buttons.js');
+		// e107::js('footer', 'https://buttons.github.io/buttons.js');
 	}
 
 	/**

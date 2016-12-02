@@ -9,6 +9,7 @@ CREATE TABLE `e107projects_project` (
 `project_forks` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of forks for project.',
 `project_open_issues` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of open issues for project.',
 `project_commits` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of commits.',
+`project_default_branch` varchar(50) NOT NULL DEFAULT '' COMMENT 'Default branch for project.',
 `project_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Status for the project. Visible or not.',
 `project_submitted` int(11) NOT NULL DEFAULT '0' COMMENT 'Submitted time as timestamp.',
 `project_updated` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated time as timestamp.',

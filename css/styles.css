@@ -46,6 +46,56 @@
     right: 20px;
 }
 
+.ol-popup {
+    display: none;
+    position: absolute;
+    background-color: white;
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    border-radius: 10px;
+    border: 1px solid #064771;
+    bottom: 12px;
+    left: -50px;
+    min-width: 200px;
+    padding: 5px;
+}
+
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.ol-popup:after {
+    border-top-color: #ffffff;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+
+.ol-popup:before {
+    border-top-color: #064771;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+
+.ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+}
+
+.ol-popup-closer:after {
+    content: "✖";
+}
+
 .senary-container {
     background-color: #064771;
 }
@@ -122,7 +172,7 @@
 }
 
 .ajax-action-button.has-spinner.active {
-    cursor:progress;
+    cursor: progress;
 }
 
 .ajax-action-button.has-spinner.active .spinner {
@@ -203,7 +253,6 @@
 }
 
 /* Search */
-
 
 #project-search-result .search-results .visible-xs .label {
     background: #CECECE;

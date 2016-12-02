@@ -532,4 +532,13 @@ class e107projects_shortcodes extends e_shortcode
 		return '';
 	}
 
+	/**
+	 * Project - description.
+	 */
+	public function sc_project_description()
+	{
+		$repository = varset($this->var['repository'], array());
+		return varset($repository['project_description'], '');
+	}
+
 }

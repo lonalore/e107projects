@@ -134,10 +134,32 @@ class e107projects_event
 	 */
 	function e107projects_user_project_approved_callback($data)
 	{
+		// Helper functions.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 		// Helper functions for event callbacks.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
 		// Send broadcast notification.
 		e107projects_user_project_approved_notification($data);
+
+		$tp = e107::getParser();
+
+		// Need to get User location.
+		$location = e107projects_get_user_location($data['project_author']);
+
+		// "[x] submitted a new project: [y]"
+		$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_MESSAGE, array(
+			'x' => $data['project_user'],
+			'y' => $data['project_user'] . '/' . $data['project_name'],
+		));
+
+		$popup = array(
+			'lat' => (int) varset($location['lat']),
+			'lon' => (int) varset($location['lon']),
+			'msg' => $message,
+		);
+
+		// OpenLayers Popup.
+		e107projects_new_openlayers_popup($popup);
 	}
 
 	/**
@@ -149,10 +171,54 @@ class e107projects_event
 	 */
 	function e107projects_webhook_push_callback($data)
 	{
+		// [PLUGINS]/e107projects/languages/[LANGUAGE]/[LANGUAGE]_front.php
+		e107::lan('e107projects', false, true);
+		// Helper functions.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
 		// Helper functions for event callbacks.
 		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
 		// Send broadcast notification.
 		e107projects_webhook_push_notification($data);
+
+		$tp = e107::getParser();
+		$db = e107::getDb();
+
+		$sender = varset($data['sender'], false);
+		$commits = varset($data['commits'], false);
+		$repository = varset($data['repository'], false);
+
+		$count = count($commits);
+		if($count > 1)
+		{
+			$count .= ' ' . LAN_E107PROJECTS_FRONT_02;
+		}
+		else
+		{
+			$count .= ' ' . LAN_E107PROJECTS_FRONT_29;
+		}
+
+		// Get User ID for location.
+		$user_id = $db->retrieve('e107projects_contributor', 'contributor_id', 'contributor_name = "' . $tp->toDB($sender['login']) . '"');
+		$user_id = (int) $user_id;
+
+		// Get User location.
+		$location = e107projects_get_user_location($user_id);
+
+		// "[x] pushed [y] to: [z]"
+		$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_MESSAGE, array(
+			'x' => varset($sender['login'], ''),
+			'y' => $count,
+			'z' => $repository['full_name'],
+		));
+
+		$popup = array(
+			'lat' => (int) varset($location['lat']),
+			'lon' => (int) varset($location['lon']),
+			'msg' => $message,
+		);
+
+		// OpenLayers Popup.
+		e107projects_new_openlayers_popup($popup);
 	}
 
 }

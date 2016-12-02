@@ -68,37 +68,46 @@ class e107projects_project_releases_menu
 		$content = '';
 
 		$fullName = $this->user . '/' . $this->repo;
-		$where = '';
 
-		$where .= 'release_project_user = "' . $tp->toDB($this->user) . '" ';
+		$where = 'project_user = "' . $tp->toDB($this->user) . '" AND project_name = "' . $tp->toDB($this->repo) . '"';
+		$project = $db->retrieve('e107projects_project', '*', $where);
+
+		$where = 'release_project_user = "' . $tp->toDB($this->user) . '" ';
 		$where .= 'AND release_project_name = "' . $tp->toDB($this->repo) . '" ';
 		$where .= 'ORDER BY release_published_at DESC ';
 
 		$releases = $db->select('e107projects_release', '*', $where);
 
-		if(empty($releases))
+		$content .= '<ul class="list-group">';
+
+		// Master.
+		$url = 'https://github.com/' . $fullName . '/archive/' . $project['project_default_branch'] . '.zip';
+		$content .= '<a class="list-group-item" href="' . $url . '" target="_blank">';
+		$content .= '<strong>' . $project['project_default_branch'] . '</strong> ';
+		$content .= '<span class="label label-danger">' . LAN_E107PROJECTS_FRONT_64 . '</span>';
+		$content .= '</a>';
+
+		if(!empty($releases))
 		{
-			$content .= '<div class="panel panel-default github-buttons-container">';
-			$content .= '<div class="panel-body text-center">';
-			$content .= LAN_E107PROJECTS_FRONT_62;
-			$content .= '</div>';
-			$content .= '</div>';
-			$ns->tablerender($caption, $content);
-			return;
+			while($release = $db->fetch())
+			{
+				$url = 'https://github.com/' . $fullName . '/releases/tag/' . $release['release_tag_name'];
+				$content .= '<a class="list-group-item" href="' . $url . '" target="_blank">';
+				$content .= '<strong>' . $release['release_tag_name'] . '</strong> ';
+
+				if($release['release_prerelease'] == 1)
+				{
+					$content .= '<span class="label label-warning">' . LAN_E107PROJECTS_FRONT_63 . '</span>';
+				}
+				else
+				{
+					// $content .= '<span class="label label-success">' . LAN_E107PROJECTS_FRONT_65 . '</span>';
+				}
+
+				$content .= '</a>';
+			}
 		}
 
-		$content .= '<ul class="list-group">';
-		while($release = $db->fetch())
-		{
-			$url = 'https://github.com/' . $fullName . '/releases/tag/' . $release['release_tag_name'];
-			$content .= '<a class="list-group-item" href="' . $url . '" target="_blank">';
-			$content .= '<strong>' . $release['release_tag_name'] . '</strong> ';
-			if($release['release_prerelease'] == 1)
-			{
-				$content .= '<span class="badge">' . LAN_E107PROJECTS_FRONT_63 . '</span>';
-			}
-			$content .= '</a>';
-		}
 		$content .= '</ul>';
 
 		$ns->tablerender($caption, $content);
