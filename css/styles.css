@@ -96,17 +96,17 @@
     content: "✖";
 }
 
-.ol-popup .popup-content {
+.ol-popup #popup-content {
     line-height: 16px;
 }
 
-.ol-popup .popup-content p {
+.ol-popup #popup-content p {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
 }
 
-.ol-popup .popup-content small {
+.ol-popup #popup-content small {
     font-size: 12px;
 }
 
