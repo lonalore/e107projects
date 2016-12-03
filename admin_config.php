@@ -79,7 +79,7 @@ class e107projects_admin extends e_admin_dispatcher
 		'opt1'          => array(
 			'divider' => true,
 		),
-		'main/limits'    => array(
+		'main/limits'   => array(
 			'caption' => LAN_E107PROJECTS_ADMIN_MENU_33,
 			'perm'    => 'P',
 		),
@@ -200,9 +200,8 @@ class e107projects_admin_projects_ui extends e_admin_ui
 		'project_author'      => array(
 			'title'    => LAN_E107PROJECTS_ADMIN_MENU_07,
 			'type'     => 'user',
-			'inline'   => true,
+			'inline'   => false,
 			'filter'   => false,
-			'validate' => true,
 			'data'     => 'str',
 			'width'    => 'auto',
 			'thclass'  => 'center',
@@ -239,19 +238,19 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'data'  => 'int',
 			'tab'   => 0,
 		),
-		'project_open_issues'     => array(
+		'project_open_issues' => array(
 			'title' => LAN_E107PROJECTS_ADMIN_MENU_34,
 			'type'  => 'text',
 			'data'  => 'int',
 			'tab'   => 0,
 		),
-		'project_watchers'     => array(
+		'project_watchers'    => array(
 			'title' => LAN_E107PROJECTS_ADMIN_MENU_35,
 			'type'  => 'text',
 			'data'  => 'int',
 			'tab'   => 0,
 		),
-		'project_forks'     => array(
+		'project_forks'       => array(
 			'title' => LAN_E107PROJECTS_ADMIN_MENU_36,
 			'type'  => 'text',
 			'data'  => 'int',
@@ -262,13 +261,15 @@ class e107projects_admin_projects_ui extends e_admin_ui
 			'type'       => 'dropdown',
 			'data'       => 'int',
 			'writeParms' => array(
-				0 => LAN_E107PROJECTS_ADMIN_MENU_22,
-				1 => LAN_E107PROJECTS_ADMIN_MENU_23,
-				2 => LAN_E107PROJECTS_ADMIN_MENU_24,
+				'optArray' => array(
+					0 => LAN_E107PROJECTS_ADMIN_MENU_22,
+					1 => LAN_E107PROJECTS_ADMIN_MENU_23,
+					2 => LAN_E107PROJECTS_ADMIN_MENU_24,
+				),
 			),
 			'inline'     => true,
 			'filter'     => true,
-			'validate'   => true,
+			'batch'      => true,
 			'thclass'    => 'center',
 			'class'      => 'center',
 			'tab'        => 0,
@@ -376,9 +377,14 @@ class e107projects_admin_projects_ui extends e_admin_ui
 	 */
 	public function afterUpdate($new_data, $old_data, $id)
 	{
-		if($old_data['project_status'] == 0 && $new_data['project_status'] == 1)
+		if($old_data['project_status'] != 1 && $new_data['project_status'] == 1)
 		{
 			e107::getEvent()->trigger('e107projects_user_project_approved', $new_data);
+		}
+
+		if($old_data['project_status'] != 2 && $new_data['project_status'] == 2)
+		{
+			e107::getEvent()->trigger('e107projects_user_project_rejected', $new_data);
 		}
 	}
 
@@ -516,7 +522,7 @@ class e107projects_admin_ui extends e_admin_ui
 
 		$content .= '<div class="responsive-table">';
 		$content .= '<table class="table table-striped">';
-		
+
 		$content .= '<thead>';
 		$content .= '<tr>';
 		$content .= '<th>' . LAN_E107PROJECTS_FRONT_32 . '</th>';
@@ -526,7 +532,7 @@ class e107projects_admin_ui extends e_admin_ui
 		$content .= '<th>' . LAN_E107PROJECTS_FRONT_36 . '</th>';
 		$content .= '</tr>';
 		$content .= '</thead>';
-		
+
 		$content .= '<tbody>';
 		while($row = $db->fetch())
 		{
@@ -555,7 +561,7 @@ class e107projects_admin_ui extends e_admin_ui
 			$content .= '</tr>';
 		}
 		$content .= '</tbody>';
-		
+
 		$content .= '</table>';
 		$content .= '</div>';
 

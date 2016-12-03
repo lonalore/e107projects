@@ -36,3 +36,6 @@ define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_MESSAGE", "[x] pushed [y] to: [z]")
 define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_SUBJECT", "New project");
 define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_MESSAGE", "[x] submitted a new project: [y]");
 
+define("LAN_PLUGIN_E107PROJECTS_PROJECT_REJECTED_SUBJECT", "Project rejected");
+define("LAN_PLUGIN_E107PROJECTS_PROJECT_REJECTED_MESSAGE", "Your project has been rejected.");
+

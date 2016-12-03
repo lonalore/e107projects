@@ -55,7 +55,7 @@ class e107projects_cron
 		$db = e107::getDb('cron_projects');
 
 		// Get the oldest project.
-		$db->select('e107projects_project', 'project_id', 'project_id > 0 ORDER BY project_updated ASC LIMIT 0,' . $limit);
+		$db->select('e107projects_project', 'project_id', 'project_id >= 0 ORDER BY project_updated ASC LIMIT 0,' . $limit);
 
 		while($project = $db->fetch())
 		{
