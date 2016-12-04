@@ -143,6 +143,8 @@ class e107projects_event
 	 * Any Git push to a Repository, including editing tags or branches.
 	 * Commits via API actions that update references are also counted.
 	 *
+	 * @see https://developer.github.com/v3/activity/events/types/#pushevent
+	 *
 	 * @param array $data
 	 *  Payload data.
 	 */
@@ -159,12 +161,19 @@ class e107projects_event
 	/**
 	 * Any time a Commit is commented on.
 	 *
+	 * @see https://developer.github.com/v3/activity/events/types/#commitcommentevent
+	 *
 	 * @param array $data
 	 *  Payload data.
 	 */
 	function e107projects_webhook_commit_comment_callback($data)
 	{
-
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send broadcast notification.
+		e107projects_webhook_commit_comment_notification($data);
+		// Send broadcast notification for displaying OpenLayers Popup.
+		e107projects_webhook_commit_comment_notification_openlayers($data);
 	}
 
 }
