@@ -102,7 +102,6 @@ class e107ProjectsCallback
 			// Any time a Repository is forked.
 			// @see https://developer.github.com/v3/activity/events/types/#forkevent
 			case 'fork':
-				// TODO
 				$event->trigger('e107projects_webhook_fork', $this->payload);
 				break;
 

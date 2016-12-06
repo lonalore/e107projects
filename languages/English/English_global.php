@@ -40,5 +40,8 @@ define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_SUBJECT", "Pushing to repository");
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_PUSH_MESSAGE", "[x] pushed [y] to: [z]");
 
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_COMMIT_COMMENT_SUBJECT", "Commit comment");
-define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_COMMIT_COMMENT_MESSAGE", "[x] commented on a [y] in [z] repository.");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_COMMIT_COMMENT_MESSAGE", "[x] commented on a [y] in [z] repository");
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_COMMIT_COMMENT_MESSAGE_Y", "commit");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_FORK_SUBJECT", "Fork A Repo");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_FORK_MESSAGE", "[x] forked [y]");

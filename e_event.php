@@ -68,6 +68,12 @@ class e107projects_event
 			'function' => 'e107projects_webhook_commit_comment_callback',
 		);
 
+		// Any time a Repository is forked.
+		$event[] = array(
+			'name'     => 'e107projects_webhook_fork',
+			'function' => 'e107projects_webhook_fork_callback'
+		);
+
 		return $event;
 	}
 
@@ -174,6 +180,24 @@ class e107projects_event
 		e107projects_webhook_commit_comment_notification($data);
 		// Send broadcast notification for displaying OpenLayers Popup.
 		e107projects_webhook_commit_comment_notification_openlayers($data);
+	}
+
+	/**
+	 * Any time a Repository is forked.
+	 *
+	 * @see https://developer.github.com/v3/activity/events/types/#forkevent
+	 *
+	 * @param $data
+	 *  Payload data.
+	 */
+	function e107projects_webhook_fork_callback($data)
+	{
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send broadcast notification.
+		e107projects_webhook_fork_notification($data);
+		// Send broadcast notification for displaying OpenLayers Popup.
+		e107projects_webhook_fork_notification_openlayers($data);
 	}
 
 }
