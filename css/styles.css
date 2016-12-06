@@ -57,7 +57,7 @@
     border: 1px solid #064771;
     bottom: 12px;
     left: -50px;
-    min-width: 200px;
+    min-width: 250px;
     padding: 5px;
 }
 
@@ -102,7 +102,7 @@
 
 .ol-popup #popup-content p {
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -204,6 +204,7 @@
 /* Notification */
 
 .jGrowl-notification {
+    min-width: 200px;
     max-width: 300px !important;
     width: 100% !important;
     word-break: normal !important;
