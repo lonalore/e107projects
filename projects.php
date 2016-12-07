@@ -67,6 +67,7 @@ class e107ProjectsProjects
 
 		// Set defaults.
 		$name = varset($_POST['project_name'], '');
+		$searchFor = (int) varset($_POST['search_for']);
 		$searchBy = 'project_name';
 		$orderBy = 'project_name';
 		$orderByDir = 'ASC';
@@ -95,6 +96,11 @@ class e107ProjectsProjects
 		$search = new e107ProjectsSearchManager();
 		$search->setCondition('project_status', 1, '=');
 		$search->setCondition($searchBy, $name, 'STARTS_WITH');
+
+		if($searchFor > 0)
+		{
+			$search->setCondition('project_type', $searchFor, '=');
+		}
 
 		// Count results for pager.
 		$count = $search->count();
@@ -134,6 +140,7 @@ class e107ProjectsProjects
 
 		// Default values for pagination.
 		$_POST['project_name'] = '';
+		$_POST['search_for'] = 0;
 		$_POST['search_by'] = 1;
 		$_POST['order_by'] = 2;
 		$_POST['current_page'] = 1;

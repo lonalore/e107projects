@@ -712,6 +712,8 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 	// Try to get README file contents.
 	$readme = file_get_contents($readmeURL);
 
+	$type = e107projects_get_project_type($repository['owner']['login'], $repository['name'], $repository['default_branch']);
+
 	// Prepare arguments for SQL query.
 	$project = array(
 		'project_id'             => (int) $repository['id'],
@@ -729,6 +731,7 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 		'project_submitted'      => time(),
 		'project_updated'        => time(),
 		'project_readme'         => $readme ? $readme : '',
+		'project_type'           => $type,
 	);
 
 	// Try to save project into database.
@@ -747,7 +750,7 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 
 	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
-	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id, $type);
 
 	return true;
 }
@@ -855,6 +858,8 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Try to get README file contents.
 	$readme = file_get_contents($readmeURL);
 
+	$type = e107projects_get_project_type($repository['owner']['login'], $repository['name'], $repository['default_branch']);
+
 	// Prepare arguments for SQL query.
 	$project = array(
 		// 'project_id'          => (int) $repository['id'],
@@ -872,6 +877,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 		// 'project_submitted'   => time(),
 		'project_updated'        => time(),
 		'project_readme'         => $readme ? $readme : '',
+		'project_type'           => $type,
 	);
 
 	// Try to update project details in database.
@@ -885,7 +891,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 
 	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
-	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id);
+	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id, $type);
 
 	return true;
 }
@@ -964,6 +970,40 @@ function e107projects_manage_contributions($owner, $repository, $repository_id, 
 		}
 	}
 
+}
+
+/**
+ * Try to detect the type of project.
+ *
+ * @param string $owner
+ *  The user who owns the repository.
+ * @param string $repository
+ *  The name of the repository.
+ * @param string $branch
+ *  Default branch for the repository.
+ *
+ * @return int
+ *  1: Plugin
+ *  2: Theme
+ *  9: Other
+ */
+function e107projects_get_project_type($owner, $repository, $branch)
+{
+	$url = 'https://raw.githubusercontent.com/' . $owner . '/' . $repository . '/' . $branch . '/';
+
+	$response = e107projects_http_request($url . 'plugin.xml');
+	if(!empty($response->code) && $response->code == 200)
+	{
+		return 1;
+	}
+
+	$response = e107projects_http_request($url . 'theme.xml');
+	if(!empty($response->code) && $response->code == 200)
+	{
+		return 2;
+	}
+
+	return 9;
 }
 
 /**
@@ -1072,77 +1112,27 @@ function e107projects_manage_releases($owner, $repository, $repository_id, $acce
  *  The name of the repository.
  * @param int $repository_id
  *  The ID of the repository.
+ * @param int $project_type
+ *  Project type. 9 - Other, 1 - Plugin, 2 - Theme
  */
-function e107projects_manage_e107org_releases($owner, $repository, $repository_id)
+function e107projects_manage_e107org_releases($owner, $repository, $repository_id, $project_type)
 {
-	return;
-
-	if(empty($owner) || empty($repository || empty($repository_id)))
+	if(empty($owner) || empty($repository) || empty($repository_id) || empty($project_type))
 	{
 		return;
 	}
 
-	$data = array(
-		'theme'  => array(),
-		'plugin' => array(),
-	);
-
-	$urlThm = 'http://www.e107.org/feed/?type=theme&limit=10';
-	$urlPlg = 'http://www.e107.org/feed/?type=plugin&limit=10';
-
-	$xmlString = file_get_contents($urlThm);
-	if(!empty($xmlString))
-	{
-		$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
-		$xmlJSON = json_encode($xml);
-		$xmlArray = json_decode($xmlJSON, true);
-
-		if(isset($xmlArray['theme']))
-		{
-			foreach($xmlArray['theme'] as $theme)
-			{
-				if(!isset($data['theme'][$theme['@attributes']['folder']]))
-				{
-					$data['theme'][$theme['@attributes']['folder']] = array();
-				}
-
-				$data['theme'][$theme['@attributes']['folder']][] = $theme['@attributes'];
-			}
-		}
-	}
-
-	$xmlString = file_get_contents($urlPlg);
-	if(!empty($xmlString))
-	{
-		$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
-		$xmlJSON = json_encode($xml);
-		$xmlArray = json_decode($xmlJSON, true);
-
-		if(isset($xmlArray['plugin']))
-		{
-			foreach($xmlArray['plugin'] as $plugin)
-			{
-				if(!isset($data['plugin'][$plugin['@attributes']['folder']]))
-				{
-					$data['plugin'][$plugin['@attributes']['folder']] = array();
-				}
-
-				$data['plugin'][$plugin['@attributes']['folder']][] = $plugin['@attributes'];
-			}
-		}
-	}
-
-	// e107::getLog()->add('XML', $data);
-
-	return;
+	$type = ($project_type == 1 ? 'plugin' : 'theme');
+	$data = e107projects_get_e107org_releases($type);
 
 	$releases = array();
 
-	foreach($data as $row)
+	foreach($data as $folder => $versions)
 	{
-		if($row['folder'] == $repository)
+		if($folder == $repository)
 		{
-			$releases[] = $row;
+			$releases = $versions;
+			break;
 		}
 	}
 
@@ -1172,6 +1162,72 @@ function e107projects_manage_e107org_releases($owner, $repository, $repository_i
 
 		$db->insert('e107projects_e107org_release', array('data' => $insert), false);
 	}
+}
+
+/**
+ * Get releases from e107.org. TODO cache
+ *
+ * @param string $type
+ *  Contributed project type.
+ *
+ * @return array
+ */
+function e107projects_get_e107org_releases($type = 'plugin')
+{
+	$data = array();
+
+	$urlThm = 'http://www.e107.org/feed/?type=theme&limit=1000';
+	$urlPlg = 'http://www.e107.org/feed/?type=plugin&limit=1000';
+
+	if($type == 'theme')
+	{
+		$xmlString = file_get_contents($urlThm);
+		if(!empty($xmlString))
+		{
+			$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
+			$xmlJSON = json_encode($xml);
+			$xmlArray = json_decode($xmlJSON, true);
+
+			if(isset($xmlArray['theme']))
+			{
+				foreach($xmlArray['theme'] as $theme)
+				{
+					if(!isset($data[$theme['@attributes']['folder']]))
+					{
+						$data[$theme['@attributes']['folder']] = array();
+					}
+
+					$data[$theme['@attributes']['folder']][] = $theme['@attributes'];
+				}
+			}
+		}
+	}
+
+	if($type == 'plugin')
+	{
+		$xmlString = file_get_contents($urlPlg);
+		if(!empty($xmlString))
+		{
+			$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
+			$xmlJSON = json_encode($xml);
+			$xmlArray = json_decode($xmlJSON, true);
+
+			if(isset($xmlArray['plugin']))
+			{
+				foreach($xmlArray['plugin'] as $plugin)
+				{
+					if(!isset($data[$plugin['@attributes']['folder']]))
+					{
+						$data[$plugin['@attributes']['folder']] = array();
+					}
+
+					$data[$plugin['@attributes']['folder']][] = $plugin['@attributes'];
+				}
+			}
+		}
+	}
+
+	return $data;
 }
 
 /**

@@ -14,6 +14,7 @@ CREATE TABLE `e107projects_project` (
 `project_submitted` int(11) NOT NULL DEFAULT '0' COMMENT 'Submitted time as timestamp.',
 `project_updated` int(11) NOT NULL DEFAULT '0' COMMENT 'Updated time as timestamp.',
 `project_readme` text COMMENT 'Readme file contents.',
+`project_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Project type.',
 PRIMARY KEY (`project_id`),
 KEY `project_author` (`project_author`),
 KEY `project_user` (`project_user`),
@@ -22,7 +23,8 @@ KEY `project_stars` (`project_stars`),
 KEY `project_commits` (`project_commits`),
 KEY `project_status` (`project_status`),
 KEY `project_submitted` (`project_submitted`),
-KEY `project_updated` (`project_updated`)
+KEY `project_updated` (`project_updated`),
+KEY `project_type` (`project_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `e107projects_release` (
