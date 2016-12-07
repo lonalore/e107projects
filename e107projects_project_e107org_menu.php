@@ -51,7 +51,7 @@ class e107projects_project_e107org_menu
 
 		if($this->user && $this->repo)
 		{
-			$this->renderMenu();
+			// $this->renderMenu();
 		}
 	}
 

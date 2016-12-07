@@ -1075,31 +1075,70 @@ function e107projects_manage_releases($owner, $repository, $repository_id, $acce
  */
 function e107projects_manage_e107org_releases($owner, $repository, $repository_id)
 {
+	return;
+
 	if(empty($owner) || empty($repository || empty($repository_id)))
 	{
 		return;
 	}
 
-	e107_require_once(e_HANDLER . 'e_marketplace.php');
+	$data = array(
+		'theme'  => array(),
+		'plugin' => array(),
+	);
 
-	$mp = new e_marketplace();
-	$xdata = $mp->call('getList', array(
-		'type'   => 'plugin',
-		'params' => array(
-			'limit'  => 20,
-			'search' => $repository,
-			'from'   => 0,
-		),
-	));
+	$urlThm = 'http://www.e107.org/feed/?type=theme&limit=10';
+	$urlPlg = 'http://www.e107.org/feed/?type=plugin&limit=10';
 
-	if(empty($xdata['data']))
+	$xmlString = file_get_contents($urlThm);
+	if(!empty($xmlString))
 	{
-		return;
+		$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
+		$xmlJSON = json_encode($xml);
+		$xmlArray = json_decode($xmlJSON, true);
+
+		if(isset($xmlArray['theme']))
+		{
+			foreach($xmlArray['theme'] as $theme)
+			{
+				if(!isset($data['theme'][$theme['@attributes']['folder']]))
+				{
+					$data['theme'][$theme['@attributes']['folder']] = array();
+				}
+
+				$data['theme'][$theme['@attributes']['folder']][] = $theme['@attributes'];
+			}
+		}
 	}
+
+	$xmlString = file_get_contents($urlPlg);
+	if(!empty($xmlString))
+	{
+		$xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
+		$xmlJSON = json_encode($xml);
+		$xmlArray = json_decode($xmlJSON, true);
+
+		if(isset($xmlArray['plugin']))
+		{
+			foreach($xmlArray['plugin'] as $plugin)
+			{
+				if(!isset($data['plugin'][$plugin['@attributes']['folder']]))
+				{
+					$data['plugin'][$plugin['@attributes']['folder']] = array();
+				}
+
+				$data['plugin'][$plugin['@attributes']['folder']][] = $plugin['@attributes'];
+			}
+		}
+	}
+
+	// e107::getLog()->add('XML', $data);
+
+	return;
 
 	$releases = array();
 
-	foreach($xdata['data'] as $row)
+	foreach($data as $row)
 	{
 		if($row['folder'] == $repository)
 		{
@@ -1128,7 +1167,6 @@ function e107projects_manage_e107org_releases($owner, $repository, $repository_i
 			'or_version'       => $tp->toDB($release['version']),
 			'or_compatibility' => (int) $release['compatibility'],
 			'or_url'           => $tp->toDB($release['url']),
-			'or_url_view'      => $tp->toDB($release['urlView']),
 			'or_date'          => (int) strtotime($release['date']),
 		);
 
