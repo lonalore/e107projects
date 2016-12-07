@@ -147,7 +147,7 @@ class e107projects_nodejs_notify
 
 		return array(
 			'group_title'       => LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_01,
-			'group_description' => '',
+			'group_description' => LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_DESC,
 			'group_items'       => $items,
 		);
 	}

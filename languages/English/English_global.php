@@ -30,6 +30,8 @@ define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_09", "Any time a Release is publis
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_10", "Any time a User stars a Repository");
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_11", "Any time a new Project is submitted");
 
+define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_DESC", "Changing your notifications options lets you control how often you hear about what’s going on.");
+
 define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_SUBJECT", "New project");
 define("LAN_PLUGIN_E107PROJECTS_PROJECT_APPROVED_MESSAGE", "[x] submitted a new project: [y]");
 
