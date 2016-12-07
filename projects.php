@@ -119,6 +119,8 @@ class e107ProjectsProjects
 		$commands[] = $ajax->commandInvoke('#project-search-result', 'html', array($content));
 		$commands[] = $ajax->commandInvoke('#project-search-pager', 'html', array($pager));
 
+		$commands[] = $ajax->commandInvoke('html, body', 'animate', array(array('scrollTop' => 0), 'slow'));
+
 		$ajax->response($commands);
 		exit;
 	}
