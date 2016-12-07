@@ -254,7 +254,6 @@
 .notification-container .right-container .message a:hover,
 .notification-container .right-container .message a:visited,
 .notification-container .right-container .message a:focus {
-    display: block;
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;

@@ -122,14 +122,12 @@ class e107ProjectsCallback
 			// opened, edited, milestoned, demilestoned, closed, or reopened.
 			// @see https://developer.github.com/v3/activity/events/types/#issuesevent
 			case 'issues':
-				// TODO
 				$event->trigger('e107projects_webhook_issues', $this->payload);
 				break;
 
-			// Any time a Label is created, edited, or deleted.
+			// Any time a Repository Label is created, edited, or deleted.
 			// @see https://developer.github.com/v3/activity/events/types/#labelevent
 			case 'label':
-				// TODO
 				$event->trigger('e107projects_webhook_label', $this->payload);
 				break;
 

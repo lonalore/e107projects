@@ -74,6 +74,13 @@ class e107projects_event
 			'function' => 'e107projects_webhook_fork_callback'
 		);
 
+		// Any time an Issue is assigned, unassigned, labeled, unlabeled,
+		// opened, edited, milestoned, demilestoned, closed, or reopened.
+		$event[] = array(
+			'name'     => 'e107projects_webhook_issues',
+			'function' => 'e107projects_webhook_issues_callback',
+		);
+
 		return $event;
 	}
 
@@ -198,6 +205,25 @@ class e107projects_event
 		e107projects_webhook_fork_notification($data);
 		// Send broadcast notification for displaying OpenLayers Popup.
 		e107projects_webhook_fork_notification_openlayers($data);
+	}
+
+	/**
+	 * Any time an Issue is assigned, unassigned, labeled, unlabeled,
+	 * opened, edited, milestoned, demilestoned, closed, or reopened.
+	 *
+	 * @see https://developer.github.com/v3/activity/events/types/#issuesevent
+	 *
+	 * @param $data
+	 *  Payload data.
+	 */
+	function e107projects_webhook_issues_callback($data)
+	{
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send broadcast notification.
+		e107projects_webhook_issues_notification($data);
+		// Send broadcast notification for displaying OpenLayers Popup.
+		e107projects_webhook_issues_notification_openlayers($data);
 	}
 
 }

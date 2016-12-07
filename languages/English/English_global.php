@@ -45,3 +45,27 @@ define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_COMMIT_COMMENT_MESSAGE_Y", "commit");
 
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_FORK_SUBJECT", "Fork A Repo");
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_FORK_MESSAGE", "[x] forked [y]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_01", "Opening an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_01", "[x] opened [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_02", "Reopening an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_02", "[x] reopened [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_03", "Closing an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_03", "[x] closed [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_04", "Editing an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_04", "[x] edited [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_05", "Labeling an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_05", "[x] added the [y] label for [z] on [w]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_06", "Labeling an issue");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_06", "[x] removed the [y] label from [z] on [w]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_07", "Assigning a user");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_07", "[x] was assigned by [y] on [z] on [w]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_08", "Unassigning a user");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_08", "[x] was unassigned by [y] from [z] on [w]");
