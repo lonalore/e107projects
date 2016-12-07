@@ -106,3 +106,22 @@ PRIMARY KEY (`location_name`),
 KEY `location_lat` (`location_lat`),
 KEY `location_lon` (`location_lon`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `e107projects_e107org_release` (
+`or_project_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Project ID from Github.',
+`or_project_user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project owner. Github username.',
+`or_project_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'Project name.',
+`or_version` varchar(50) NOT NULL DEFAULT '' COMMENT 'Release version.',
+`or_compatibility` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Compatibility. 1 or 2',
+`or_url` varchar(255) NOT NULL DEFAULT '' COMMENT 'URL for downloading.',
+`or_url_view` varchar(255) NOT NULL DEFAULT '' COMMENT 'URL for viewing.',
+`or_date` int(11) NOT NULL DEFAULT '0' COMMENT 'Published at.',
+KEY `or_project_id` (`or_project_id`),
+KEY `or_project_user` (`or_project_user`),
+KEY `or_project_name` (`or_project_name`),
+KEY `or_version` (`or_version`),
+KEY `or_compatibility` (`or_compatibility`),
+KEY `or_url` (`or_url`),
+KEY `or_url_view` (`or_url_view`),
+KEY `or_date` (`or_date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

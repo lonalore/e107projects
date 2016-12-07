@@ -747,6 +747,7 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 
 	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
+	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id);
 
 	return true;
 }
@@ -884,6 +885,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 
 	e107projects_manage_contributions($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
 	e107projects_manage_releases($repository['owner']['login'], $repository['name'], $repository_id, $access_token);
+	e107projects_manage_e107org_releases($repository['owner']['login'], $repository['name'], $repository_id);
 
 	return true;
 }
@@ -1059,6 +1061,79 @@ function e107projects_manage_releases($owner, $repository, $repository_id, $acce
 		$db->insert('e107projects_release', array('data' => $insert), false);
 	}
 
+}
+
+/**
+ * Manage e107.org releases.
+ *
+ * @param string $owner
+ *  The user who owns the repository.
+ * @param string $repository
+ *  The name of the repository.
+ * @param int $repository_id
+ *  The ID of the repository.
+ */
+function e107projects_manage_e107org_releases($owner, $repository, $repository_id)
+{
+	if(empty($owner) || empty($repository || empty($repository_id)))
+	{
+		return;
+	}
+
+	e107_require_once(e_HANDLER . 'e_marketplace.php');
+
+	$mp = new e_marketplace();
+	$xdata = $mp->call('getList', array(
+		'type'   => 'plugin',
+		'params' => array(
+			'limit'  => 20,
+			'search' => $repository,
+			'from'   => 0,
+		),
+	));
+
+	if(empty($xdata['data']))
+	{
+		return;
+	}
+
+	$releases = array();
+
+	foreach($xdata['data'] as $row)
+	{
+		if($row['folder'] == $repository)
+		{
+			$releases[] = $row;
+		}
+	}
+
+	if(empty($releases))
+	{
+		return;
+	}
+
+	$db = e107::getDb();
+	$tp = e107::getParser();
+
+	// Delete releases by the selected repository.
+	$db->delete('e107projects_e107org_release', 'or_project_user = "' . $tp->toDB($owner) . '" AND or_project_name = "' . $tp->toDB($repository) . '" ');
+
+	foreach($releases as $release)
+	{
+		// Insert release.
+		$insert = array(
+			'or_project_id'    => (int) $repository_id,
+			'or_project_user'  => $tp->toDB($owner),
+			'or_project_name'  => $tp->toDB($repository),
+			'or_version'       => $tp->toDB($release['version']),
+			'or_compatibility' => (int) $release['compatibility'],
+			'or_url'           => $tp->toDB($release['url']),
+			'or_url_view'      => $tp->toDB($release['urlView']),
+			'or_date'          => (int) strtotime($release['date']),
+		);
+
+		$db->insert('e107projects_e107org_release', array('data' => $insert), false);
+	}
 }
 
 /**

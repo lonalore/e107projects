@@ -66,7 +66,7 @@ class e107projects_last_updated_menu
 
 		$updated = $db->retrieve('e107projects_project', 'project_updated', 'project_user = "' . $tp->toDB($this->user) . '" AND project_name = "' . $tp->toDB($this->repo) . '"');
 
-		$content .= '<div class="panel panel-default github-buttons-container">';
+		$content .= '<div class="panel panel-default">';
 		$content .= '<div class="panel-body text-center">';
 		
 		$content .= $tp->lanVars(LAN_E107PROJECTS_FRONT_54, array(
