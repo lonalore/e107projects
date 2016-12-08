@@ -201,6 +201,16 @@
     margin-right: 5px;
 }
 
+/* NanoScroller */
+
+.nano {
+    width: 100%;
+}
+
+.nano .list-group {
+    margin-bottom: 0;
+}
+
 /* Notification */
 
 .jGrowl-notification {

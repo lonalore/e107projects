@@ -72,6 +72,9 @@ class e107projects_project_e107org_menu
 
 		if(!empty($releases))
 		{
+			$content .= '<div class="nano">';
+			$content .= '<div class="nano-content">';
+
 			$content .= '<ul class="list-group">';
 			while($release = $db->fetch())
 			{
@@ -90,6 +93,9 @@ class e107projects_project_e107org_menu
 				$content .= '</a>';
 			}
 			$content .= '</ul>';
+
+			$content .= '</div>';
+			$content .= '</div>';
 
 			$ns->tablerender($caption, $content);
 		}

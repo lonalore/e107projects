@@ -101,6 +101,48 @@ class e107projects_library
 			),
 		);
 
+		// jquery.nanoscroller.
+		$libraries['jquery.nanoscroller'] = array(
+			'name'             => 'nanoScroller.js',
+			'vendor_url'       => 'https://jamesflorentino.github.io/nanoScrollerJS/',
+			'download_url'     => 'https://jamesflorentino.github.io/nanoScrollerJS/',
+			'version_arguments' => array(
+				'file'    => 'jquery.nanoscroller.js',
+				// nanoScrollerJS - v0.8.7 - 2015
+				'pattern' => '/(0\.\d+\.\d+)/',
+				'lines'   => 3,
+			),
+			'files'            => array(
+				'css' => array(
+					'nanoscroller.css' => array(
+						'zone' => 2,
+					),
+				),
+				'js'  => array(
+					'jquery.nanoscroller.js' => array(
+						'zone' => 2,
+					),
+				),
+			),
+			'variants'         => array(
+				// All properties defined for 'minified' override top-level properties.
+				'minified' => array(
+					'files' => array(
+						'css' => array(
+							'nanoscroller.css' => array(
+								'zone' => 2,
+							),
+						),
+						'js'  => array(
+							'jquery.nanoscroller.min.js' => array(
+								'zone' => 2,
+							),
+						),
+					),
+				),
+			),
+		);
+
 		return $libraries;
 	}
 

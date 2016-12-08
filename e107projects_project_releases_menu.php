@@ -78,6 +78,9 @@ class e107projects_project_releases_menu
 
 		$releases = $db->select('e107projects_release', '*', $where);
 
+		$content .= '<div class="nano">';
+		$content .= '<div class="nano-content">';
+
 		$content .= '<ul class="list-group">';
 
 		// Master.
@@ -109,6 +112,9 @@ class e107projects_project_releases_menu
 		}
 
 		$content .= '</ul>';
+
+		$content .= '</div>';
+		$content .= '</div>';
 
 		$ns->tablerender($caption, $content);
 	}

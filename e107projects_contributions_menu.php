@@ -67,6 +67,9 @@ class e107projects_contributions_menu
 		$caption = LAN_E107PROJECTS_FRONT_53;
 		$content = '';
 
+		$content .= '<div class="nano">';
+		$content .= '<div class="nano-content">';
+
 		$content .= '<ul class="list-group">';
 		foreach($contributions as $contribution)
 		{
@@ -91,6 +94,9 @@ class e107projects_contributions_menu
 			$content .= '</a>';
 		}
 		$content .= '</ul>';
+
+		$content .= '</div>';
+		$content .= '</div>';
 
 		$ns->tablerender($caption, $content);
 	}
