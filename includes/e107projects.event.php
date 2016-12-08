@@ -236,7 +236,7 @@ function e107projects_webhook_push_notification($data)
 	}
 
 	$url = e107::url('e107projects', 'project', array(
-		'user'       => $repository['owner']['login'],
+		'user'       => $repository['owner']['name'],
 		'repository' => $repository['name'],
 	), array('full' => true));
 	$repoLink = '<a href="' . $url . '" target="_self">' . $repository['full_name'] . '</a>';
