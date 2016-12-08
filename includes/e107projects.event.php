@@ -851,6 +851,177 @@ function e107projects_webhook_issues_notification_openlayers($data)
 }
 
 /**
+ * Any time a comment on an issue is created, edited, or deleted.
+ *
+ * @param $data
+ */
+function e107projects_webhook_issue_comment_notification($data)
+{
+	$action = varset($data['action'], false);
+	$issue = varset($data['issue'], false);
+	$comment = varset($data['comment'], false);
+	$sender = varset($data['sender'], false);
+	$repository = varset($data['repository'], false);
+
+	if(!$action || !$issue || !$comment || !$sender || !$repository)
+	{
+		return;
+	}
+
+	$tpl = e107::getTemplate('e107projects');
+	$sc = e107::getScBatch('e107projects', true);
+	$tp = e107::getParser();
+
+	$subject = '';
+	$message = '';
+
+	$repoURL = e107::url('e107projects', 'project', array(
+		'user'       => $repository['owner']['login'],
+		'repository' => $repository['name'],
+	), array('full' => true));
+
+	switch($action)
+	{
+		case 'created':
+			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_01;
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_01, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
+			));
+			break;
+
+		case 'edited':
+			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_02;
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_02, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
+			));
+			break;
+
+		case 'deleted':
+			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_03;
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_03, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
+			));
+			break;
+	}
+
+	if(empty($subject) || empty($message))
+	{
+		return;
+	}
+
+	$sc->setVars(array(
+		'avatar_url'    => $sender['avatar_url'],
+		'avatar_width'  => 50,
+		'avatar_height' => 50,
+		'message'       => $message,
+		'link'          => '',
+	));
+
+	$markup = $tp->parseTemplate($tpl['notification'], true, $sc);
+
+	e107_require_once(e_PLUGIN . 'nodejs/nodejs.main.php');
+
+	$package = (object) array(
+		'broadcast' => true,
+		'channel'   => 'nodejs_notify',
+		'callback'  => 'nodejsNotify',
+		'type'      => 'notification_issue_comment',
+		'data'      => array(
+			'subject' => $subject,
+			'body'    => $markup,
+		),
+	);
+
+	nodejs_enqueue_message($package);
+}
+
+/**
+ * Any time a comment on an issue is created, edited, or deleted.
+ *
+ * @param $data
+ */
+function e107projects_webhook_issue_comment_notification_openlayers($data)
+{
+	$action = varset($data['action'], false);
+	$issue = varset($data['issue'], false);
+	$comment = varset($data['comment'], false);
+	$sender = varset($data['sender'], false);
+	$repository = varset($data['repository'], false);
+
+	if(!$action || !$issue || !$comment || !$sender || !$repository)
+	{
+		return;
+	}
+
+	// Helper functions.
+	e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.common.php');
+
+	$tp = e107::getParser();
+	$db = e107::getDb();
+
+	// Get User ID for location.
+	$user_id = $db->retrieve('e107projects_contributor', 'contributor_id', 'contributor_name = "' . $tp->toDB($sender['login']) . '"');
+	$user_id = (int) $user_id;
+
+	if($user_id == 0)
+	{
+		return;
+	}
+
+	$message = '';
+
+	switch($action)
+	{
+		case 'created':
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_01, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<strong>#' . $issue['number'] . '</strong>',
+				'z' => '<strong>' . $repository['full_name'] . '</strong>',
+			));
+			break;
+
+		case 'edited':
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_02, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<strong>#' . $issue['number'] . '</strong>',
+				'z' => '<strong>' . $repository['full_name'] . '</strong>',
+			));
+			break;
+
+		case 'deleted':
+			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_03, array(
+				'x' => '<strong>' . $sender['login'] . '</strong>',
+				'y' => '<strong>#' . $issue['number'] . '</strong>',
+				'z' => '<strong>' . $repository['full_name'] . '</strong>',
+			));
+			break;
+	}
+
+	if(empty($message))
+	{
+		return;
+	}
+
+	// Get User location.
+	$location = e107projects_get_user_location($user_id);
+
+	$popup = array(
+		'lat' => (int) varset($location['lat']),
+		'lon' => (int) varset($location['lon']),
+		'msg' => '<p>' . varset($location['name']) . '</p><small>' . $message . '</small>',
+	);
+
+	// OpenLayers Popup.
+	e107projects_new_openlayers_popup($popup);
+}
+
+/**
  * Send broadcast notification for displaying OpenLayers Map Popup.
  *
  * @param $data

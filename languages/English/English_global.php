@@ -76,3 +76,12 @@ define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_07", "[x] was assigned by
 
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_08", "Unassigning a user");
 define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_08", "[x] was unassigned by [y] from [z] on [w]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_01", "New comment");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_01", "[x] commented on [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_02", "Editing a comment");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_02", "[x] edited a comment on [y] on [z]");
+
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_03", "Deleting a comment");
+define("LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_03", "[x] deleted a comment on [y] on [z]");

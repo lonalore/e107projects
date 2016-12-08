@@ -81,6 +81,12 @@ class e107projects_event
 			'function' => 'e107projects_webhook_issues_callback',
 		);
 
+		// Any time a comment on an issue is created, edited, or deleted.
+		$event[] = array(
+			'name'     => 'e107projects_webhook_issue_comment',
+			'function' => 'e107projects_webhook_issue_comment_callback',
+		);
+
 		return $event;
 	}
 
@@ -224,6 +230,24 @@ class e107projects_event
 		e107projects_webhook_issues_notification($data);
 		// Send broadcast notification for displaying OpenLayers Popup.
 		e107projects_webhook_issues_notification_openlayers($data);
+	}
+
+	/**
+	 * Any time a comment on an issue is created, edited, or deleted.
+	 *
+	 * @see https://developer.github.com/v3/activity/events/types/#issuecommentevent
+	 *
+	 * @param $data
+	 *  Payload data.
+	 */
+	function e107projects_webhook_issue_comment_callback($data)
+	{
+		// Helper functions for event callbacks.
+		e107_require_once(e_PLUGIN . 'e107projects/includes/e107projects.event.php');
+		// Send broadcast notification.
+		e107projects_webhook_issue_comment_notification($data);
+		// Send broadcast notification for displaying OpenLayers Popup.
+		e107projects_webhook_issue_comment_notification_openlayers($data);
 	}
 
 }

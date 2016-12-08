@@ -112,9 +112,8 @@ class e107ProjectsCallback
 				break;
 
 			// Any time a comment on an issue is created, edited, or deleted.
-			// @see https://developer.github.com/v3/issues/comments/
+			// @see https://developer.github.com/v3/activity/events/types/#issuecommentevent
 			case 'issue_comment':
-				// TODO
 				$event->trigger('e107projects_webhook_issue_comment', $this->payload);
 				break;
 
