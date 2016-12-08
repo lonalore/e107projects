@@ -41,6 +41,8 @@ class e107projects_header
 
 		// Allow to use OctIcons globally.
 		e107::library('load', 'octicons', 'minified');
+		// Common behaviors.
+		e107::js('e107projects', 'js/e107projects.common.js');
 
 		// If user profile is incomplete, redirecting to usersettings.php.
 		if(USER_AREA && defset('e_PAGE') != 'usersettings.php' && $this->incompleteUserAccount())
@@ -86,6 +88,13 @@ class e107projects_header
 			$this->needCSS = true;
 		}
 
+		// Load Isotope files for contributors page.
+		if(defset('e_URL_LEGACY') == 'e107_plugins/e107projects/contributors.php')
+		{
+			$this->loadIsotope();
+			$this->needCSS = true;
+		}
+
 		// Need CSS globally, because it contains styles for NodeJS notifications.
 		$this->needCSS = true;
 
@@ -114,6 +123,17 @@ class e107projects_header
 		$location = $db->retrieve('user_extended', 'user_plugin_e107projects_location', 'user_extended_id = ' . $uid);
 
 		return empty($location);
+	}
+
+	/**
+	 * Load Isotope library.
+	 */
+	public function loadIsotope()
+	{
+		if(($library = e107::library('load', 'isotope', 'minified')) && !empty($library['loaded']))
+		{
+			e107::js('e107projects', 'js/e107projects.isotope.js');
+		}
 	}
 
 	/**

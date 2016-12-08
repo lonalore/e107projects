@@ -88,7 +88,7 @@ class e107projects_contributions_menu
 
 			$avatar = '<img class="img-circle user-avatar" src="' . $contribution['contributor_avatar'] . '" width="18" height="18" alt=""/>';
 			
-			$content .= '<a class="list-group-item" href="' . $url . '">';
+			$content .= '<a class="list-group-item' . ($url == '#' ? ' no-link' : '') . '" href="' . $url . '">';
 			$content .= $avatar . ' <strong>' . $name . '</strong> ';
 			$content .= '<span class="badge">' . $count . '</span>';
 			$content .= '</a>';

@@ -13,6 +13,7 @@
 	</adminLinks>
 	<siteLinks>
 		<link url="{e_PLUGIN}e107projects/projects.php" perm='everyone' sef='projects'>LAN_PLUGIN_E107PROJECTS_PROJECTS</link>
+		<link url="{e_PLUGIN}e107projects/contributors.php" perm='everyone' sef='contributors'>LAN_PLUGIN_E107PROJECTS_CONTRIBUTORS</link>
 	</siteLinks>
 	<pluginPrefs>
 		<pref name='submit_project'>255</pref>

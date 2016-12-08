@@ -16,6 +16,7 @@ This plugin is made for [e107projects.com](https://e107projects.com) website.
 - (library) **GeoComplete** ([link](https://github.com/ubilabs/geocomplete))
 - (library) **OctIcons** ([link](https://octicons.github.com))
 - (library) **nanoScroller.js** ([link](https://jamesflorentino.github.io/nanoScrollerJS))
+- (library) **isotope** ([link](https://github.com/metafizzy/isotope))
 
 ### How to install?
 
@@ -25,6 +26,7 @@ This plugin is made for [e107projects.com](https://e107projects.com) website.
 - Download **OpenLayers 3** library and put its files to `e107_web/lib/openlayers` folder
 - Download **OctIcons** and put its files to `e107_web/lib/octicons` folder
 - Download **nanoScroller.js** library and put its files to `e107_web/lib/jquery.nanoscroller` folder
+- Download **isotope** library and put its files to `e107_web/lib/isotope` folder
 - Upload **e107projects** plugin to `e107_plugins` folder
 - Goto `e107_plugins/e107projects` folder, and run `composer install` from command line
 - Install **e107projects** plugin

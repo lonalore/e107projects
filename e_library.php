@@ -143,6 +143,38 @@ class e107projects_library
 			),
 		);
 
+		// isotope.
+		$libraries['isotope'] = array(
+			'name'             => 'isotope',
+			'vendor_url'       => 'https://github.com/metafizzy/isotope',
+			'download_url'     => 'https://github.com/metafizzy/isotope/releases/tag/v3.0.1',
+			'version_arguments' => array(
+				'file'    => 'dist/isotope.pkgd.js',
+				// Isotope PACKAGED v3.0.1
+				'pattern' => '/(3\.\d+\.\d+)/',
+				'lines'   => 3,
+			),
+			'files'            => array(
+				'js'  => array(
+					'dist/isotope.pkgd.js' => array(
+						'zone' => 2,
+					),
+				),
+			),
+			'variants'         => array(
+				// All properties defined for 'minified' override top-level properties.
+				'minified' => array(
+					'files' => array(
+						'js'  => array(
+							'dist/isotope.pkgd.min.js' => array(
+								'zone' => 2,
+							),
+						),
+					),
+				),
+			),
+		);
+
 		return $libraries;
 	}
 

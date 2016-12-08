@@ -14,6 +14,7 @@ define("LAN_PLUGIN_E107PROJECTS_LOCATION_ERROR", "Field Location may not be empt
 
 define("LAN_PLUGIN_E107PROJECTS_PROJECTS", "Projects");
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT", "My Projects");
+define("LAN_PLUGIN_E107PROJECTS_CONTRIBUTORS", "Contributors");
 
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT", "Info");
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE", "Your project has been submitted successfully! Thank you!");

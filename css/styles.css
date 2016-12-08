@@ -1,3 +1,7 @@
+a.no-link {
+    cursor: default !important;
+}
+
 #commitMap {
     width: 100%;
     height: 100%;
@@ -209,6 +213,22 @@
 
 .nano .list-group {
     margin-bottom: 0;
+}
+
+/* Isotope */
+
+.isotope-grid {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.isotope-grid .grid-item {
+    text-align: center;
+    padding: 15px;
+}
+
+.isotope-grid .grid-item img {
+    margin-bottom: 15px;
 }
 
 /* Notification */
