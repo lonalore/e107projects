@@ -49,7 +49,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			e107.mapPopupContent.innerHTML = data.msg;
 			e107.mapPopupContainer.style.display = 'block';
 
-			if(e107.prologueContainer.css('opacity') == 1)
+			if(e107.prologueContainer && e107.prologueContainer.css('opacity') == 1)
 			{
 				e107.prologueContainer.fadeTo(500, 0.1);
 			}
@@ -62,7 +62,11 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			e107.mapPopupDismiss = setTimeout(function ()
 			{
 				e107.mapPopupContainer.style.display = 'none';
-				e107.prologueContainer.fadeTo(500, 1);
+
+				if(e107.prologueContainer)
+				{
+					e107.prologueContainer.fadeTo(500, 1);
+				}
 			}, 10000);
 		}
 	};
@@ -93,6 +97,11 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			$("#commitMap", context).once('e107-projects-open-layers').each(function ()
 			{
 				e107.prologueContainer = $('.prologue-container');
+
+				var $hideIntro = e107.prologueContainer.find('#hideIntro');
+				$hideIntro.click(function() {
+					e107.prologueContainer.remove();
+				});
 
 				e107.mapVectorStyle = new ol.style.Style({
 					fill: new ol.style.Fill({
