@@ -19,6 +19,10 @@ define("LAN_PLUGIN_E107PROJECTS_CONTRIBUTORS", "Contributors");
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_SUBJECT", "Info");
 define("LAN_PLUGIN_E107PROJECTS_SUBMIT_SUCCESS_MESSAGE", "Your project has been submitted successfully! Thank you!");
 
+define("LAN_PLUGIN_E107PROJECTS_NOTIFY_01", "Project submission");
+define("LAN_PLUGIN_E107PROJECTS_NOTIFY_02", "e107 projects");
+define("LAN_PLUGIN_E107PROJECTS_NOTIFY_03", "[x] submitted a new project: [y]");
+
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_01", "Project events");
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_02", "Any Git push to a Repository");
 define("LAN_PLUGIN_E107PROJECTS_NODEJS_NOTIFY_03", "Any time a Commit is commented on");
