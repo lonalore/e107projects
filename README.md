@@ -9,13 +9,18 @@ This plugin is made for [e107projects.com](https://e107projects.com) website.
 - Composer Manager ([link](https://getcomposer.org))
 - API Key for Google Places API Web Service ([link](https://console.developers.google.com))
 - Secret Key for Github Webhooks ([link](https://developer.github.com/guides/basics-of-authentication))
-- OpenLayers 3 library ([link](https://openlayers.org))
-- GeoComplete library ([link](https://github.com/ubilabs/geocomplete))
-- OctIcons ([link](https://octicons.github.com))
-- nanoScroller.js ([link](https://jamesflorentino.github.io/nanoScrollerJS))
+- (plugin) **Social** (core)
+- (plugin) **NodeJS** ([link](https://github.com/lonalore/nodejs))
+- (plugin) **NodeJS Notify** ([link](https://github.com/lonalore/nodejs_notify))
+- (library) **OpenLayers 3** ([link](https://openlayers.org))
+- (library) **GeoComplete** ([link](https://github.com/ubilabs/geocomplete))
+- (library) **OctIcons** ([link](https://octicons.github.com))
+- (library) **nanoScroller.js** ([link](https://jamesflorentino.github.io/nanoScrollerJS))
 
 ### How to install?
 
+- Install **NodeJS** and **NodeJS Notify** (well configured) plugins
+- Install **Social** plugin, and enable Github login. Set you Client ID and Client Secret with scope "user:email public_repo write:repo_hook"
 - Download **GeoComplete** library and put its files to `e107_web/lib/gecocomplete` folder
 - Download **OpenLayers 3** library and put its files to `e107_web/lib/openlayers` folder
 - Download **OctIcons** and put its files to `e107_web/lib/octicons` folder
