@@ -448,10 +448,10 @@ class e107projectsGithub
 			// Got it! Save user details to database for later use.
 			if(varset($data->login, false))
 			{
-				$count = $db->count('e107projects_contributor', 'contributor_id', 'contributor_name = "' . $tp->toDB($data->login) . '"');
+				$contributor_gid = $db->retrieve('e107projects_contributor', 'contributor_gid', 'contributor_name = "' . $tp->toDB($data->login) . '"');
 
-				// If contributor exists in database, but no e107 user ID associated...
-				if($count > 0)
+				// If contributor exists in database, we update...
+				if((int) $contributor_gid > 0)
 				{
 					// Update contributor details.
 					$update = array(
