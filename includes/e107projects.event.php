@@ -587,7 +587,7 @@ function e107projects_webhook_issues_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_01;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_01, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -596,7 +596,7 @@ function e107projects_webhook_issues_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_02;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_02, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -605,7 +605,7 @@ function e107projects_webhook_issues_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_03;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_03, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -614,7 +614,7 @@ function e107projects_webhook_issues_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_SUBJECT_04;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_04, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -626,7 +626,7 @@ function e107projects_webhook_issues_notification($data)
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_05, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
 				'y' => '<strong>' . $label['name'] . '</strong>',
-				'z' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'w' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -638,7 +638,7 @@ function e107projects_webhook_issues_notification($data)
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_06, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
 				'y' => '<strong>' . $label['name'] . '</strong>',
-				'z' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'w' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -660,7 +660,7 @@ function e107projects_webhook_issues_notification($data)
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_07, array(
 				'x' => '<strong>' . $assignee['login'] . '</strong>',
 				'y' => '<strong>' . $sender['login'] . '</strong>',
-				'z' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'w' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -672,7 +672,7 @@ function e107projects_webhook_issues_notification($data)
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUES_MESSAGE_08, array(
 				'x' => '<strong>' . $assignee['login'] . '</strong>',
 				'y' => '<strong>' . $sender['login'] . '</strong>',
-				'z' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'z' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'w' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -886,7 +886,7 @@ function e107projects_webhook_issue_comment_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_01;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_01, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -895,7 +895,7 @@ function e107projects_webhook_issue_comment_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_02;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_02, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
@@ -904,7 +904,7 @@ function e107projects_webhook_issue_comment_notification($data)
 			$subject = LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_SUBJECT_03;
 			$message = $tp->lanVars(LAN_PLUGIN_E107PROJECTS_WEBHOOK_ISSUE_COMMENT_MESSAGE_03, array(
 				'x' => '<strong>' . $sender['login'] . '</strong>',
-				'y' => '<a href="' . $issue['url'] . '" target="_blank">#' . $issue['number'] . '</a>',
+				'y' => '<a href="' . $issue['html_url'] . '" target="_blank">#' . $issue['number'] . '</a>',
 				'z' => '<a href="' . $repoURL . '" target="_self">' . $repository['full_name'] . '</a>',
 			));
 			break;
