@@ -208,7 +208,7 @@ class e107projectsGithub
 		$url = 'https://api.github.com/repos/' . $username . '/' . $repository . '/readme/';
 
 		$response = e107projects_http_request($url . 'plugin.xml');
-		if(!empty($response->code) && $response->code == 200)
+		if(!empty($response->code) && $response->code != 404)
 		{
 			$data = $this->paginator->fetchAll($reopAPI, 'readme', array($username, $repository));
 		}
