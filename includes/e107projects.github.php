@@ -204,9 +204,21 @@ class e107projectsGithub
 		}
 
 		$reopAPI = $this->client->api('repo');
-		$data = $this->paginator->fetchAll($reopAPI, 'readme', array($username, $repository));
 
-		return varset($data['download_url'], '');
+		$url = 'https://api.github.com/repos/' . $username . '/' . $repository . '/readme/';
+
+		$response = e107projects_http_request($url . 'plugin.xml');
+		if(!empty($response->code) && $response->code == 200)
+		{
+			$data = $this->paginator->fetchAll($reopAPI, 'readme', array($username, $repository));
+		}
+
+		if(isset($data) && !empty($data['download_url']))
+		{
+			$readme = $data['download_url'];
+		}
+
+		return $readme;
 	}
 
 	/**

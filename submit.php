@@ -128,7 +128,7 @@ class e107projectsSubmit
 		// Remove forked repositories from the list.
 		foreach($this->repositories as $key => $repo)
 		{
-			if($repo['fork'] == true)
+			if($repo['fork'] == true || $repo['private'] == true)
 			{
 				unset($this->repositories[$key]);
 			}

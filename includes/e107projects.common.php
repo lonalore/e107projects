@@ -684,7 +684,7 @@ function e107projects_insert_project($repository_id, $user_id = USERID, $access_
 	// Remove forked repositories from the list.
 	foreach($repositories as $key => $repo)
 	{
-		if($repo['fork'] == true)
+		if($repo['fork'] == true || $repo['private'] == true)
 		{
 			unset($repositories[$key]);
 		}
@@ -830,7 +830,7 @@ function e107projects_update_project($repository_id, $access_token = null)
 	// Remove forked repositories from the list.
 	foreach($repositories as $key => $repo)
 	{
-		if($repo['fork'] == true)
+		if($repo['fork'] == true || $repo['private'] == true)
 		{
 			unset($repositories[$key]);
 		}
