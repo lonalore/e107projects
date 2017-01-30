@@ -77,7 +77,16 @@ class e107projects_project_links_menu
 		$caption = LAN_E107PROJECTS_FRONT_61;
 		$content = '';
 
-		$content .= '<ul class="list-group">';
+		$content .= '<div class="list-group">';
+
+		// Github repository.
+		$repoIcon = '<i class="octicon octicon-database" aria-hidden="true"></i>';
+		$repoURL = 'https://github.com/' . $fullName;
+
+		$content .= '<a class="list-group-item" href="' . $repoURL . '" target="_blank">';
+		$content .= $repoIcon . ' <strong>' . LAN_E107PROJECTS_FRONT_75 . '</strong> ';
+		// $content .= '<span class="badge">' . $project['project_open_issues'] . '</span>';
+		$content .= '</a>';
 
 		// Open Issues.
 		$issuesIcon = '<i class="octicon octicon-issue-opened" aria-hidden="true"></i>';
@@ -115,7 +124,7 @@ class e107projects_project_links_menu
 		$content .= '<span class="badge">' . $project['project_forks'] . '</span>';
 		$content .= '</a>';
 		
-		$content .= '</ul>';
+		$content .= '</div>';
 
 		$ns->tablerender($caption, $content);
 	}

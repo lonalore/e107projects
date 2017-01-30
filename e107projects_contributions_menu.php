@@ -69,8 +69,8 @@ class e107projects_contributions_menu
 
 		$content .= '<div class="nano">';
 		$content .= '<div class="nano-content">';
+		$content .= '<div class="list-group">';
 
-		$content .= '<ul class="list-group">';
 		foreach($contributions as $contribution)
 		{
 			$user_id = $contribution['contributor_id'];
@@ -93,8 +93,8 @@ class e107projects_contributions_menu
 			$content .= '<span class="badge">' . $count . '</span>';
 			$content .= '</a>';
 		}
-		$content .= '</ul>';
 
+		$content .= '</div>';
 		$content .= '</div>';
 		$content .= '</div>';
 

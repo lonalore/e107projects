@@ -74,8 +74,8 @@ class e107projects_project_e107org_menu
 		{
 			$content .= '<div class="nano">';
 			$content .= '<div class="nano-content">';
+			$content .= '<div class="list-group">';
 
-			$content .= '<ul class="list-group">';
 			while($release = $db->fetch())
 			{
 				$content .= '<a class="list-group-item" href="' . $release['or_url'] . '" target="_blank">';
@@ -92,8 +92,8 @@ class e107projects_project_e107org_menu
 
 				$content .= '</a>';
 			}
-			$content .= '</ul>';
 
+			$content .= '</div>';
 			$content .= '</div>';
 			$content .= '</div>';
 

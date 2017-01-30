@@ -79,7 +79,7 @@ define("LAN_E107PROJECTS_FRONT_71", "Plugin");
 define("LAN_E107PROJECTS_FRONT_72", "Theme");
 define("LAN_E107PROJECTS_FRONT_73", "Other");
 define("LAN_E107PROJECTS_FRONT_74", "Contributors");
-define("LAN_E107PROJECTS_FRONT_75", "");
+define("LAN_E107PROJECTS_FRONT_75", "Github repository");
 define("LAN_E107PROJECTS_FRONT_76", "");
 define("LAN_E107PROJECTS_FRONT_77", "");
 define("LAN_E107PROJECTS_FRONT_78", "");
