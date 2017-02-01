@@ -1262,11 +1262,11 @@ function e107projects_get_user_contributions($user_id)
 
 		if($cont > 1)
 		{
-			$cont .= ' ' . LAN_E107PROJECTS_FRONT_02;
+			$cont .= ' ' . LAN_E107PROJECTS_FRONT_76;
 		}
 		else
 		{
-			$cont .= ' ' . LAN_E107PROJECTS_FRONT_29;
+			$cont .= ' ' . LAN_E107PROJECTS_FRONT_77;
 		}
 
 		$url = e107::url('e107projects', 'project', array(
@@ -1280,11 +1280,11 @@ function e107projects_get_user_contributions($user_id)
 
 	if($total > 1)
 	{
-		$total .= ' ' . LAN_E107PROJECTS_FRONT_02;
+		$total .= ' ' . LAN_E107PROJECTS_FRONT_76;
 	}
 	else
 	{
-		$total .= ' ' . LAN_E107PROJECTS_FRONT_29;
+		$total .= ' ' . LAN_E107PROJECTS_FRONT_77;
 	}
 
 	$html .= LAN_E107PROJECTS_FRONT_30 . ': ' . $total;
