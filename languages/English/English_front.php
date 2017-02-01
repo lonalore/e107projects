@@ -6,7 +6,7 @@
  */
 
 define("LAN_E107PROJECTS_FRONT_01", "contributors");
-define("LAN_E107PROJECTS_FRONT_02", "contributions");
+define("LAN_E107PROJECTS_FRONT_02", "commits");
 define("LAN_E107PROJECTS_FRONT_03", "projects");
 define("LAN_E107PROJECTS_FRONT_04", "issues");
 define("LAN_E107PROJECTS_FRONT_05", "Please enter your location!");
@@ -80,7 +80,7 @@ define("LAN_E107PROJECTS_FRONT_72", "Theme");
 define("LAN_E107PROJECTS_FRONT_73", "Other");
 define("LAN_E107PROJECTS_FRONT_74", "Contributors");
 define("LAN_E107PROJECTS_FRONT_75", "Github repository");
-define("LAN_E107PROJECTS_FRONT_76", "");
+define("LAN_E107PROJECTS_FRONT_76", "contributions");
 define("LAN_E107PROJECTS_FRONT_77", "");
 define("LAN_E107PROJECTS_FRONT_78", "");
 define("LAN_E107PROJECTS_FRONT_79", "");
