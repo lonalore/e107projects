@@ -152,33 +152,60 @@ class e107projects_header
 	 */
 	public function loadOpenLayers()
 	{
-		if(($library = e107::library('load', 'openlayers')) && !empty($library['loaded']))
+		e107::library('load', 'openlayers');
+		e107::library('load', 'ol3-panzoom');
+
+		$this->needCSS = true;
+
+		// FIXME - Move this to an async Ajax request?
+
+		$db = e107::getDb();
+		$db->gen("SELECT l.location_lat, l.location_lon, l.location_name, u.user_name, c.contributor_name FROM #user_extended AS ue 
+			LEFT JOIN #e107projects_location AS l ON l.location_name = ue.user_plugin_e107projects_location
+			LEFT JOIN #user AS u ON ue.user_extended_id = u.user_id
+			LEFT JOIN #e107projects_contributor AS c ON ue.user_extended_id = c.contributor_id
+			WHERE u.user_name != '' ");
+
+		$markers = array();
+		while($row = $db->fetch())
 		{
-			e107::js('e107projects', 'js/e107projects.openlayers.js');
-			$this->needCSS = true;
+			$key = $row['location_lat'] . '_' . $row['location_lon'];
 
-			// FIXME - Move this to an async Ajax request?
-
-			$db = e107::getDb();
-			$db->gen("SELECT l.location_lat, l.location_lon FROM #user_extended AS ue 
-			LEFT JOIN #e107projects_location AS l ON l.location_name = ue.user_plugin_e107projects_location");
-
-			$locations = array();
-			while($row = $db->fetch())
+			if(!isset($markers[$key]))
 			{
-				$locations[] = array(
-					'lat' => $row['location_lat'],
-					'lon' => $row['location_lon'],
+				$markers[$key] = array(
+					'location'     => array(
+						'name' => $row['location_name'],
+						'lat'  => $row['location_lat'],
+						'lon'  => $row['location_lon'],
+					),
+					'contributors' => array(),
 				);
 			}
 
-			e107::js('settings', array(
-				'e107projects' => array(
-					'marker'    => SITEURL . e_PLUGIN . 'e107projects/images/marker.png',
-					'locations' => $locations,
-				),
-			));
+			$name = $row['user_name'];
+
+			if(!empty($row['contributor_name']))
+			{
+				$name .= ' (' . $row['contributor_name'] . ')';
+			}
+
+			$markers[$key]['contributors'][] = array(
+				'name' => $name,
+			);
 		}
+
+		e107::js('settings', array(
+			'e107projects' => array(
+				'marker'  => SITEURL . e_PLUGIN . 'e107projects/images/marker.png',
+				'markers' => $markers,
+			),
+			'panZoom'      => array(
+				'resources' => SITEURL . e_WEB . 'lib/ol3-panzoom/resources/',
+			),
+		));
+
+		e107::js('e107projects', 'js/e107projects.openlayers.js');
 	}
 
 	/**

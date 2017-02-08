@@ -42,6 +42,31 @@ class e107projects_library
 			),
 		);
 
+		// OL3-PanZoom v0.2
+		$libraries['ol3-panzoom'] = array(
+			'name'              => 'OL3-PanZoom',
+			'vendor_url'        => 'https://github.com/mapgears/ol3-panzoom',
+			'download_url'      => 'https://github.com/mapgears/ol3-panzoom/releases/tag/v0.2',
+			'version_arguments' => array(
+				'file'    => 'ol3pz.js',
+				// v0.1-3-ge87dcb5
+				'pattern' => '/v(\d\.\d)/',
+				'lines'   => 5,
+			),
+			'files'             => array(
+				'css' => array(
+					'ol3pz.css' => array(
+						'zone' => 2,
+					),
+				),
+				'js'  => array(
+					'ol3pz.js' => array(
+						'zone' => 2,
+					),
+				),
+			),
+		);
+
 		// GeoComplete v1.6.4.
 		$libraries['geocomplete'] = array(
 			'name'              => 'GeoComplete',

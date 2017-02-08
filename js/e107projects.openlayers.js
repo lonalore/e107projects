@@ -16,6 +16,8 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			'connectionSetupHandlers': {}
 		};
 
+	e107.settings.e107projects = e107.settings.e107projects || {};
+
 	/**
 	 * NodeJS callback function to show a popup on the OpenLayers Map.
 	 *
@@ -99,16 +101,17 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 				e107.prologueContainer = $('.prologue-container');
 
 				var $hideIntro = e107.prologueContainer.find('#hideIntro');
-				$hideIntro.click(function() {
+				$hideIntro.click(function ()
+				{
 					e107.prologueContainer.remove();
 				});
 
 				e107.mapVectorStyle = new ol.style.Style({
 					fill: new ol.style.Fill({
-						color: 'rgba(6, 120, 190, 1)'
+						color: 'rgba(130, 187, 222, 1)'
 					}),
 					stroke: new ol.style.Stroke({
-						color: 'rgba(6, 71, 113, 1)',
+						color: 'rgba(130, 163, 184, 1)',
 						width: 1
 					}),
 					text: new ol.style.Text({
@@ -148,6 +151,13 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 					element: e107.mapPopupContainer
 				});
 
+				/*
+				 e107.mapPanZoom = new olpz.control.PanZoom({
+				 imgPath: e107.settings.panZoom.resources + 'zoombar_black',
+				 maxExtent: [813079, 5929220, 848966, 5936863]
+				 });
+				 */
+
 				/**
 				 * Create the map.
 				 */
@@ -176,9 +186,9 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 					overlays: [e107.mapPopupOverlay]
 				});
 
-				if(e107.settings.e107projects.locations)
+				if(e107.settings.e107projects.markers)
 				{
-					$.each(e107.settings.e107projects.locations, function ()
+					$.each(e107.settings.e107projects.markers, function ()
 					{
 						e107.callbacks.e107projectsSetMarker(this);
 					});
@@ -195,18 +205,53 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		}
 	};
 
-	e107.callbacks.e107projectsSetMarker = function (location)
+	e107.callbacks.e107projectsSetMarker = function (marker)
 	{
-		var marker = document.createElement('img');
-		marker.src = e107.settings.e107projects.marker;
-		marker.width = 5;
-		marker.height = 5;
-		marker.style = 'margin: 0; padding: 0;';
+		var Marker = document.createElement('img');
+		Marker.src = e107.settings.e107projects.marker;
+		Marker.width = 5;
+		Marker.height = 5;
+		Marker.style = 'margin: 0; padding: 0; cursor: pointer;';
+		Marker.setAttribute('data-lat', marker.location.lat);
+		Marker.setAttribute('data-lon', marker.location.lon);
+		Marker.setAttribute('data-name', marker.location.name);
 
 		var position = ol.proj.transform(
-			[parseFloat(location.lon), parseFloat(location.lat)],
+			[parseFloat(marker.location.lon), parseFloat(marker.location.lat)],
 			'EPSG:4326',
 			'EPSG:3857'
+		);
+
+		$(Marker).hover(
+			function ()
+			{
+				var $marker = $(this);
+				var popupLat = $marker.data('lat');
+				var popupLon = $marker.data('lon');
+				var popupContents = '<p>' + $marker.data('name') + '</p>';
+				var popupPosition = ol.proj.transform(
+					[parseFloat(popupLon), parseFloat(popupLat)],
+					'EPSG:4326',
+					'EPSG:3857'
+				);
+
+				popupContents += '<ul>';
+
+				var markerKey = popupLat + '_' + popupLon;
+				$.each(e107.settings.e107projects['markers'][markerKey]['contributors'], function ()
+				{
+					popupContents += '<li>' + this.name + '</li>';
+				});
+
+				popupContents += '</ul>';
+
+				e107.mapPopupOverlay.setPosition(popupPosition);
+				e107.mapPopupContent.innerHTML = popupContents;
+				e107.mapPopupContainer.style.display = 'block';
+			}, function ()
+			{
+				e107.mapPopupContainer.style.display = 'none';
+			}
 		);
 
 		// http://openlayers.org/en/v3.5.0/apidoc/ol.Overlay.html
@@ -214,7 +259,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			position: position,
 			positioning: 'center-center',
 			offset: [0, 0],
-			element: marker
+			element: Marker
 		}));
 	};
 

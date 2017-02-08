@@ -11,7 +11,7 @@ $E107PROJECTS_TEMPLATE['openlayers_menu'] = '
 		<div id="popup-content"></div>
 	</div>
 </div>
-<div id="commitMapOverlay" class="commit-map-overlay"></div>
+<!-- div id="commitMapOverlay" class="commit-map-overlay"></div -->
 ';
 
 $E107PROJECTS_TEMPLATE['summary_menu'] = '
