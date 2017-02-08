@@ -160,7 +160,7 @@ class e107projects_header
 		// FIXME - Move this to an async Ajax request?
 
 		$db = e107::getDb();
-		$db->gen("SELECT l.location_lat, l.location_lon, l.location_name, u.user_name, c.contributor_name FROM #user_extended AS ue 
+		$db->gen("SELECT l.location_lat, l.location_lon, l.location_name, u.user_name, u.user_login, c.contributor_name FROM #user_extended AS ue 
 			LEFT JOIN #e107projects_location AS l ON l.location_name = ue.user_plugin_e107projects_location
 			LEFT JOIN #user AS u ON ue.user_extended_id = u.user_id
 			LEFT JOIN #e107projects_contributor AS c ON ue.user_extended_id = c.contributor_id
@@ -183,7 +183,7 @@ class e107projects_header
 				);
 			}
 
-			$name = $row['user_name'];
+			$name = $row['user_login'];
 
 			if(!empty($row['contributor_name']))
 			{
