@@ -81,14 +81,22 @@ class e107projects_metatag
 			'load'    => 'e107projects_meta_project_load',
 			'file'    => '{e_PLUGIN}e107projects/includes/e107projects.metatag.php',
 			'token'   => array(
-				'project:title' => array(
+				'project:title'       => array(
 					'help'    => LAN_PLUGIN_E107PROJECTS_META_03,
 					'handler' => 'e107projects_meta_token_project_title',
 					'file'    => '{e_PLUGIN}e107projects/includes/e107projects.metatag.php',
 				),
+				'project:description' => array(
+					'help'    => LAN_PLUGIN_E107PROJECTS_META_04,
+					'handler' => 'e107projects_meta_token_project_description',
+					'file'    => '{e_PLUGIN}e107projects/includes/e107projects.metatag.php',
+				),
 			),
 			'default' => array(
-				'title' => '{project:title} - {site:name}',
+				'title'          => '{project:title} - {site:name}',
+				'og:title'       => '{project:title} - {site:name}',
+				'description'    => '{project:description}',
+				'og:description' => '{project:description}',
 			),
 		);
 
