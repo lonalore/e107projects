@@ -183,7 +183,7 @@ class e107projects_header
 				);
 			}
 
-			$name = $row['user_login'];
+			$name = $row['user_name'];
 
 			if(!empty($row['contributor_name']))
 			{
