@@ -53,13 +53,13 @@ class e107projects_summary_menu
 		$db = e107::getDb();
 
 		$contributors = $db->count('e107projects_contributor', '(contributor_gid)', '', false);
-		$projects = $db->count('e107projects_project', '(project_id)', '', false);
-		$commits = $db->retrieve('e107projects_project', 'SUM(project_commits) AS commits', null, false, null, false);
+		$projects = $db->count('e107projects_project', '(project_id)', 'project_status = 1', false);
+		$commits = $db->retrieve('e107projects_project', 'SUM(project_commits) AS commits', 'project_status = 1', false, null, false);
 
 		$sc->setVars(array(
 			'col_1' => $contributors,
 			'col_2' => $projects,
-			'col_3' => $commits['commits'],
+			'col_3' => $commits,
 		));
 		
 		$caption = '';
