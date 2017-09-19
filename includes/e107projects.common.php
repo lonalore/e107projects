@@ -848,6 +848,17 @@ function e107projects_update_project($repository_id, $access_token = null)
 
 	if(!$repository)
 	{
+		// Prepare arguments for SQL query.
+		$project = array(
+			'project_updated' => time(),
+		);
+
+		// Try to update project details in database.
+		$db->update('e107projects_project', array(
+			'data'  => $project,
+			'WHERE' => 'project_id = ' . (int) $repository_id,
+		));
+
 		return false;
 	}
 
