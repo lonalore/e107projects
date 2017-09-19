@@ -38,7 +38,7 @@ class e107projects_url
 		$config['project'] = array(
 			'alias'    => 'project',
 			// Matched against url, and if true, redirected to 'redirect' below.
-			'regex'    => '^{alias}/(.*)/(.*)$',
+			'regex'    => '^{alias}/([^\/]*)/([^\/]*)/?$',
 			// Used by e107::url(); to create a url from the db table.
 			'sef'      => '{alias}/{user}/{repository}',
 			// File-path of what to load when the regex returns true.

@@ -4,10 +4,19 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 {
 	'use strict';
 
+	/**
+	 * @type {{}}
+	 */
 	e107.callbacks = e107.callbacks || {};
 
+	/**
+	 * @type {any}
+	 */
 	e107.OpenLayers = e107.OpenLayers || {};
 
+	/**
+	 * @type {{contentChannelNotificationCallbacks: {}, presenceCallbacks: {}, callbacks: {}, socket: boolean, connectionSetupHandlers: {}}}
+	 */
 	e107.Nodejs = e107.Nodejs || {
 			'contentChannelNotificationCallbacks': {},
 			'presenceCallbacks': {},
@@ -16,6 +25,9 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 			'connectionSetupHandlers': {}
 		};
 
+	/**
+	 * @type {{}}
+	 */
 	e107.settings.e107projects = e107.settings.e107projects || {};
 
 	/**
@@ -205,6 +217,9 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		}
 	};
 
+	/**
+	 * @param marker
+	 */
 	e107.callbacks.e107projectsSetMarker = function (marker)
 	{
 		var Marker = document.createElement('img');
@@ -263,6 +278,9 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		}));
 	};
 
+	/**
+	 *
+	 */
 	e107.callbacks.e107projectsResizeMapCanvas = function ()
 	{
 		var $canvas = $('#header');
@@ -288,6 +306,9 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 		}
 	};
 
+	/**
+	 *
+	 */
 	e107.callbacks.e107projectsWaitForFinalEvent = (function ()
 	{
 		var timers = {};

@@ -60,6 +60,11 @@ class e107ProjectsProject
 			e107::redirect('/');
 		}
 
+		if($this->repository['project_status'] != 1)
+		{
+			e107::redirect('/');
+		}
+
 		$this->loadAssets();
 		$this->renderPage();
 	}

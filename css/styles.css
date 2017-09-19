@@ -108,14 +108,15 @@ a.no-link {
 }
 
 .ol-popup #popup-content {
-    line-height: 16px;
+    line-height: 14px;
+    font-size: 12px;
 }
 
 .ol-popup #popup-content ul {
-    padding-left: 25px;
+    padding-left: 20px;
     text-align: left;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .ol-popup #popup-content p {

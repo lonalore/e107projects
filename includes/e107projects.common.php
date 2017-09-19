@@ -1257,7 +1257,8 @@ function e107projects_get_user_contributions($user_id)
 	$db = e107::getDb();
 	$db->gen('SELECT c.* FROM #e107projects_contribution AS c
 	LEFT JOIN #e107projects_contributor AS cr ON c.contributor_id = cr.contributor_gid
-	WHERE cr.contributor_id = ' . (int) $user_id . ' 
+	LEFT JOIN #e107projects_project AS p ON c.project_id = p.project_id
+	WHERE cr.contributor_id = ' . (int) $user_id . ' AND p.project_status = 1 
 	ORDER BY c.contributions DESC ');
 
 	$html = '';
