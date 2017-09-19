@@ -140,7 +140,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 
 				e107.mapVectorLayer = new ol.layer.Vector({
 					source: new ol.source.Vector({
-						url: 'https://openlayers.org/en/v3.19.1/examples/data/geojson/countries.geojson',
+						url: e107.settings.e107projects['geojson'],
 						format: new ol.format.GeoJSON()
 					}),
 					style: function (feature, resolution)

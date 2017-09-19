@@ -199,6 +199,7 @@ class e107projects_header
 			'e107projects' => array(
 				'marker'  => SITEURL . e_PLUGIN . 'e107projects/images/marker.png',
 				'markers' => $markers,
+                'geojson' => SITEURL . e_PLUGIN . 'e107projects/js/countries.geojson',
 			),
 			'panZoom'      => array(
 				'resources' => SITEURL . e_WEB . 'lib/ol3-panzoom/resources/',
